@@ -1,0 +1,88 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url "https://repo.spring.io/libs-release" }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.2.RELEASE")
+    }
+}
+
+plugins {
+    id "io.spring.dependency-management" version "1.0.5.RELEASE"
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    maven { url "https://repo.spring.io/libs-release" }
+}
+ 
+dependencies {
+
+    compile("org.springframework.boot:spring-boot-starter-data-rest") {
+        exclude group: "org.springframework.boot", module: "spring-boot-starter-logging"
+    }
+    compile("org.springframework.boot:spring-boot-starter-data-jpa") 
+
+	//compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb', version: '2.0.2.RELEASE'
+
+    //compile("org.springframework.data:spring-data-gemfire")
+    compile("org.projectlombok:lombok")
+ 	runtime("com.h2database:h2")
+    runtime("org.springframework.shell:spring-shell:1.2.0.RELEASE")
+
+    testCompile("org.springframework.boot:spring-boot-starter-test") {
+        exclude group: "org.springframework.boot", module: "spring-boot-starter-logging"
+    }
+}
+
+//def appMainClass = 'com.food.recipe.Application'
+//archivesBaseName = 'recipe'
+
+defaultTasks 'buildJar'
+
+task buildJar(type:Jar) {
+    baseName = 'recipe'
+    version =  '0.1.0'
+    destinationDir = file('install')
+	//configurations.runtime.each { println it.path } 
+	//println "=========" 
+	//configurations.compile.each { println it.path } 
+	//println "=========" 
+	
+	manifest { 
+		attributes (
+			"Implementation-Title": project.name,
+	        "Implementation-Version": '1.0.0',
+	        "Built-Date": new Date(),
+			'Main-Class': 'com.food.recipe.Application'//,
+			//"Class-Path": configurations.compile.collect { "jar:file:recipe-0.1.0.jar!/lib/" + it.getName() }.join(' '),
+			//"Dependencies": configurations.runtime.files.collect { "jar:file:recipe-0.1.0.jar!/lib/" + it.getName() }.join(' ')
+			)
+	} 
+	
+	from files(sourceSets.main.output.classesDir)
+	with jar
+	into('lib') {
+        from configurations.runtime
+    }
+} 
+
+task clearJar(type: Delete) { 
+	delete 'install/lib' 
+} 
+
+task copyJar(type: Copy) { 
+	from configurations.runtime 
+	into('install/lib') 
+} 
+
+task release(type: Copy, dependsOn: [build])
