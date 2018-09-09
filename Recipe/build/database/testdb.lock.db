@@ -1,6 +1,0 @@
-#FileLock
-#Sun Sep 09 13:14:04 CST 2018
-hostName=FOX-PC
-id=165bcc04502f686d980b62ee2a00d866f06a50438e6
-method=file
-server=192.168.1.6\:53775
