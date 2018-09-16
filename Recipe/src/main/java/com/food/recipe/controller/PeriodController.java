@@ -4,10 +4,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.food.recipe.entries.lkp.Period;
@@ -25,10 +25,16 @@ public class PeriodController {
 	public void save(@RequestBody Period c) {
 		repo.save(c);
 	}
-	
-	@RequestMapping("/delete")
+
+	@RequestMapping("/saveall")
 	@PostMapping
-	public void delete(@RequestParam int id) {
+	public void saveAll(@RequestBody List<Period> c) {
+		repo.saveAll(c);
+	}
+	
+	@RequestMapping("/delete/{id}")
+	@PostMapping
+	public void delete(@PathVariable(value = "id") int id) {
 		repo.deleteById(id);
 	}
 

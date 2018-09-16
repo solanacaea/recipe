@@ -26,15 +26,18 @@ public class Dish {
 	
 	@Column(name = "name")
 	private String name;
-		
+	
+	@Column(name = "content")
+	private String content;
+	
 	@Column(name = "description")
 	private String description;
 
 	@ManyToMany
-	@JoinTable(name="DishCatagory", 
+	@JoinTable(name="DishCategory", 
 			joinColumns={@JoinColumn(name="dishId")},
 			inverseJoinColumns={@JoinColumn(name="Id")})
-	private List<DishCatagory> catagories;
+	private List<DishCategory> categories;
 	
 	@ManyToMany
 	@JoinTable(name="DishFunction", 
