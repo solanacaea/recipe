@@ -9,14 +9,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.food.recipe.entries.lkp.Period;
+import com.food.recipe.entries.lkp.Property;
 
 import lombok.Data;
 
 @Entity
 @Table
 @Data
-public class DishPeriod {
+public class DishProperty {
 
 	@Id
 	@Column(name = "id")
@@ -28,6 +28,6 @@ public class DishPeriod {
 	private Dish dish;
 	
 	@ManyToOne
-    @JoinColumn(name="lkpPeriodId")
-	private Period period;
+    @JoinColumn(name="lkpPropertyId")
+	private Property property;
 }

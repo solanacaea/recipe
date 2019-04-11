@@ -1,0 +1,3 @@
+2018-12-02 20:18:19 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "DISH_CATAGORY[*]"; expected "DELETE, DROP, DECLARE, DEALLOCATE, {"; SQL statement:
+DISH_CATAGORY [42001-197]

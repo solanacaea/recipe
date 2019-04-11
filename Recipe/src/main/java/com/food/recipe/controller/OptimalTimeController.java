@@ -10,25 +10,25 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.food.recipe.entries.lkp.Stage;
-import com.food.recipe.repositories.lkp.StageRepo;
+import com.food.recipe.entries.lkp.OptimalTime;
+import com.food.recipe.repositories.lkp.OptimalTimeRepo;
 
 @RestController
-@RequestMapping("/stage")
-public class StageController {
+@RequestMapping("/time")
+public class OptimalTimeController {
 
 	@Autowired
-	private StageRepo repo;
+	private OptimalTimeRepo repo;
 	
 	@RequestMapping("/save")
 	@PostMapping
-	public void save(@RequestBody Stage c) {
+	public void save(@RequestBody OptimalTime c) {
 		repo.save(c);
 	}
 
 	@RequestMapping("/saveall")
 	@PostMapping
-	public void saveAll(@RequestBody List<Stage> c) {
+	public void saveAll(@RequestBody List<OptimalTime> c) {
 		repo.saveAll(c);
 	}
 	
@@ -40,7 +40,7 @@ public class StageController {
 
 	@RequestMapping("/get")
 	@GetMapping
-	public List<Stage> get() {
+	public List<OptimalTime> get() {
 		return repo.findAll();
 	}
 }

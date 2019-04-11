@@ -1,4 +1,4 @@
-package com.food.recipe.entries;
+package com.food.recipe.entries.lkp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,26 +9,23 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.food.recipe.entries.lkp.Stage;
-
 import lombok.Data;
 
 @Entity
 @Table
 @Data
-public class DishStage {
-	
+public class OptimalTimeCategoryMapping {
+
 	@Id
-	@Column(name = "id")
+	@Column(name = "mappingId")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private int mappingId;
 	
 	@ManyToOne
-    @JoinColumn(name="dishId")
-	private Dish dish;
+    @JoinColumn(name="lkpCategoryId")
+	private Category category;
 	
 	@ManyToOne
-    @JoinColumn(name="lkpStageId")
-	private Stage stage;
-	
+    @JoinColumn(name="lkpOptimalTimeId")
+	private OptimalTime optimalTime;
 }

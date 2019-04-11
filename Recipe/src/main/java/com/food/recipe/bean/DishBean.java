@@ -3,10 +3,10 @@ package com.food.recipe.bean;
 import java.util.List;
 
 import com.food.recipe.entries.lkp.Category;
-import com.food.recipe.entries.lkp.Function;
-import com.food.recipe.entries.lkp.Period;
-import com.food.recipe.entries.lkp.Stage;
-import com.food.recipe.entries.lkp.Type;
+import com.food.recipe.entries.lkp.Efficacy;
+import com.food.recipe.entries.lkp.OptimalTime;
+import com.food.recipe.entries.lkp.OptimalStage;
+import com.food.recipe.entries.lkp.Property;
 
 import lombok.Data;
 
@@ -19,8 +19,8 @@ public class DishBean {
 	private String description;
 	
 	private List<Category> categories;
-	private List<Function> functions;
-	private List<Period> periods;
-	private List<Stage> stages;
-	private List<Type> types;
+	private List<Efficacy> efficacies;
+	private List<OptimalTime> optimalTimes;
+	private List<OptimalStage> optimalStages;
+	private List<Property> properties;
 }

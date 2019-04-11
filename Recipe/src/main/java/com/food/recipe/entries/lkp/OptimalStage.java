@@ -5,6 +5,6 @@ import javax.persistence.Table;
 
 @Entity
 @Table
-public class Stage extends BaseLookup {
+public class OptimalStage extends BaseLookup {
 
 }

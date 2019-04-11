@@ -9,15 +9,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.food.recipe.entries.lkp.Type;
+import com.food.recipe.entries.lkp.OptimalStage;
 
 import lombok.Data;
 
 @Entity
 @Table
 @Data
-public class DishType {
-
+public class DishOptimalStage {
+	
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,6 +28,7 @@ public class DishType {
 	private Dish dish;
 	
 	@ManyToOne
-    @JoinColumn(name="lkpTypeId")
-	private Type type;
+    @JoinColumn(name="lkpOptimalStageId")
+	private OptimalStage optimalStage;
+	
 }

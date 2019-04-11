@@ -8,4 +8,5 @@ import com.food.recipe.entries.DishCategory;
 @RepositoryRestResource(collectionResourceRel = "dishcatagory", path = "dishcatagory")
 public interface DishCatagoryRepo extends JpaRepository<DishCategory, Integer> {
 
+	
 }

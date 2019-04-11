@@ -5,6 +5,6 @@ import javax.persistence.Table;
 
 @Entity
 @Table
-public class Function extends BaseLookup {
+public class Property extends BaseLookup {
 
 }

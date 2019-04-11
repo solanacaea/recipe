@@ -10,25 +10,25 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.food.recipe.entries.lkp.Period;
-import com.food.recipe.repositories.lkp.PeriodRepo;
+import com.food.recipe.entries.lkp.Efficacy;
+import com.food.recipe.repositories.lkp.EfficacyRepo;
 
 @RestController
-@RequestMapping("/period")
-public class PeriodController {
+@RequestMapping("/efficacy")
+public class EfficacyController {
 
 	@Autowired
-	private PeriodRepo repo;
+	private EfficacyRepo repo;
 	
 	@RequestMapping("/save")
 	@PostMapping
-	public void save(@RequestBody Period c) {
+	public void save(@RequestBody Efficacy c) {
 		repo.save(c);
 	}
 
 	@RequestMapping("/saveall")
 	@PostMapping
-	public void saveAll(@RequestBody List<Period> c) {
+	public void saveAll(@RequestBody List<Efficacy> c) {
 		repo.saveAll(c);
 	}
 	
@@ -40,7 +40,7 @@ public class PeriodController {
 
 	@RequestMapping("/get")
 	@GetMapping
-	public List<Period> get() {
+	public List<Efficacy> get() {
 		return repo.findAll();
 	}
 }

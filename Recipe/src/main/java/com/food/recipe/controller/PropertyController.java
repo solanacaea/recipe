@@ -10,25 +10,25 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.food.recipe.entries.lkp.Type;
-import com.food.recipe.repositories.lkp.TypeRepo;
+import com.food.recipe.entries.lkp.Property;
+import com.food.recipe.repositories.lkp.PropertyRepo;
 
 @RestController
-@RequestMapping("/type")
-public class TypeController {
+@RequestMapping("/property")
+public class PropertyController {
 
 	@Autowired
-	private TypeRepo repo;
+	private PropertyRepo repo;
 	
 	@RequestMapping("/save")
 	@PostMapping
-	public void save(@RequestBody Type c) {
+	public void save(@RequestBody Property c) {
 		repo.save(c);
 	}
 
 	@RequestMapping("/saveall")
 	@PostMapping
-	public void saveAll(@RequestBody List<Type> c) {
+	public void saveAll(@RequestBody List<Property> c) {
 		repo.saveAll(c);
 	}
 	
@@ -40,7 +40,7 @@ public class TypeController {
 
 	@RequestMapping("/get")
 	@GetMapping
-	public List<Type> get() {
+	public List<Property> get() {
 		return repo.findAll();
 	}
 }

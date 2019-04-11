@@ -10,25 +10,25 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.food.recipe.entries.lkp.Function;
-import com.food.recipe.repositories.lkp.FunctionRepo;
+import com.food.recipe.entries.lkp.OptimalStage;
+import com.food.recipe.repositories.lkp.OptimalStageRepo;
 
 @RestController
-@RequestMapping("/function")
-public class FunctionController {
+@RequestMapping("/stage")
+public class OptimalStageController {
 
 	@Autowired
-	private FunctionRepo repo;
+	private OptimalStageRepo repo;
 	
 	@RequestMapping("/save")
 	@PostMapping
-	public void save(@RequestBody Function c) {
+	public void save(@RequestBody OptimalStage c) {
 		repo.save(c);
 	}
 
 	@RequestMapping("/saveall")
 	@PostMapping
-	public void saveAll(@RequestBody List<Function> c) {
+	public void saveAll(@RequestBody List<OptimalStage> c) {
 		repo.saveAll(c);
 	}
 	
@@ -40,7 +40,7 @@ public class FunctionController {
 
 	@RequestMapping("/get")
 	@GetMapping
-	public List<Function> get() {
+	public List<OptimalStage> get() {
 		return repo.findAll();
 	}
 }

@@ -5,6 +5,6 @@ import javax.persistence.Table;
 
 @Entity
 @Table
-public class Type extends BaseLookup {
+public class Efficacy extends BaseLookup {
 
 }

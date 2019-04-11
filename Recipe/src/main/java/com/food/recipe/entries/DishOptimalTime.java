@@ -9,15 +9,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.food.recipe.entries.lkp.Function;
+import com.food.recipe.entries.lkp.OptimalTime;
 
 import lombok.Data;
 
 @Entity
 @Table
 @Data
-public class DishFunction {
-	
+public class DishOptimalTime {
+
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,6 +28,6 @@ public class DishFunction {
 	private Dish dish;
 	
 	@ManyToOne
-    @JoinColumn(name="lkpFunctionId")
-	private Function function;
+    @JoinColumn(name="lkpOptimalTimeId")
+	private OptimalTime optimalTime;
 }

@@ -13,10 +13,12 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.ToString;
 
 @Entity
 @Table
 @Data
+@ToString
 public class Dish {
 
 	@Id
@@ -40,26 +42,26 @@ public class Dish {
 	private List<DishCategory> categories;
 	
 	@ManyToMany
-	@JoinTable(name="DishFunction", 
+	@JoinTable(name="DishEfficacy", 
 			joinColumns={@JoinColumn(name="dishId")},
 			inverseJoinColumns={@JoinColumn(name="Id")})
-	private List<DishFunction> functions;
+	private List<DishEfficacy> efficacies;
 	
 	@ManyToMany
-	@JoinTable(name="DishPeriod", 
+	@JoinTable(name="DishOptimalTime", 
 			joinColumns={@JoinColumn(name="dishId")},
 			inverseJoinColumns={@JoinColumn(name="Id")})
-	private List<DishPeriod> periods;
+	private List<DishOptimalTime> optimalTimes;
 	
 	@ManyToMany
-	@JoinTable(name="DishStage", 
+	@JoinTable(name="DishOptimalStage", 
 			joinColumns={@JoinColumn(name="dishId")},
 			inverseJoinColumns={@JoinColumn(name="Id")})
-	private List<DishStage> stages;
+	private List<DishOptimalStage> optimalStages;
 	
 	@ManyToMany
-	@JoinTable(name="DishType", 
+	@JoinTable(name="DishProperty", 
 			joinColumns={@JoinColumn(name="dishId")},
 			inverseJoinColumns={@JoinColumn(name="Id")})
-	private List<DishType> types;
+	private List<DishProperty> properties;
 }
