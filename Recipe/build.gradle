@@ -39,6 +39,13 @@ dependencies {
  	compile("com.h2database:h2")
     compile("org.springframework.shell:spring-shell:1.2.0.RELEASE")
 
+    compile("javax.xml.bind:jaxb-api:2.3.0")
+    compile("com.sun.xml.bind:jaxb-impl:2.3.0")
+    compile("com.sun.xml.bind:jaxb-core:2.3.0")
+    compile("javax.activation:activation:1.1.1")
+    compile("org.glassfish.jaxb:jaxb-runtime:2.3.0.1")
+    compile("org.javassist:javassist:3.23.1-GA")
+
     testCompile("org.springframework.boot:spring-boot-starter-test") {
         exclude group: "org.springframework.boot", module: "spring-boot-starter-logging"
     }
