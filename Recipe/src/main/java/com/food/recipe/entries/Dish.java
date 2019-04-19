@@ -1,16 +1,16 @@
 package com.food.recipe.entries;
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Version;
+
+import org.hibernate.type.VersionType;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 import lombok.ToString;
@@ -22,46 +22,36 @@ import lombok.ToString;
 public class Dish {
 
 	@Id
-	@Column(name = "dishId")
+	@Column(name = "Id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int dishId;
+	private int id;
 	
-	@Column(name = "name")
+	@Version
+	@JsonIgnore
+	private Long version;
+	
+	@Column(name = "Name")
 	private String name;
 	
-	@Column(name = "content")
+	@Column(name = "Content")
 	private String content;
 	
-	@Column(name = "description")
+	@Column(name = "Description")
 	private String description;
 
-	@ManyToMany
-	@JoinTable(name="DishCategory", 
-			joinColumns={@JoinColumn(name="dishId")},
-			inverseJoinColumns={@JoinColumn(name="Id")})
-	private List<DishCategory> categories;
+	@Column(name="Category")
+	private String category;
 	
-	@ManyToMany
-	@JoinTable(name="DishEfficacy", 
-			joinColumns={@JoinColumn(name="dishId")},
-			inverseJoinColumns={@JoinColumn(name="Id")})
-	private List<DishEfficacy> efficacies;
+	@Column(name="Efficacy")
+	private String efficacy;
 	
-	@ManyToMany
-	@JoinTable(name="DishOptimalTime", 
-			joinColumns={@JoinColumn(name="dishId")},
-			inverseJoinColumns={@JoinColumn(name="Id")})
-	private List<DishOptimalTime> optimalTimes;
+	@Column(name="OptimalTime")
+	private String optimalTime;
 	
-	@ManyToMany
-	@JoinTable(name="DishOptimalStage", 
-			joinColumns={@JoinColumn(name="dishId")},
-			inverseJoinColumns={@JoinColumn(name="Id")})
-	private List<DishOptimalStage> optimalStages;
+	@Column(name="OptimalStage")
+	private String optimalStage;
 	
-	@ManyToMany
-	@JoinTable(name="DishProperty", 
-			joinColumns={@JoinColumn(name="dishId")},
-			inverseJoinColumns={@JoinColumn(name="Id")})
-	private List<DishProperty> properties;
+	@Column(name="Property")
+	private String property;
+	
 }
