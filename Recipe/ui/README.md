@@ -4,6 +4,13 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
+npm install
+npm add antd
+npm add react-highlight-words
+npm install --save react-loadable
+npm install --save react-router-dom
+npm install react-axios
+
 ### `npm start`
 
 Runs the app in the development mode.<br>
@@ -66,3 +73,7 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+
+
+
