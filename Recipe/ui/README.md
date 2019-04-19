@@ -4,12 +4,12 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
-npm install
-npm add antd
-npm add react-highlight-words
-npm install --save react-loadable
-npm install --save react-router-dom
-npm install react-axios
+### npm install
+### npm add antd
+### npm add react-highlight-words
+### npm install --save react-loadable
+### npm install --save react-router-dom
+### npm install react-axios
 
 ### `npm start`
 
