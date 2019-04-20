@@ -8,6 +8,10 @@ const plainOptions = ['补血', '活血', '清热', '祛湿'];
 const defaultCheckedList = [];
 
 class DropDownComponent extends Component {
+  componentDidMount() {
+    this.props.onRef(this);
+  }
+
   state = {
     checkedList: defaultCheckedList,
     indeterminate: true,
@@ -30,6 +34,10 @@ class DropDownComponent extends Component {
     });
   }
 
+  getValue() {
+    return this.state.checkedList;
+  }
+  
   render() {
     return (
       <div>

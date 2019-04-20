@@ -8,6 +8,10 @@ const plainOptions = ['主食', '汤', '菜', '饮品'];
 const defaultCheckedList = [];
 
 class DropDownComponent extends Component {
+  componentDidMount() {
+    this.props.onRef(this);
+  }
+  
   state = {
     checkedList: defaultCheckedList,
     indeterminate: true,
@@ -28,6 +32,10 @@ class DropDownComponent extends Component {
       indeterminate: false,
       checkAll: e.target.checked,
     });
+  }
+  
+  getValue() {
+    return this.state.checkedList;
   }
 
   render() {

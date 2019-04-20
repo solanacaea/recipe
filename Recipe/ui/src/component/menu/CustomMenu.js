@@ -1,11 +1,10 @@
 import {
-    Layout, Menu, Breadcrumb, Icon,
+    Layout, Menu, Icon,
   } from 'antd';
   import React, { Component } from 'react'; 
   import { Link } from 'react-router-dom';
   import '../../App.css';
   import 'antd/dist/antd.css';
-  import logo from '../../logo.svg';
   import '../../Navi.css'
   
   const {

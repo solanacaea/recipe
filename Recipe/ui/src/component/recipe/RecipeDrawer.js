@@ -22,6 +22,7 @@ import DropdownEfficacy from './DropdownEfficacy'
       this.setState({
         visible: true,
       });
+
       //this.props.form.setFieldsValue({ name:"张三", })
     };
   
@@ -31,8 +32,30 @@ import DropdownEfficacy from './DropdownEfficacy'
       });
     };
 
+    onRefCategory = (ref) => {
+      this.category = ref;
+    }
+    onRefOptimalStage = (ref) => {
+      this.optimalStage = ref;
+    }
+    onRefOptimalTime = (ref) => {
+      this.optimalTime = ref;
+    }
+    onRefProperty = (ref) => {
+      this.property = ref;
+    }
+    onRefEfficacy = (ref) => {
+      this.efficacy = ref;
+    }
+
     onSubmit = () => {
       //console.log(this.props.form.getFieldsValue("名称"));
+      console.log(this.state.name);
+      console.log(this.category.getValue());
+      console.log(this.optimalStage.getValue());
+      console.log(this.optimalTime.getValue());
+      console.log(this.property.getValue());
+      console.log(this.efficacy.getValue());
     };
 
     render() {
@@ -61,31 +84,31 @@ import DropdownEfficacy from './DropdownEfficacy'
                 </Col>
                 <Col span={12}>
                   <Form.Item label="类别">
-                    <DropdownCategory/>
+                    <DropdownCategory onRef={this.onRefCategory} />
                   </Form.Item>
                 </Col>
               </Row>
               <Row gutter={16}>
                 <Col span={12}>
                   <Form.Item label="适宜阶段">
-                    <DropdownOptimalStage/>
+                    <DropdownOptimalStage onRef={this.onRefOptimalStage} />
                   </Form.Item>
                 </Col>
                 <Col span={12}>
                   <Form.Item label="适宜时间">
-                    <DropdownOptimalTime/>
+                    <DropdownOptimalTime onRef={this.onRefOptimalTime} />
                   </Form.Item>
                 </Col>
               </Row>
               <Row gutter={16}>
                 <Col span={12}>
                   <Form.Item label="属性">
-                    <DropdownProperty/>
+                    <DropdownProperty onRef={this.onRefProperty} />
                   </Form.Item>
                 </Col>
                 <Col span={12}>
                   <Form.Item label="功效">
-                    <DropdownEfficacy/>
+                    <DropdownEfficacy onRef={this.onRefEfficacy} />
                   </Form.Item>
                 </Col>
               </Row>
