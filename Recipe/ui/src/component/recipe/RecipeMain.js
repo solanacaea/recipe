@@ -1,10 +1,11 @@
 import {
-    Table, Input, Button, Icon, Divider, Popconfirm, message
+    Table, Input, Button, Icon, Popconfirm, message
   } from 'antd';
   import Highlighter from 'react-highlight-words';
   import React, { Component } from 'react';
   import RecipeDrawer from './RecipeDrawer'
 
+  const ButtonGroup = Button.Group;
   const confirmText = '确定要删除吗?';
   const data = [{
     key: '1',
@@ -111,7 +112,7 @@ import {
     }
 
     handleChange = (pagination, filters, sorter) => {
-      console.log('Various parameters', pagination, filters, sorter);
+      //console.log('Various parameters', pagination, filters, sorter);
       this.setState({
         filteredInfo: filters,
         sortedInfo: sorter,
@@ -223,17 +224,17 @@ import {
         key: 'action',
         render: (text, record) => (
           <span>
-            <Divider type="vertical" />
-            <a href="javascript:;" onClick={this.openPanel.bind(this, record)} >
-                <Icon type="edit" theme="filled" />
-            </a>
-            <Divider type="vertical" />
-            <Popconfirm placement="topRight" title={confirmText} onConfirm={this.delete.bind(this, record)} okText="Yes" cancelText="No">
-                <a href="javascript:;">
+            <ButtonGroup size="small">
+                <Button onClick={this.openPanel.bind(this, record)} >
+                    <Icon type="edit" theme="filled" />
+                </Button>
+             
+              <Popconfirm placement="topRight" title={confirmText} onConfirm={this.delete.bind(this, record)} okText="Yes" cancelText="No">
+                <Button>
                     <Icon type="delete" theme="filled" />
-                </a>
-            </Popconfirm>
-            <Divider type="vertical" />
+                </Button>
+              </Popconfirm>
+              </ButtonGroup>
           </span>
          ),
       }];

@@ -11,7 +11,7 @@ class DropDownComponent extends Component {
   componentDidMount() {
     this.props.onRef(this);
   }
-  
+
   state = {
     checkedList: defaultCheckedList,
     indeterminate: true,
@@ -24,6 +24,7 @@ class DropDownComponent extends Component {
       indeterminate: !!checkedList.length && (checkedList.length < plainOptions.length),
       checkAll: checkedList.length === plainOptions.length,
     });
+    // this.props.callParent(checkedList);
   }
 
   onCheckAllChange = (e) => {

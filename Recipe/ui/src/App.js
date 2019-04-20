@@ -12,12 +12,11 @@ import './Navi.css'
 import 'antd/dist/antd.css';
 
 import {
-  Layout, Menu, Breadcrumb, Icon,
+  Layout, Breadcrumb, Icon,
 } from 'antd';
 const {
   Header, Content, Footer, Sider,
 } = Layout;
-const SubMenu = Menu.SubMenu;
 
 //let screenHeight= window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
 

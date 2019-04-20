@@ -1,5 +1,5 @@
 import {
-    Layout, Menu, Icon,
+    Menu, Icon,
   } from 'antd';
   import React, { Component } from 'react'; 
   import { Link } from 'react-router-dom';
@@ -7,9 +7,6 @@ import {
   import 'antd/dist/antd.css';
   import '../../Navi.css'
   
-  const {
-    Header, Content, Footer, Sider,
-  } = Layout;
   const SubMenu = Menu.SubMenu;
   
   export default class CustomMenu extends Component {
