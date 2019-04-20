@@ -49,6 +49,7 @@ import {
       searchText: '',
       filteredInfo: null,
       sortedInfo: null,
+      selectedRow: null,
     };
   
     getColumnSearchProps = (dataIndex) => ({
@@ -125,6 +126,7 @@ import {
       this.setState({
         filteredInfo: null,
         sortedInfo: null,
+        selectedRow: null,
       });
     }
 
@@ -222,11 +224,11 @@ import {
         render: (text, record) => (
           <span>
             <Divider type="vertical" />
-            <a href="javascript:;" onClick={this.openPanel}>
+            <a href="javascript:;" onClick={this.openPanel.bind(this, record)} >
                 <Icon type="edit" theme="filled" />
             </a>
             <Divider type="vertical" />
-            <Popconfirm placement="topRight" title={confirmText} onConfirm={this.delete} okText="Yes" cancelText="No">
+            <Popconfirm placement="topRight" title={confirmText} onConfirm={this.delete.bind(this, record)} okText="Yes" cancelText="No">
                 <a href="javascript:;">
                     <Icon type="delete" theme="filled" />
                 </a>
@@ -236,7 +238,7 @@ import {
          ),
       }];
       return <div>
-              <Button block icon="plus" width="40px" onClick={this.openPanel}>新增</Button>
+              <Button block icon="plus" width="40px" onClick={this.openPanel.bind(this, null)}>新增</Button>
               <Table columns={columns} dataSource={data} onChange={this.handleChange} />
               <RecipeDrawer onRef={this.onRef} />
             </div>;
@@ -246,12 +248,12 @@ import {
       this.drawer = ref
     }
 
-    openPanel = (e) => {
-      this.drawer.showDrawer();
+    openPanel = (record) => {
+      this.drawer.showDrawer(record);
     }
     
-    delete = (e) => {
-      message.info('Clicked on Yes.');
+    delete = (record) => {
+      message.info('Deleting [' + record.name + ']...');
     }
 
   }

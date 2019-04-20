@@ -16,13 +16,15 @@ import DropdownEfficacy from './DropdownEfficacy'
       this.props.onRef(this);
     }
 
-    state = { visible: false, name: "abc"};
+    state = { visible: false, data: null};
   
     showDrawer = (param) => {
       this.setState({
         visible: true,
+        data: param,
       });
 
+      console.log(param);
       //this.props.form.setFieldsValue({ name:"张三", })
     };
   
@@ -79,7 +81,7 @@ import DropdownEfficacy from './DropdownEfficacy'
                           message: '请输入食材名称...',
                         },
                       ],
-                    })(<Input rows={8} placeholder="请输入食材名称..."/>)}
+                    })(<Input rows={8} placeholder="请输入食材名称..." /> )}
                   </Form.Item>
                 </Col>
                 <Col span={12}>
