@@ -4,53 +4,23 @@ import {
   import Highlighter from 'react-highlight-words';
   import React, { Component } from 'react';
   import RecipeDrawer from './RecipeDrawer'
+  import axios from 'axios';
 
   const ButtonGroup = Button.Group;
   const confirmText = '确定要删除吗?';
-  const data = [{
-    key: '1',
-    name: 'John Brown',
-    category: '主食',
-    optimalStage: '第一周', 
-    optimalTime: '早餐', 
-    property: '11', 
-    efficacy: '祛湿', 
-    content: 'New York No. 1 Lake Park',
-  }, {
-    key: '2',
-    name: 'Joe Black',
-    category: '菜',
-    optimalStage: '第二周', 
-    optimalTime: '早点', 
-    property: '22', 
-    efficacy: '清热', 
-    content: 'London No. 1 Lake Park',
-  }, {
-    key: '3',
-    name: 'Jim Green',
-    category: '汤',
-    optimalStage: '第三周', 
-    optimalTime: '早餐, 中餐', 
-    property: '33', 
-    efficacy: '解毒', 
-    content: 'Sidney No. 1 Lake Park',
-  }, {
-    key: '4',
-    name: 'Jim Red',
-    category: '主食',
-    optimalStage: '第一周, 第四周', 
-    optimalTime: '中餐, 晚餐', 
-    property: '44', 
-    efficacy: '万能', 
-    content: 'London No. 2 Lake Park',
-  }];
+  //const data = [];
   
   class RecipeMain extends Component {
+    componentDidMount() {
+      this.refresh();
+    }
+
     state = {
       searchText: '',
       filteredInfo: null,
       sortedInfo: null,
       selectedRow: null,
+      data: null,
     };
   
     getColumnSearchProps = (dataIndex) => ({
@@ -96,7 +66,7 @@ import {
           highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
           searchWords={[this.state.searchText]}
           autoEscape
-          textToHighlight={text.toString()}
+          textToHighlight={text == null ? "" : text.toString()}
         />
       ),
     })
@@ -240,8 +210,8 @@ import {
       }];
       return <div>
               <Button block icon="plus" width="40px" onClick={this.openPanel.bind(this, null)}>新增</Button>
-              <Table columns={columns} dataSource={data} onChange={this.handleChange} />
-              <RecipeDrawer onRef={this.onRef} />
+              <Table rowKey={record => record.id} columns={columns} dataSource={this.state.data} onChange={this.handleChange} />
+              <RecipeDrawer onRef={this.onRef} refresh={this.refresh}/>
             </div>;
     }
     
@@ -254,7 +224,24 @@ import {
     }
     
     delete = (record) => {
-      message.info('Deleting [' + record.name + ']...');
+      message.info('Deleting [' + record.id + ']...');
+      axios.post('http://localhost:8080/dish/delete', record)
+      .then((res) => {
+        this.refresh()
+      }).catch((err) => {
+        console.log(err)
+      })
+    }
+
+    refresh = () => {
+      axios.post('http://localhost:8080/dish/getall')
+      .then((res) => {
+        //console.log(res);
+        this.setState({data: res.data});
+      })
+      .catch((err) => {
+        console.log(err)
+      })
     }
 
   }

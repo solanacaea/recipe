@@ -6,11 +6,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Version;
-
-import org.hibernate.type.VersionType;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 import lombok.ToString;
@@ -26,9 +21,9 @@ public class Dish {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@Version
-	@JsonIgnore
-	private Long version;
+//	@Version
+//	@JsonIgnore
+//	private Long version;
 	
 	@Column(name = "Name")
 	private String name;

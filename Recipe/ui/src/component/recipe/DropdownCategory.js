@@ -5,7 +5,7 @@ import { Checkbox } from 'antd';
 const CheckboxGroup = Checkbox.Group;
 
 const plainOptions = ['主食', '汤', '菜', '饮品'];
-const defaultCheckedList = [];
+// const defaultCheckedList = [];
 
 class DropDownComponent extends Component {
   componentDidMount() {
@@ -13,14 +13,14 @@ class DropDownComponent extends Component {
   }
 
   state = {
-    checkedList: defaultCheckedList,
+    checkedList: [],
     indeterminate: true,
     checkAll: false,
   };
 
   onChange = (checkedList) => {
     this.setState({
-      checkedList,
+      checkedList: checkedList,
       indeterminate: !!checkedList.length && (checkedList.length < plainOptions.length),
       checkAll: checkedList.length === plainOptions.length,
     });

@@ -7,7 +7,8 @@ import DropdownOptimalStage from './DropdownOptimalStage'
 import DropdownOptimalTime from './DropdownOptimalTime'
 import DropdownProperty from './DropdownProperty'
 import DropdownEfficacy from './DropdownEfficacy'
-  
+import axios from 'axios';
+
   class DrawerForm extends Component {
     componentDidMount() {
       this.props.onRef(this);
@@ -24,24 +25,29 @@ import DropdownEfficacy from './DropdownEfficacy'
       this.props.form.setFieldsValue({ content: param == null ? null : param.content });
 
       if (this.category != null) {
-        const data = param == null ? null : param.category
-        this.category.onChange([data]);
+        const data = param == null ? null : param.category;
+        const arr = (data == null || data === "") ? [] : data.split(',');
+        this.category.onChange(arr);
       }
       if (this.optimalStage != null) {
-        const data = param == null ? null : param.optimalStage
-        this.optimalStage.onChange([data]);
+        const data = param == null ? null : param.optimalStage;
+        const arr = (data == null || data === "") ? [] : data.split(',');
+        this.optimalStage.onChange(arr);
       }
       if (this.optimalTime != null) {
-        const data = param == null ? null : param.optimalTime
-        this.optimalTime.onChange([data]);
+        const data = param == null ? null : param.optimalTime;
+        const arr = (data == null || data === "") ? [] : data.split(',');
+        this.optimalTime.onChange(arr);
       }
       if (this.property != null) {
-        const data = param == null ? null : param.property
-        this.property.onChange([data]);
+        const data = param == null ? null : param.property;
+        const arr = (data == null || data === "") ? [] : data.split(',');
+        this.property.onChange(arr);
       }
       if (this.efficacy != null) {
-        const data = param == null ? null : param.efficacy
-        this.efficacy.onChange([data]);
+        const data = param == null ? null : param.efficacy;
+        const arr = (data == null || data === "") ? [] : data.split(',');
+        this.efficacy.onChange(arr);
       }
       this.setState({ name: param == null ? null : param.name, });
       this.setState({ content: param == null ? null : param.content, });
@@ -56,47 +62,67 @@ import DropdownEfficacy from './DropdownEfficacy'
 
     onRefCategory = (ref) => {
       this.category = ref;
-      const data = this.state.data == null ? null : this.state.data.category
-      this.category.onChange([data]);
+      const data = this.state.data == null ? null : this.state.data.category;
+      const arr = (data == null || data === "") ? [] : data.split(',');
+      this.category.onChange(arr);
     }
     onRefOptimalStage = (ref) => {
       this.optimalStage = ref;
-      const data = this.state.data == null ? null : this.state.data.optimalStage
-      this.optimalStage.onChange([data]);
+      const data = this.state.data == null ? null : this.state.data.optimalStage;
+      const arr = (data == null || data === "") ? [] : data.split(',');
+      this.optimalStage.onChange(arr);
     }
     onRefOptimalTime = (ref) => {
       this.optimalTime = ref;
-      const data = this.state.data == null ? null : this.state.data.optimalTime
-      this.optimalTime.onChange([data]);
+      const data = this.state.data == null ? null : this.state.data.optimalTime;
+      const arr = (data == null || data === "") ? [] : data.split(',');
+      this.optimalTime.onChange(arr);
     }
     onRefProperty = (ref) => {
       this.property = ref;
-      const data = this.state.data == null ? null : this.state.data.property
-      this.property.onChange([data]);
+      const data = this.state.data == null ? null : this.state.data.property;
+      const arr = (data == null || data === "") ? [] : data.split(',');
+      this.property.onChange(arr);
     }
     onRefEfficacy = (ref) => {
       this.efficacy = ref;
-      const data = this.state.data == null ? null : this.state.data.efficacy
-      this.efficacy.onChange([data]);
+      const data = this.state.data == null ? null : this.state.data.efficacy;
+      const arr = (data == null || data === "") ? [] : data.split(',');
+      this.efficacy.onChange(arr);
     }
 
     onSubmit = (e) => {
       e.preventDefault();
       //console.log(this.props.form.getFieldsValue("name"));
       //console.log(this.props.form.getFieldsValue("content"));
-      console.log(this.category.getValue());
-      console.log(this.optimalStage.getValue());
-      console.log(this.optimalTime.getValue());
-      console.log(this.property.getValue());
-      console.log(this.efficacy.getValue());
-      console.log(this.state.name);
-      console.log(this.state.content);
-      console.log(this.state.data);
-    };
+      const category = this.category.getValue();
+      const optimalStage = this.optimalStage.getValue();
+      const optimalTime = this.optimalTime.getValue();
+      const property = this.property.getValue();
+      const efficacy = this.efficacy.getValue();
+      const name = this.state.name;
+      const content = this.state.content;
+      const data = this.state.data;
+      
+      axios.post('http://localhost:8080//dish/save', {
+            id: data == null ? null : data.id, 
+            name: name,
+            content: content,
+            category: category.toString(),
+            optimalStage: optimalStage.toString(),
+            optimalTime: optimalTime.toString(),
+            property: property.toString(),
+            efficacy: efficacy.toString(),
+          }
+        ).then((res)=>{
+            this.props.refresh();
+            this.onClose();
+        })
+        .catch((err)=>{
+            console.log(err)
+        })
 
-    callParent = () => {
-      return this.state.data;
-    }
+    };
 
     onNameChange = (e) => {
       this.setState({
