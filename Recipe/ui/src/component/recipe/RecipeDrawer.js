@@ -1,13 +1,11 @@
 import {
-    Drawer, Form, Button, Col, Row, Input, 
+    Drawer, Form, Button, Col, Row, Input,
   } from 'antd';
-import React, { Component } from 'react'; 
-import DropdownCategory from './DropdownCategory'
-import DropdownOptimalStage from './DropdownOptimalStage'
-import DropdownOptimalTime from './DropdownOptimalTime'
-import DropdownProperty from './DropdownProperty'
-import DropdownEfficacy from './DropdownEfficacy'
 import axios from 'axios';
+import React, { Component } from 'react';
+
+import options from '../../core/constant'
+import PropertyDropdownComponent from './dropdown/PropertyDropdownComponent';
 
   class DrawerForm extends Component {
     componentDidMount() {
@@ -15,7 +13,6 @@ import axios from 'axios';
     }
 
     state = { visible: false, data: null};
-  
     showDrawer = (param) => {
       this.setState({
         visible: true,
@@ -23,87 +20,19 @@ import axios from 'axios';
       });
       this.props.form.setFieldsValue({ name: param == null ? null : param.name });
       this.props.form.setFieldsValue({ content: param == null ? null : param.content });
-
-      if (this.category != null) {
-        const data = param == null ? null : param.category;
-        const arr = (data == null || data === "") ? [] : data.split(',');
-        this.category.onChange(arr);
-      }
-      if (this.optimalStage != null) {
-        const data = param == null ? null : param.optimalStage;
-        const arr = (data == null || data === "") ? [] : data.split(',');
-        this.optimalStage.onChange(arr);
-      }
-      if (this.optimalTime != null) {
-        const data = param == null ? null : param.optimalTime;
-        const arr = (data == null || data === "") ? [] : data.split(',');
-        this.optimalTime.onChange(arr);
-      }
-      if (this.property != null) {
-        const data = param == null ? null : param.property;
-        const arr = (data == null || data === "") ? [] : data.split(',');
-        this.property.onChange(arr);
-      }
-      if (this.efficacy != null) {
-        const data = param == null ? null : param.efficacy;
-        const arr = (data == null || data === "") ? [] : data.split(',');
-        this.efficacy.onChange(arr);
-      }
       this.setState({ name: param == null ? null : param.name, });
       this.setState({ content: param == null ? null : param.content, });
-
     };
-  
+
     onClose = () => {
       this.setState({
         visible: false,
       });
     };
 
-    onRefCategory = (ref) => {
-      this.category = ref;
-      const data = this.state.data == null ? null : this.state.data.category;
-      const arr = (data == null || data === "") ? [] : data.split(',');
-      this.category.onChange(arr);
-    }
-    onRefOptimalStage = (ref) => {
-      this.optimalStage = ref;
-      const data = this.state.data == null ? null : this.state.data.optimalStage;
-      const arr = (data == null || data === "") ? [] : data.split(',');
-      this.optimalStage.onChange(arr);
-    }
-    onRefOptimalTime = (ref) => {
-      this.optimalTime = ref;
-      const data = this.state.data == null ? null : this.state.data.optimalTime;
-      const arr = (data == null || data === "") ? [] : data.split(',');
-      this.optimalTime.onChange(arr);
-    }
-    onRefProperty = (ref) => {
-      this.property = ref;
-      const data = this.state.data == null ? null : this.state.data.property;
-      const arr = (data == null || data === "") ? [] : data.split(',');
-      this.property.onChange(arr);
-    }
-    onRefEfficacy = (ref) => {
-      this.efficacy = ref;
-      const data = this.state.data == null ? null : this.state.data.efficacy;
-      const arr = (data == null || data === "") ? [] : data.split(',');
-      this.efficacy.onChange(arr);
-    }
-
     onSubmit = (e) => {
       e.preventDefault();
-      //console.log(this.props.form.getFieldsValue("name"));
-      //console.log(this.props.form.getFieldsValue("content"));
-      const category = this.category.getValue();
-      const optimalStage = this.optimalStage.getValue();
-      const optimalTime = this.optimalTime.getValue();
-      const property = this.property.getValue();
-      const efficacy = this.efficacy.getValue();
-      const name = this.state.name;
-      const content = this.state.content;
-      const data = this.state.data;
-      
+      const { category, optimalStage, optimalTime, property, efficacy, name, content, data } = this.state;
       axios.post('http://localhost:8080//dish/save', {
             id: data == null ? null : data.id, 
             name: name,
@@ -120,8 +49,7 @@ import axios from 'axios';
         })
         .catch((err)=>{
             console.log(err)
-        })
-
+        });
     };
 
     onNameChange = (e) => {
@@ -134,6 +62,12 @@ import axios from 'axios';
       this.setState({
         content: e.target.value,
       });
+    }
+
+    onCheckedListChanged = (checkedList, propertyName) => {
+      const newState = {};
+      newState[propertyName] = checkedList;
+      this.setState(newState);
     }
 
     render() {
@@ -162,32 +96,31 @@ import axios from 'axios';
                 </Col>
                 <Col span={12}>
                   <Form.Item label="类别">
-                    <DropdownCategory ref="category" onRef={this.onRefCategory} 
-                      callParent={this.callParent} />
+                      <PropertyDropdownComponent propertyName={'category'} valueChanged={this.onCheckedListChanged} plainOptions={options.categoryOptions}></PropertyDropdownComponent>
                   </Form.Item>
                 </Col>
               </Row>
               <Row gutter={16}>
                 <Col span={12}>
                   <Form.Item label="适宜阶段">
-                    <DropdownOptimalStage onRef={this.onRefOptimalStage} />
+                    <PropertyDropdownComponent propertyName={'optimalStage'} valueChanged={this.onCheckedListChanged} plainOptions={options.optimalStageOptions}></PropertyDropdownComponent>
                   </Form.Item>
                 </Col>
                 <Col span={12}>
                   <Form.Item label="适宜时间">
-                    <DropdownOptimalTime onRef={this.onRefOptimalTime} />
+                    <PropertyDropdownComponent propertyName={'optimalTime'} valueChanged={this.onCheckedListChanged} plainOptions={options.optimalTimeOptions}></PropertyDropdownComponent>
                   </Form.Item>
                 </Col>
               </Row>
               <Row gutter={16}>
                 <Col span={12}>
                   <Form.Item label="属性">
-                    <DropdownProperty onRef={this.onRefProperty} />
+                    <PropertyDropdownComponent propertyName={'property'} valueChanged={this.onCheckedListChanged} plainOptions={options.propertyOptions}></PropertyDropdownComponent>
                   </Form.Item>
                 </Col>
                 <Col span={12}>
                   <Form.Item label="功效">
-                    <DropdownEfficacy onRef={this.onRefEfficacy} />
+                  <PropertyDropdownComponent propertyName={'efficacy'} valueChanged={this.onCheckedListChanged} plainOptions={options.efficacyOptions}></PropertyDropdownComponent>
                   </Form.Item>
                 </Col>
               </Row>
