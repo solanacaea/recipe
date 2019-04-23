@@ -3,7 +3,7 @@ import { Checkbox } from 'antd';
 
 const CheckboxGroup = Checkbox.Group;
 
-class PropertyDropdownComponent extends Component {
+class PropertyDropdown extends Component {
 
   constructor(props) {
     super(props);
@@ -69,4 +69,4 @@ class PropertyDropdownComponent extends Component {
   }
 }
 
-export default PropertyDropdownComponent;
+export default PropertyDropdown;

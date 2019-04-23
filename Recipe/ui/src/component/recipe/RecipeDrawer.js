@@ -5,7 +5,7 @@ import axios from 'axios';
 import React, { Component } from 'react';
 
 import options from '../../core/constant'
-import PropertyDropdownComponent from './dropdown/PropertyDropdownComponent';
+import PropertyDropdown from './dropdown/PropertyDropdown';
 
   class DrawerForm extends Component {
     componentDidMount() {
@@ -96,31 +96,31 @@ import PropertyDropdownComponent from './dropdown/PropertyDropdownComponent';
                 </Col>
                 <Col span={12}>
                   <Form.Item label="类别">
-                      <PropertyDropdownComponent propertyName={'category'} valueChanged={this.onCheckedListChanged} plainOptions={options.categoryOptions}></PropertyDropdownComponent>
+                      <PropertyDropdown propertyName={'category'} valueChanged={this.onCheckedListChanged} plainOptions={options.categoryOptions}></PropertyDropdown>
                   </Form.Item>
                 </Col>
               </Row>
               <Row gutter={16}>
                 <Col span={12}>
                   <Form.Item label="适宜阶段">
-                    <PropertyDropdownComponent propertyName={'optimalStage'} valueChanged={this.onCheckedListChanged} plainOptions={options.optimalStageOptions}></PropertyDropdownComponent>
+                    <PropertyDropdown propertyName={'optimalStage'} valueChanged={this.onCheckedListChanged} plainOptions={options.optimalStageOptions}></PropertyDropdown>
                   </Form.Item>
                 </Col>
                 <Col span={12}>
                   <Form.Item label="适宜时间">
-                    <PropertyDropdownComponent propertyName={'optimalTime'} valueChanged={this.onCheckedListChanged} plainOptions={options.optimalTimeOptions}></PropertyDropdownComponent>
+                    <PropertyDropdown propertyName={'optimalTime'} valueChanged={this.onCheckedListChanged} plainOptions={options.optimalTimeOptions}></PropertyDropdown>
                   </Form.Item>
                 </Col>
               </Row>
               <Row gutter={16}>
                 <Col span={12}>
                   <Form.Item label="属性">
-                    <PropertyDropdownComponent propertyName={'property'} valueChanged={this.onCheckedListChanged} plainOptions={options.propertyOptions}></PropertyDropdownComponent>
+                    <PropertyDropdown propertyName={'property'} valueChanged={this.onCheckedListChanged} plainOptions={options.propertyOptions}></PropertyDropdown>
                   </Form.Item>
                 </Col>
                 <Col span={12}>
                   <Form.Item label="功效">
-                  <PropertyDropdownComponent propertyName={'efficacy'} valueChanged={this.onCheckedListChanged} plainOptions={options.efficacyOptions}></PropertyDropdownComponent>
+                    <PropertyDropdown propertyName={'efficacy'} valueChanged={this.onCheckedListChanged} plainOptions={options.efficacyOptions}></PropertyDropdown>
                   </Form.Item>
                 </Col>
               </Row>
