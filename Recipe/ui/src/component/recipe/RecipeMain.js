@@ -6,12 +6,12 @@
   import axios from 'axios';
 
   import RecipeDrawer from './RecipeDrawer'
-  import options from '../../core/constant'
+  import constant from '../../core/constant'
 
   const ButtonGroup = Button.Group;
   const confirmText = '确定要删除吗?';
-  //const data = [];
-  
+  const { RecipeProperties } = constant;
+
   class RecipeMain extends Component {
     componentDidMount() {
       this.refresh();
@@ -102,50 +102,21 @@
       });
     }
 
-    getFilters(key) {
-      let filterValues;
-      switch(key) {
-        case "category":
-          filterValues = options.categoryOptions;
-          break;
-        case "optimalStage":
-          filterValues = options.optimalStageOptions;
-          break;
-        case "optimalTime":
-          filterValues = options.optimalTimeOptions;
-          break
-        case "efficacy":
-          filterValues = options.efficacyOptions;
-          break;
-        case "property":
-        default:
-          filterValues = options.propertyOptions;
-          break;
-      }
-
-      if (filterValues) {
-        return filterValues.map(val => {
-          return this.getFilter(val);
-        });
-      } else {
-        return [];
-      }
-    }
-
     getFilter(value) {
       return { text: value, value: value };
     }
 
-    getColumn(title, dataIndex, key) {
+    getRecipePropertyColumn(recipeProperty) {
       let { sortedInfo, filteredInfo } = this.state;
       sortedInfo = sortedInfo || {};
       filteredInfo = filteredInfo || {};
 
+      const key = recipeProperty.key;
       return {
-        title: title,
-        dataIndex: dataIndex,
+        title: recipeProperty.label,
+        dataIndex: key,
         key: key,
-        filters: this.getFilters(key),
+        filters: recipeProperty.sourceList.map(val => this.getFilter(val)),
         filteredValue: filteredInfo[key] || null,
         onFilter: (value, record) => record[key].includes(value),
         sorter: (a, b) => a[key].length - b[key].length,
@@ -174,6 +145,17 @@
       }
     }
 
+    getRecipePropertyColumns() {
+      const recipeProperties = RecipeProperties;
+      const columns = [];
+      recipeProperties.forEach(recipeProperty => {
+        let column = this.getRecipePropertyColumn(recipeProperty);
+        columns.push(column);
+      });
+
+      return columns;
+    }
+
     getColumns() {
       const columns = [
         {
@@ -188,11 +170,7 @@
           key: 'content',
           ...this.getColumnSearchProps('content'),
         },
-        this.getColumn('类别', 'category', 'category'),
-        this.getColumn('适宜阶段', 'optimalStage', 'optimalStage'),
-        this.getColumn('适宜时间', 'optimalTime', 'optimalTime'),
-        this.getColumn('属性', 'property', 'property'),
-        this.getColumn('功效', 'efficacy', 'efficacy'),
+        ...this.getRecipePropertyColumns(),
         this.getOperationColumn()
       ];
 

@@ -1,11 +1,13 @@
-import {
-    Drawer, Form, Button, Col, Row, Input,
-  } from 'antd';
-import axios from 'axios';
-import React, { Component } from 'react';
+  import {
+      Drawer, Form, Button, Col, Row, Input,
+    } from 'antd';
+  import axios from 'axios';
+  import React, { Component } from 'react';
 
-import options from '../../core/constant'
-import PropertyDropdown from './dropdown/PropertyDropdown';
+  import PropertyDropdown from './dropdown/PropertyDropdown';
+  import constant from '../../core/constant'
+
+  const { options } = constant;
 
   class DrawerForm extends Component {
     componentDidMount() {
