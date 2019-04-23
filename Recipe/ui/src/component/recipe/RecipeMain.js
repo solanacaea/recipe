@@ -209,7 +209,7 @@ import {
          ),
       }];
       return <div>
-              <Button block icon="plus" width="40px" onClick={this.openPanel.bind(this, null)}>新增</Button>
+              <Button icon="plus" width="40px" onClick={this.openPanel.bind(this, null)}>新增</Button>
               <Table rowKey={record => record.id} columns={columns} dataSource={this.state.data} onChange={this.handleChange} />
               <RecipeDrawer onRef={this.onRef} refresh={this.refresh}/>
             </div>;
