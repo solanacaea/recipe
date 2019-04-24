@@ -182,18 +182,17 @@
       return <div>
               <Button icon="plus" width="40px" onClick={this.openPanel.bind(this, null)}>新增</Button>
               <Table rowKey={record => record.id} columns={columns} dataSource={this.state.data} onChange={this.handleChange} />
-              <RecipeDrawer onRef={this.onRef} refresh={this.refresh}/>
+              <RecipeDrawer data={this.state.record} visible={this.state.visible} id={this.state.id} refresh={this.refresh} close={this.close} />
             </div>;
-    }
-    
-    onRef = (ref) => {
-      this.drawer = ref
     }
 
     openPanel = (record) => {
-      this.drawer.showDrawer(record);
+      this.setState({
+        visible: true,
+        id: record ? record.id : null
+      });
     }
-    
+
     delete = (record) => {
       message.info('Deleting [' + record.id + ']...');
       axios.post('http://localhost:8080/dish/delete', record)
@@ -207,7 +206,6 @@
     refresh = () => {
       axios.post('http://localhost:8080/dish/getall')
       .then((res) => {
-        //console.log(res);
         this.setState({data: res.data});
       })
       .catch((err) => {
@@ -215,6 +213,11 @@
       })
     }
 
+    close = () => {
+      this.setState({
+        visible: false
+      });
+    }
   }
 
   export default RecipeMain

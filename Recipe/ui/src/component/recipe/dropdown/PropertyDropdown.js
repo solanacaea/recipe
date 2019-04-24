@@ -42,10 +42,8 @@ class PropertyDropdown extends Component {
 
   triggerValueChanged() {
     const { checkedList } = this.state;
-    const { propertyName, valueChanged } = this.props;
-    if (valueChanged) {
-      valueChanged(checkedList, propertyName);
-    }
+    const { propertyName, onChange } = this.props;
+    onChange(checkedList, propertyName)
   }
 
   render() {
