@@ -8,10 +8,22 @@ class PropertyDropdown extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      checkedList: this.props.checkedList,
+      checkedList: [],
       indeterminate: false,
       checkAll: false
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
+    const { plainOptions, value } = nextProps;
+    const checkedLen = value ? value.length : 0;
+    const plainOptionsLen = plainOptions.length;
+    this.setState({
+      checkedList: value,
+      indeterminate: checkedLen > 0 && checkedLen < plainOptionsLen,
+      checkAll: checkedLen === plainOptionsLen
+    });
   }
 
   onChange = (checkedItems) => {
@@ -43,7 +55,7 @@ class PropertyDropdown extends Component {
   triggerValueChanged() {
     const { checkedList } = this.state;
     const { propertyName, onChange } = this.props;
-    onChange(checkedList, propertyName)
+    onChange(checkedList, propertyName);
   }
 
   render() {

@@ -182,14 +182,35 @@
       return <div>
               <Button icon="plus" width="40px" onClick={this.openPanel.bind(this, null)}>新增</Button>
               <Table rowKey={record => record.id} columns={columns} dataSource={this.state.data} onChange={this.handleChange} />
-              <RecipeDrawer data={this.state.record} visible={this.state.visible} id={this.state.id} refresh={this.refresh} close={this.close} />
+              <RecipeDrawer 
+                data={this.state.record}
+                visible={this.state.visible}
+                id={this.state.id}
+                refresh={this.refresh}
+                close={this.close}
+                wrappedComponentRef={(form) => this.formRef = form}/>
             </div>;
     }
 
     openPanel = (record) => {
+      const form = this.formRef.props.form;
       this.setState({
         visible: true,
         id: record ? record.id : null
+      }, () => {
+        if (record) {
+          form.setFieldsValue({ name: record.name });
+          form.setFieldsValue({ content: record.content });
+          const recipeProperties = RecipeProperties;
+          recipeProperties.forEach(recipeProperty => {
+            const key = recipeProperty.key;
+            const obj = {};
+            obj[key] = record[key] ? record[key].split(',') : [];
+            form.setFieldsValue(obj);
+          });
+        } else {
+          form.resetFields();
+        }
       });
     }
 

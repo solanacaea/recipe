@@ -72,7 +72,7 @@
                 <Col span={12}>
                   <Form.Item label="类别">
                     {
-                      getFieldDecorator('category', {})(<PropertyDropdown propertyName={'category'} plainOptions={options.categoryOptions}></PropertyDropdown>)
+                      getFieldDecorator('category')(<PropertyDropdown propertyName={'category'} plainOptions={options.categoryOptions}></PropertyDropdown>)
                     }
                   </Form.Item>
                 </Col>
@@ -81,7 +81,7 @@
                 <Col span={12}>
                   <Form.Item label="适宜阶段">
                     {
-                      getFieldDecorator('optimalStage', {})(<PropertyDropdown propertyName={'optimalStage'} plainOptions={options.optimalStageOptions}></PropertyDropdown>)
+                      getFieldDecorator('optimalStage')(<PropertyDropdown propertyName={'optimalStage'} plainOptions={options.optimalStageOptions}></PropertyDropdown>)
                     }
                     
                   </Form.Item>
@@ -89,7 +89,7 @@
                 <Col span={12}>
                   <Form.Item label="适宜时间">
                     {
-                      getFieldDecorator('optimalTime', {})(<PropertyDropdown propertyName={'optimalTime'} plainOptions={options.optimalTimeOptions}></PropertyDropdown>)
+                      getFieldDecorator('optimalTime')(<PropertyDropdown propertyName={'optimalTime'} plainOptions={options.optimalTimeOptions}></PropertyDropdown>)
                     }
                   </Form.Item>
                 </Col>
@@ -98,14 +98,14 @@
                 <Col span={12}>
                   <Form.Item label="属性">
                     {
-                      getFieldDecorator('property', {})(<PropertyDropdown propertyName={'property'} plainOptions={options.propertyOptions}></PropertyDropdown>)
+                      getFieldDecorator('property')(<PropertyDropdown propertyName={'property'} plainOptions={options.propertyOptions}></PropertyDropdown>)
                     }
                   </Form.Item>
                 </Col>
                 <Col span={12}>
                   <Form.Item label="功效">
                     {
-                      getFieldDecorator('efficacy', {})(<PropertyDropdown propertyName={'efficacy'} plainOptions={options.efficacyOptions}></PropertyDropdown>)
+                      getFieldDecorator('efficacy')(<PropertyDropdown propertyName={'efficacy'} plainOptions={options.efficacyOptions}></PropertyDropdown>)
                     }
                   </Form.Item>
                 </Col>
