@@ -10,7 +10,7 @@
 
   const SubMenu = Menu.SubMenu;
 
-  export default class CustomMenu extends Component {
+  export default class NavigateMenu extends Component {
     componentDidMount() {
       this.props.onRef(this);
     }
@@ -29,7 +29,7 @@
         collapsed: !this.state.collapsed,
       });
     }
-    
+
     handleClick = e => {
       console.log("click ", e);
     };
@@ -37,10 +37,10 @@
     render() {
       return (
         <div>
-            <div className={this.state.collapsed ? 'logo-hidden' : 'logo'}>
-                <Icon type="taobao-circle" />
-                <span className={this.state.collapsed ? 'hidden' : 'show'}>心筑月</span>
-            </div>
+          <div className={this.state.collapsed ? 'logo-hidden' : 'logo'}>
+              <Icon type="taobao-circle" />
+              <span className={this.state.collapsed ? 'hidden' : 'show'}>心筑月</span>
+          </div>
             <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline"
                  onClick={this.handleClick}>
               <Menu.Item key="/recipe">
@@ -81,4 +81,3 @@
       );
     }
   }
- 

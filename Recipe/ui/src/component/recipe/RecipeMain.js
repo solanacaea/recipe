@@ -6,7 +6,7 @@
   import axios from 'axios';
 
   import RecipeDrawer from './RecipeDrawer'
-  import constant from '../../core/constant'
+  import constant from '../../core/constant/Constant'
 
   const ButtonGroup = Button.Group;
   const confirmText = '确定要删除吗?';

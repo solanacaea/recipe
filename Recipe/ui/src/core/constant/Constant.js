@@ -1,4 +1,4 @@
-import RecipeProperty from './recipe-property'
+import RecipeProperty from '../../model/RecipeProperty'
 
 const optimalStageOptions = ['第一周', '第二周', '第三周', '第四周', '第五周', '第六周'];
 const optimalTimeOptions = ['早餐', '早点', '午餐', '点心', '晚餐', '夜宵'];

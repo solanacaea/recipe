@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
 import { BrowserRouter } from 'react-router-dom';
-import CustomMenu from "./component/menu/CustomMenu";//导航
-import ContentMain from './component/CustomMain/ContentMain'//主题
+import NavigateMenu from "./component/menu/NavigateMenu";//导航
+import CountentRouter from './component/router/ContentRouter'//主题
 import './App.css';
 import 'antd/dist/antd.css';
 import logo from './logo.svg';
@@ -67,9 +67,8 @@ class test extends Component {
             collapsed={this.state.collapsed}
             onCollapse={this.onCollapse}
           >
-            <CustomMenu updateParent= {this.updateParent} onRef={this.onRef} />
+            <NavigateMenu updateParent= {this.updateParent} onRef={this.onRef} />
           </Sider>
-            
           <Layout>
             <Header style={{ background: '#000', padding: 0 }}>
               <span style={{color:'#fff', paddingLeft:'2%', fontSize:'1.4em'}}>
@@ -91,7 +90,7 @@ class test extends Component {
                 <Breadcrumb.Item>列表</Breadcrumb.Item>
               </Breadcrumb>
               <div style={{ padding: 12, background: '#fff', minHeight: 360 }}>
-                <ContentMain/>
+                <CountentRouter/>
               </div>
             </Content>
             <Footer style={{ textAlign: 'center' }}>

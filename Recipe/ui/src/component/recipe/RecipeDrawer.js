@@ -5,7 +5,7 @@
   import React, { Component } from 'react';
 
   import PropertyDropdown from './dropdown/PropertyDropdown';
-  import constant from '../../core/constant'
+  import constant from '../../core/constant/Constant'
 
   const { options } = constant;
 

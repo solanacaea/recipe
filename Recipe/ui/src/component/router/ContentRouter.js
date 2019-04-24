@@ -3,7 +3,7 @@ import {Route, Switch} from 'react-router-dom'
 
 import RecipeMain from '../recipe/RecipeMain'
 
-class ContentMain extends React.Component {
+export default class ContentRouter extends React.Component {
     render() {
         return (
             <Switch>
@@ -13,5 +13,3 @@ class ContentMain extends React.Component {
         );
     }
 }
-
-export default ContentMain
