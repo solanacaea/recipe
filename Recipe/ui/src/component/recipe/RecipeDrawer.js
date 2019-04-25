@@ -1,140 +1,47 @@
-import {
-    Drawer, Form, Button, Col, Row, Input, 
+  import {
+      Drawer, Form, Button, Col, Row, Input,
   } from 'antd';
-import React, { Component } from 'react'; 
-import DropdownCategory from './DropdownCategory'
-import DropdownOptimalStage from './DropdownOptimalStage'
-import DropdownOptimalTime from './DropdownOptimalTime'
-import DropdownProperty from './DropdownProperty'
-import DropdownEfficacy from './DropdownEfficacy'
-import axios from 'axios';
+  import axios from 'axios';
+  import React, { Component } from 'react';
+
+  import PropertyDropdown from './dropdown/PropertyDropdown';
+  import constant from '../../core/constant/Constant'
+
+  const { options } = constant;
 
   class DrawerForm extends Component {
-    componentDidMount() {
-      this.props.onRef(this);
-    }
 
     state = { visible: false, data: null};
-  
-    showDrawer = (param) => {
-      this.setState({
-        visible: true,
-        data: param,
-      });
-      this.props.form.setFieldsValue({ name: param == null ? null : param.name });
-      this.props.form.setFieldsValue({ content: param == null ? null : param.content });
 
-      if (this.category != null) {
-        const data = param == null ? null : param.category;
-        const arr = (data == null || data === "") ? [] : data.split(',');
-        this.category.onChange(arr);
-      }
-      if (this.optimalStage != null) {
-        const data = param == null ? null : param.optimalStage;
-        const arr = (data == null || data === "") ? [] : data.split(',');
-        this.optimalStage.onChange(arr);
-      }
-      if (this.optimalTime != null) {
-        const data = param == null ? null : param.optimalTime;
-        const arr = (data == null || data === "") ? [] : data.split(',');
-        this.optimalTime.onChange(arr);
-      }
-      if (this.property != null) {
-        const data = param == null ? null : param.property;
-        const arr = (data == null || data === "") ? [] : data.split(',');
-        this.property.onChange(arr);
-      }
-      if (this.efficacy != null) {
-        const data = param == null ? null : param.efficacy;
-        const arr = (data == null || data === "") ? [] : data.split(',');
-        this.efficacy.onChange(arr);
-      }
-      this.setState({ name: param == null ? null : param.name, });
-      this.setState({ content: param == null ? null : param.content, });
-
-    };
-  
     onClose = () => {
-      this.setState({
-        visible: false,
-      });
+      this.props.close();
     };
-
-    onRefCategory = (ref) => {
-      this.category = ref;
-      const data = this.state.data == null ? null : this.state.data.category;
-      const arr = (data == null || data === "") ? [] : data.split(',');
-      this.category.onChange(arr);
-    }
-    onRefOptimalStage = (ref) => {
-      this.optimalStage = ref;
-      const data = this.state.data == null ? null : this.state.data.optimalStage;
-      const arr = (data == null || data === "") ? [] : data.split(',');
-      this.optimalStage.onChange(arr);
-    }
-    onRefOptimalTime = (ref) => {
-      this.optimalTime = ref;
-      const data = this.state.data == null ? null : this.state.data.optimalTime;
-      const arr = (data == null || data === "") ? [] : data.split(',');
-      this.optimalTime.onChange(arr);
-    }
-    onRefProperty = (ref) => {
-      this.property = ref;
-      const data = this.state.data == null ? null : this.state.data.property;
-      const arr = (data == null || data === "") ? [] : data.split(',');
-      this.property.onChange(arr);
-    }
-    onRefEfficacy = (ref) => {
-      this.efficacy = ref;
-      const data = this.state.data == null ? null : this.state.data.efficacy;
-      const arr = (data == null || data === "") ? [] : data.split(',');
-      this.efficacy.onChange(arr);
-    }
 
     onSubmit = (e) => {
       e.preventDefault();
-      //console.log(this.props.form.getFieldsValue("name"));
-      //console.log(this.props.form.getFieldsValue("content"));
-      const category = this.category.getValue();
-      const optimalStage = this.optimalStage.getValue();
-      const optimalTime = this.optimalTime.getValue();
-      const property = this.property.getValue();
-      const efficacy = this.efficacy.getValue();
-      const name = this.state.name;
-      const content = this.state.content;
-      const data = this.state.data;
-      
-      axios.post('http://localhost:8080//dish/save', {
-            id: data == null ? null : data.id, 
-            name: name,
-            content: content,
-            category: category.toString(),
-            optimalStage: optimalStage.toString(),
-            optimalTime: optimalTime.toString(),
-            property: property.toString(),
-            efficacy: efficacy.toString(),
-          }
-        ).then((res)=>{
-            this.props.refresh();
-            this.onClose();
-        })
-        .catch((err)=>{
-            console.log(err)
-        })
-
+      this.props.form.validateFields((err, values) => {
+        if (!err) {
+          const { category, optimalStage, optimalTime, property, efficacy, name, content } = values;
+          const { id } = this.props;
+          axios.post('http://localhost:8080//dish/save', {
+                id: id,
+                name: name,
+                content: content,
+                category: category.toString(),
+                optimalStage: optimalStage.toString(),
+                optimalTime: optimalTime.toString(),
+                property: property.toString(),
+                efficacy: efficacy.toString(),
+              }
+            ).then((res)=>{
+                this.props.refresh();
+                this.onClose();
+            }).catch((err)=>{
+                console.log(err)
+            });
+        }
+      });
     };
-
-    onNameChange = (e) => {
-      this.setState({
-        name: e.target.value,
-      });
-    }
-
-    onContentChange = (e) => {
-      this.setState({
-        content: e.target.value,
-      });
-    }
 
     render() {
       const { getFieldDecorator } = this.props.form;
@@ -144,64 +51,78 @@ import axios from 'axios';
             title="看我不爽吗? 要改掉我吗?"
             width={720}
             onClose={this.onClose}
-            visible={this.state.visible}
+            visible={this.props.visible}
           >
-            <Form layout="vertical" hideRequiredMark ref={ref => this.form = ref}>
+            <Form layout="vertical" hideRequiredMark>
               <Row gutter={16}>
                 <Col span={12}>
                   <Form.Item label="名称">
-                    {getFieldDecorator('name', {
-                      rules: [
-                        {
-                          required: true,
-                          message: '请输入食材名称...',
-                        },
-                      ],
-                    })(<Input rows={8} placeholder="请输入食材名称..." onChange={this.onNameChange}/> )}
+                    {
+                      getFieldDecorator('name', {
+                        rules: [
+                          {
+                            required: true,
+                            message: '请输入食材名称...',
+                          }
+                        ]
+                      })(<Input rows={8} placeholder="请输入食材名称..."/>)
+                    }
                   </Form.Item>
                 </Col>
                 <Col span={12}>
                   <Form.Item label="类别">
-                    <DropdownCategory ref="category" onRef={this.onRefCategory} 
-                      callParent={this.callParent} />
+                    {
+                      getFieldDecorator('category')(<PropertyDropdown propertyName={'category'} plainOptions={options.categoryOptions}></PropertyDropdown>)
+                    }
                   </Form.Item>
                 </Col>
               </Row>
               <Row gutter={16}>
                 <Col span={12}>
                   <Form.Item label="适宜阶段">
-                    <DropdownOptimalStage onRef={this.onRefOptimalStage} />
+                    {
+                      getFieldDecorator('optimalStage')(<PropertyDropdown propertyName={'optimalStage'} plainOptions={options.optimalStageOptions}></PropertyDropdown>)
+                    }
+                    
                   </Form.Item>
                 </Col>
                 <Col span={12}>
                   <Form.Item label="适宜时间">
-                    <DropdownOptimalTime onRef={this.onRefOptimalTime} />
+                    {
+                      getFieldDecorator('optimalTime')(<PropertyDropdown propertyName={'optimalTime'} plainOptions={options.optimalTimeOptions}></PropertyDropdown>)
+                    }
                   </Form.Item>
                 </Col>
               </Row>
               <Row gutter={16}>
                 <Col span={12}>
                   <Form.Item label="属性">
-                    <DropdownProperty onRef={this.onRefProperty} />
+                    {
+                      getFieldDecorator('property')(<PropertyDropdown propertyName={'property'} plainOptions={options.propertyOptions}></PropertyDropdown>)
+                    }
                   </Form.Item>
                 </Col>
                 <Col span={12}>
                   <Form.Item label="功效">
-                    <DropdownEfficacy onRef={this.onRefEfficacy} />
+                    {
+                      getFieldDecorator('efficacy')(<PropertyDropdown propertyName={'efficacy'} plainOptions={options.efficacyOptions}></PropertyDropdown>)
+                    }
                   </Form.Item>
                 </Col>
               </Row>
               <Row gutter={16}>
                 <Col span={24}>
                   <Form.Item label="食材">
-                    {getFieldDecorator('content', {
-                      rules: [
-                        {
-                          required: true,
-                          message: '请输入食材内容...',
-                        },
-                      ],
-                    })(<Input.TextArea rows={9} placeholder="请输入食材内容..." onChange={this.onContentChange}/>)}
+                    {
+                      getFieldDecorator('content', {
+                        rules: [
+                          {
+                            required: true,
+                            message: '请输入食材内容...',
+                          },
+                        ],
+                      })(<Input.TextArea rows={9} placeholder="请输入食材内容..."/>)
+                    }
                   </Form.Item>
                 </Col>
               </Row>
@@ -230,7 +151,5 @@ import axios from 'axios';
       );
     }
   }
-  
-  const App = Form.create()(DrawerForm);
 
-  export default App;
+  export default Form.create()(DrawerForm);

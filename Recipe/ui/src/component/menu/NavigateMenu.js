@@ -1,36 +1,32 @@
-import {
+  import {
     Menu, Icon,
   } from 'antd';
   import React, { Component } from 'react'; 
   import { Link } from 'react-router-dom';
+
   import '../../App.css';
   import 'antd/dist/antd.css';
   import '../../Navi.css'
-  
+
   const SubMenu = Menu.SubMenu;
-  
-  export default class CustomMenu extends Component {
-    componentDidMount() {
-      this.props.onRef(this);
-    }
-    
+
+  export default class NavigateMenu extends Component {
+
     state = {
       collapsed: false,
       mode: 'inline',
     };
-  
+
     onCollapse = (collapsed) => {
       this.setState({ collapsed });
-      //this.props.updateParent(collapsed);
     }
 
     toggle = () => {
       this.setState({
         collapsed: !this.state.collapsed,
       });
-      //this.props.updateParent(this.state.collapsed);
     }
-    
+
     handleClick = e => {
       console.log("click ", e);
     };
@@ -38,10 +34,10 @@ import {
     render() {
       return (
         <div>
-            <div className={this.state.collapsed ? 'logo-hidden' : 'logo'}>
-                <Icon type="taobao-circle" />
-                <span className={this.state.collapsed ? 'hidden' : 'show'}> 心筑月</span>
-            </div>
+          <div className={this.props.collapsed ? 'logo-hidden' : 'logo'}>
+              <Icon type="taobao-circle" />
+              <span className={this.props.collapsed ? 'hidden' : 'show'}>心筑月</span>
+          </div>
             <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline"
                  onClick={this.handleClick}>
               <Menu.Item key="/recipe">
@@ -79,8 +75,6 @@ import {
               </Menu.Item>
             </Menu>
         </div>
-          
       );
     }
   }
- 

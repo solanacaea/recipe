@@ -1,15 +1,17 @@
-import {
+  import {
     Table, Input, Button, Icon, Popconfirm, message
   } from 'antd';
   import Highlighter from 'react-highlight-words';
   import React, { Component } from 'react';
-  import RecipeDrawer from './RecipeDrawer'
   import axios from 'axios';
+
+  import RecipeDrawer from './RecipeDrawer'
+  import constant from '../../core/constant/Constant'
 
   const ButtonGroup = Button.Group;
   const confirmText = '确定要删除吗?';
-  //const data = [];
-  
+  const { RecipeProperties } = constant;
+
   class RecipeMain extends Component {
     componentDidMount() {
       this.refresh();
@@ -22,7 +24,7 @@ import {
       selectedRow: null,
       data: null,
     };
-  
+
     getColumnSearchProps = (dataIndex) => ({
       filterDropdown: ({
         setSelectedKeys, selectedKeys, confirm, clearFilters,
@@ -75,14 +77,13 @@ import {
       confirm();
       this.setState({ searchText: selectedKeys[0] });
     }
-  
+
     handleReset = (clearFilters) => {
       clearFilters();
       this.setState({ searchText: '' });
     }
 
     handleChange = (pagination, filters, sorter) => {
-      //console.log('Various parameters', pagination, filters, sorter);
       this.setState({
         filteredInfo: filters,
         sortedInfo: sorter,
@@ -101,128 +102,118 @@ import {
       });
     }
 
-    render() {
+    getFilter(value) {
+      return { text: value, value: value };
+    }
+
+    getRecipePropertyColumn(recipeProperty) {
       let { sortedInfo, filteredInfo } = this.state;
       sortedInfo = sortedInfo || {};
       filteredInfo = filteredInfo || {};
 
-      const columns = [{
-        title: '食谱名',
-        dataIndex: 'name',
-        key: 'name',
-        ...this.getColumnSearchProps('name'),
-      }, {
-        title: '食谱',
-        dataIndex: 'content',
-        key: 'content',
-        ...this.getColumnSearchProps('content'),
-      }, {
-        title: '类别',
-        dataIndex: 'category',
-        key: 'category',
-        filters: [
-          { text: '主食', value: '主食' },
-          { text: '汤', value: '汤' },
-          { text: '菜', value: '菜' },
-          { text: '饮品', value: '饮品' },
-        ],
-        filteredValue: filteredInfo.category || null,
-        onFilter: (value, record) => record.category.includes(value),
-        sorter: (a, b) => a.category.length - b.category.length,
-        sortOrder: sortedInfo.columnKey === 'category' && sortedInfo.order,
-      }, {
-        title: '适宜阶段',
-        dataIndex: 'optimalStage',
-        key: 'optimalStage',
-        filters: [
-          { text: '第一周', value: '第一周' },
-          { text: '第二周', value: '第二周' },
-          { text: '第三周', value: '第三周' },
-          { text: '第四周', value: '第四周' },
-          { text: '第五周', value: '第五周' },
-          { text: '第六周', value: '第六周' },
-        ],
-        filteredValue: filteredInfo.optimalStage || null,
-        onFilter: (value, record) => record.optimalStage.includes(value),
-        sorter: (a, b) => a.optimalStage.length - b.optimalStage.length,
-        sortOrder: sortedInfo.columnKey === 'optimalStage' && sortedInfo.order,
-      }, {
-        title: '适宜时间',
-        dataIndex: 'optimalTime',
-        key: 'optimalTime',
-        filters: [
-          { text: '早餐', value: '早餐' },
-          { text: '早点', value: '早点' },
-          { text: '午餐', value: '午餐' },
-          { text: '点心', value: '点心' },
-          { text: '晚餐', value: '晚餐' },
-          { text: '夜宵', value: '夜宵' },
-        ],
-        filteredValue: filteredInfo.optimalTime || null,
-        onFilter: (value, record) => record.optimalTime.includes(value),
-        sorter: (a, b) => a.optimalTime.length - b.optimalTime.length,
-        sortOrder: sortedInfo.columnKey === 'optimalTime' && sortedInfo.order,
-      }, {
-        title: '属性',
-        dataIndex: 'property',
-        key: 'property',
-        filters: [
-          { text: '低糖', value: '低糖' },
-          { text: '低热量', value: '低热量' },
-          { text: '无特殊属性', value: '无特殊属性' },
-        ],
-        filteredValue: filteredInfo.property || null,
-        onFilter: (value, record) => record.property.includes(value),
-        sorter: (a, b) => a.property.length - b.property.length,
-        sortOrder: sortedInfo.columnKey === 'property' && sortedInfo.order,
-      }, {
-        title: '功效',
-        dataIndex: 'efficacy',
-        key: 'efficacy',
-        filters: [
-          { text: '补血', value: '补血' },
-          { text: '活血', value: '活血' },
-          { text: '清热', value: '清热' },
-          { text: '祛湿', value: '祛湿' },
-        ],
-        filteredValue: filteredInfo.efficacy || null,
-        onFilter: (value, record) => record.efficacy.includes(value),
-        sorter: (a, b) => a.efficacy.length - b.efficacy.length,
-        sortOrder: sortedInfo.columnKey === 'efficacy' && sortedInfo.order,
-      }, {
-        title: '操作',
-        key: 'action',
-        render: (text, record) => (
-          <span>
-            <ButtonGroup size="small">
-                <Button onClick={this.openPanel.bind(this, record)} >
-                    <Icon type="edit" theme="filled" />
-                </Button>
-             
-              <Popconfirm placement="topRight" title={confirmText} onConfirm={this.delete.bind(this, record)} okText="Yes" cancelText="No">
-                <Button>
-                    <Icon type="delete" theme="filled" />
-                </Button>
-              </Popconfirm>
-              </ButtonGroup>
-          </span>
-         ),
-      }];
-      return <div>
-              <Button block icon="plus" width="40px" onClick={this.openPanel.bind(this, null)}>新增</Button>
-              <Table rowKey={record => record.id} columns={columns} dataSource={this.state.data} onChange={this.handleChange} />
-              <RecipeDrawer onRef={this.onRef} refresh={this.refresh}/>
-            </div>;
+      const key = recipeProperty.key;
+      return {
+        title: recipeProperty.label,
+        dataIndex: key,
+        key: key,
+        filters: recipeProperty.sourceList.map(val => this.getFilter(val)),
+        filteredValue: filteredInfo[key] || null,
+        onFilter: (value, record) => record[key].includes(value),
+        sorter: (a, b) => a[key].length - b[key].length,
+        sortOrder: sortedInfo.columnKey === key && sortedInfo.order,
+      }
     }
-    
-    onRef = (ref) => {
-      this.drawer = ref
+
+    getOperationColumn() {
+      return {
+          title: '操作',
+          key: 'action',
+          render: (text, record) => (
+            <span>
+              <ButtonGroup size="small">
+                  <Button onClick={this.openPanel.bind(this, record)} >
+                    <Icon type="edit" theme="filled" />
+                  </Button>
+                <Popconfirm placement="topRight" title={confirmText} onConfirm={this.delete.bind(this, record)} okText="Yes" cancelText="No">
+                  <Button>
+                    <Icon type="delete" theme="filled" />
+                  </Button>
+                </Popconfirm>
+              </ButtonGroup>
+            </span>
+          )
+      }
+    }
+
+    getRecipePropertyColumns() {
+      const recipeProperties = RecipeProperties;
+      const columns = [];
+      recipeProperties.forEach(recipeProperty => {
+        let column = this.getRecipePropertyColumn(recipeProperty);
+        columns.push(column);
+      });
+
+      return columns;
+    }
+
+    getColumns() {
+      const columns = [
+        {
+          title: '食谱名',
+          dataIndex: 'name',
+          key: 'name',
+          ...this.getColumnSearchProps('name'),
+        },
+        {
+          title: '食谱',
+          dataIndex: 'content',
+          key: 'content',
+          ...this.getColumnSearchProps('content'),
+        },
+        ...this.getRecipePropertyColumns(),
+        this.getOperationColumn()
+      ];
+
+      return columns;
+    }
+
+    render() {
+      const columns = this.getColumns();
+      return <div>
+              <Button icon="plus" width="40px" onClick={this.openPanel.bind(this, null)}>新增</Button>
+              <Table rowKey={record => record.id} columns={columns} dataSource={this.state.data} onChange={this.handleChange} />
+              <RecipeDrawer 
+                data={this.state.record}
+                visible={this.state.visible}
+                id={this.state.id}
+                refresh={this.refresh}
+                close={this.close}
+                wrappedComponentRef={(form) => this.formRef = form}/>
+            </div>;
     }
 
     openPanel = (record) => {
-      this.drawer.showDrawer(record);
+      const form = this.formRef.props.form;
+      this.setState({
+        visible: true,
+        id: record ? record.id : null
+      }, () => {
+        if (record) {
+          form.setFieldsValue({ name: record.name });
+          form.setFieldsValue({ content: record.content });
+          const recipeProperties = RecipeProperties;
+          recipeProperties.forEach(recipeProperty => {
+            const key = recipeProperty.key;
+            const obj = {};
+            obj[key] = record[key] ? record[key].split(',') : [];
+            form.setFieldsValue(obj);
+          });
+        } else {
+          form.resetFields();
+        }
+      });
     }
-    
+
     delete = (record) => {
       message.info('Deleting [' + record.id + ']...');
       axios.post('http://localhost:8080/dish/delete', record)
@@ -236,7 +227,6 @@ import {
     refresh = () => {
       axios.post('http://localhost:8080/dish/getall')
       .then((res) => {
-        //console.log(res);
         this.setState({data: res.data});
       })
       .catch((err) => {
@@ -244,6 +234,11 @@ import {
       })
     }
 
+    close = () => {
+      this.setState({
+        visible: false
+      });
+    }
   }
 
   export default RecipeMain

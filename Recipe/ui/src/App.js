@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
 import { BrowserRouter } from 'react-router-dom';
-import CustomMenu from "./component/menu/CustomMenu";//导航
-import ContentMain from './component/CustomMain/ContentMain'//主题
+import NavigateMenu from "./component/menu/NavigateMenu";//导航
+import CountentRouter from './component/router/ContentRouter'//主题
 import './App.css';
 import 'antd/dist/antd.css';
 import logo from './logo.svg';
@@ -21,39 +21,17 @@ const {
 //let screenHeight= window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
 
 class test extends Component {
-  constructor(props) {
-    super(props)
-    this.updateParent= this.updateParent.bind(this);
-  }
 
   state = {
     collapsed: false
   }
 
-  onRef = (ref) => {
-    this.myMenu = ref
-  }
-
-  updateParent(any) {
-    
-  }
-
-  toggle = (e) => {
-    this.myMenu.toggle()
-  }
-
   onCollapse = (collapsed) => {
     this.setState({ collapsed });
-    this.myMenu.setState({
-      collapsed: !this.state.collapsed,
-    });
   }
 
   toggle = () => {
     this.setState({
-      collapsed: !this.state.collapsed,
-    });
-    this.myMenu.setState({
       collapsed: !this.state.collapsed,
     });
   }
@@ -67,9 +45,8 @@ class test extends Component {
             collapsed={this.state.collapsed}
             onCollapse={this.onCollapse}
           >
-            <CustomMenu updateParent= {this.updateParent} onRef={this.onRef} />
+            <NavigateMenu collapsed={this.state.collapsed}/>
           </Sider>
-            
           <Layout>
             <Header style={{ background: '#000', padding: 0 }}>
               <span style={{color:'#fff', paddingLeft:'2%', fontSize:'1.4em'}}>
@@ -91,7 +68,7 @@ class test extends Component {
                 <Breadcrumb.Item>列表</Breadcrumb.Item>
               </Breadcrumb>
               <div style={{ padding: 12, background: '#fff', minHeight: 360 }}>
-                <ContentMain/>
+                <CountentRouter/>
               </div>
             </Content>
             <Footer style={{ textAlign: 'center' }}>
