@@ -165,7 +165,7 @@ import { deleteDish, getAllDishes } from '../../service/DishService';
           ...this.getColumnSearchProps('name'),
         },
         {
-          title: '食谱',
+          title: '食材',
           dataIndex: 'content',
           key: 'content',
           ...this.getColumnSearchProps('content'),
