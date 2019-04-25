@@ -1,5 +1,5 @@
   import {
-    Table, Input, Button, Icon, Popconfirm, message
+    Table, Input, Button, Icon, Popconfirm, Tag, message
   } from 'antd';
   import Highlighter from 'react-highlight-words';
   import React, { Component } from 'react';
@@ -121,6 +121,17 @@ import { deleteDish, getAllDishes } from '../../service/DishService';
         onFilter: (value, record) => record[key].includes(value),
         sorter: (a, b) => a[key].length - b[key].length,
         sortOrder: sortedInfo.columnKey === key && sortedInfo.order,
+        render: value => {
+          console.log(value);
+          const values = value ? value.split(',') : [];
+          return <span>
+          {
+            values.map(val => {
+              return <Tag color={'geekblue'} key={val}>{val}</Tag>;
+            })
+          }
+          </span>
+        }
       }
     }
 
