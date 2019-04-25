@@ -27,11 +27,11 @@
             id: id,
             name: name,
             content: content,
-            category: category.toString(),
-            optimalStage: optimalStage.toString(),
-            optimalTime: optimalTime.toString(),
-            property: property.toString(),
-            efficacy: efficacy.toString(),
+            category: category ? category.toString() : null,
+            optimalStage: optimalStage ? optimalStage.toString() : null,
+            optimalTime: optimalTime ? optimalTime.toString() : null,
+            property: property ? property.toString() : null,
+            efficacy: efficacy ? efficacy.toString() : null,
           }).then(res => {
             this.props.refresh();
             this.onClose();
