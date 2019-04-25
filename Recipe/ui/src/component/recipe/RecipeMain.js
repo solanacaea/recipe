@@ -3,10 +3,10 @@
   } from 'antd';
   import Highlighter from 'react-highlight-words';
   import React, { Component } from 'react';
-  import axios from 'axios';
 
   import RecipeDrawer from './RecipeDrawer'
   import constant from '../../core/constant/Constant'
+import { deleteDish, getAllDishes } from '../../service/DishService';
 
   const ButtonGroup = Button.Group;
   const confirmText = '确定要删除吗?';
@@ -215,9 +215,9 @@
     }
 
     delete = (record) => {
-      message.info('Deleting [' + record.id + ']...');
-      axios.post('http://localhost:8080/dish/delete', record)
-      .then((res) => {
+      message.info('Deleting [' + record.name + ']...');
+      deleteDish(record)
+      .then(() => {
         this.refresh()
       }).catch((err) => {
         console.log(err)
@@ -225,7 +225,7 @@
     }
 
     refresh = () => {
-      axios.post('http://localhost:8080/dish/getall')
+      getAllDishes()
       .then((res) => {
         this.setState({data: res.data});
       })

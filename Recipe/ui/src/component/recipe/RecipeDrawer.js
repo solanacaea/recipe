@@ -1,11 +1,11 @@
   import {
       Drawer, Form, Button, Col, Row, Input,
   } from 'antd';
-  import axios from 'axios';
   import React, { Component } from 'react';
 
   import PropertyDropdown from './dropdown/PropertyDropdown';
-  import constant from '../../core/constant/Constant'
+  import constant from '../../core/constant/Constant';
+  import { saveDish } from '../../service/DishService';
 
   const { options } = constant;
 
@@ -23,22 +23,21 @@
         if (!err) {
           const { category, optimalStage, optimalTime, property, efficacy, name, content } = values;
           const { id } = this.props;
-          axios.post('http://localhost:8080//dish/save', {
-                id: id,
-                name: name,
-                content: content,
-                category: category.toString(),
-                optimalStage: optimalStage.toString(),
-                optimalTime: optimalTime.toString(),
-                property: property.toString(),
-                efficacy: efficacy.toString(),
-              }
-            ).then((res)=>{
-                this.props.refresh();
-                this.onClose();
-            }).catch((err)=>{
-                console.log(err)
-            });
+          saveDish({
+            id: id,
+            name: name,
+            content: content,
+            category: category.toString(),
+            optimalStage: optimalStage.toString(),
+            optimalTime: optimalTime.toString(),
+            property: property.toString(),
+            efficacy: efficacy.toString(),
+          }).then(res => {
+            this.props.refresh();
+            this.onClose();
+          }).catch((err)=>{
+              console.log(err)
+          });
         }
       });
     };
