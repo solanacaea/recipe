@@ -122,7 +122,6 @@ import { deleteDish, getAllDishes } from '../../service/DishService';
         sorter: (a, b) => a[key].length - b[key].length,
         sortOrder: sortedInfo.columnKey === key && sortedInfo.order,
         render: value => {
-          console.log(value);
           const values = value ? value.split(',') : [];
           return <span>
           {
@@ -226,7 +225,7 @@ import { deleteDish, getAllDishes } from '../../service/DishService';
     }
 
     delete = (record) => {
-      message.info('Deleting [' + record.name + ']...');
+      message.loading('Deleting ' + record.name + '...');
       deleteDish(record)
       .then(() => {
         this.refresh()
