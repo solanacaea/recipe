@@ -6,7 +6,6 @@ import CountentRouter from './component/router/ContentRouter'//主题
 import './App.css';
 import 'antd/dist/antd.css';
 import logo from './logo.svg';
-import './Navi.css'
 
 //UI-antd-按需引入
 import 'antd/dist/antd.css';

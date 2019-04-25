@@ -4,9 +4,7 @@
   import React, { Component } from 'react'; 
   import { Link } from 'react-router-dom';
 
-  import '../../App.css';
-  import 'antd/dist/antd.css';
-  import '../../Navi.css'
+  import './NavigateMenu.css'
 
   const SubMenu = Menu.SubMenu;
 
@@ -34,8 +32,8 @@
     render() {
       return (
         <div>
-          <div className={this.props.collapsed ? 'logo-hidden' : 'logo'}>
-              <Icon type="taobao-circle" />
+          <div className={this.props.collapsed ? 'logo logo-hidden' : 'logo'}>
+              <Icon type="taobao-circle" className="user-icon" />
               <span className={this.props.collapsed ? 'hidden' : 'show'}>心筑月</span>
           </div>
             <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline"
