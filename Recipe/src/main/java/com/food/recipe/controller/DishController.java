@@ -17,12 +17,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.food.recipe.bean.DailyBean;
+import com.food.recipe.bean.RequestBean;
 import com.food.recipe.entries.Dish;
 import com.food.recipe.repositories.DishRepo;
 import com.food.recipe.service.DishService;
 
+import lombok.extern.apachecommons.CommonsLog;
+
 @RestController
 @RequestMapping("/dish")
+@CommonsLog
 public class DishController {
 
 	@Autowired
@@ -39,7 +43,7 @@ public class DishController {
 
 	@RequestMapping("/recipe")
 	@PostMapping
-	public List<DailyBean> getCustomRecipe(@RequestBody Dish d) {
+	public List<DailyBean> getCustomRecipe(@RequestBody RequestBean d) {
 		return service.getCustomRecipe(d);
 	}
 	
@@ -49,6 +53,7 @@ public class DishController {
 		d.setContent(d.getContent().replace("£¬", ","));
 		d.setUpdatedDate(new Date());
 		repo.saveAndFlush(d);
+		log.info("Saved " + d);
 	}
 	
 	@RequestMapping("/delete")
@@ -59,18 +64,19 @@ public class DishController {
 	
 	@RequestMapping("/generate")
 	@PostMapping
-	public void generate(HttpServletResponse response, @RequestBody Dish d) throws IOException {
-		Workbook workbook = service.generateRecipe(d);
+	public void generate(HttpServletResponse response, @RequestBody RequestBean b) throws IOException {
+		Workbook workbook = service.generateRecipe(b);
 		
 		response.setContentType("application/octet-stream; charset=utf-8");
-		response.setHeader("Content-Disposition", "attachment; filename=" + d.getName() + ".xlsx");
+		response.setHeader("Content-Disposition", "attachment; filename=" + b.getUserName() + ".xlsx");
 		workbook.write(response.getOutputStream());
+		log.info("Generated recipe, " + b);
 	}
 	
 	@RequestMapping("/test/{name}")
 	@PostMapping
 	public void test(@PathVariable("name") String name, HttpServletResponse response) throws IOException {
-		Dish d = new Dish();
+		RequestBean d = new RequestBean();
 		d.setName(name);
 		d.setEfficacy("²¹Ñª,»îÑª,ÇåÈÈ,ìîÊª");
 //		List<DailyBean> data = service.getCustomRecipe(d);
@@ -79,6 +85,7 @@ public class DishController {
 		response.setContentType("application/octet-stream; charset=utf-8");
 		response.setHeader("Content-Disposition", "attachment; filename=" + name + ".xlsx");
 		workbook.write(response.getOutputStream());
+		log.info("Generated recipe, " + d);
 	}
 	
 }

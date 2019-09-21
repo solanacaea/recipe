@@ -35,6 +35,12 @@ public class UserAudit {
 	@Column(name="Efficacy")
 	private String efficacy;
 	
+	@Column(name="Remark")
+	private String remark;
+	
+	@Column(name="Suggestion")
+	private String suggestion;
+	
 	@Column(name="CreatedDdate")
 	private Date createdDdate;
 }

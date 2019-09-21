@@ -18,8 +18,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import com.food.recipe.bean.DailyBean;
-import com.food.recipe.entries.UserAudit;
+import com.food.recipe.bean.RequestBean;
 import com.food.recipe.entries.Dish;
+import com.food.recipe.entries.UserAudit;
 import com.food.recipe.repositories.DishDao;
 
 @Service
@@ -31,13 +32,13 @@ public class DishService {
 	@Autowired
 	private ExcelService service;
 	
-	public Workbook generateRecipe(Dish d) throws IOException {
-		dao.addCustomInfo(UserAudit.builder().name(d.getName())
+	public Workbook generateRecipe(RequestBean d) throws IOException {
+		dao.addCustomInfo(UserAudit.builder().name(d.getUserName())
 				.efficacy(d.getEfficacy()).createdDdate(new Date()).build());
 		return service.merge(getCustomRecipe(d));
 	}
 	
-	public List<DailyBean> getCustomRecipe(Dish d) {
+	public List<DailyBean> getCustomRecipe(RequestBean d) {
 		
 		List<DailyBean> allWeeks = new ArrayList<>();
 		IntStream.rangeClosed(1, 6).boxed().forEach(week -> {
