@@ -55,6 +55,16 @@ public class DishController {
 		repo.deleteById(d.getId());
 	}
 	
+	@RequestMapping("/generate")
+	@PostMapping
+	public void generate(HttpServletResponse response, @RequestBody Dish d) throws IOException {
+		Workbook workbook = service.generateRecipe(d);
+		
+		response.setContentType("application/octet-stream; charset=utf-8");
+		response.setHeader("Content-Disposition", "attachment; filename=" + d.getName() + ".xlsx");
+		workbook.write(response.getOutputStream());
+	}
+	
 	@RequestMapping("/test/{name}")
 	@PostMapping
 	public void test(@PathVariable("name") String name, HttpServletResponse response) throws IOException {
