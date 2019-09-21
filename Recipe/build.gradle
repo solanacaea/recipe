@@ -46,6 +46,12 @@ dependencies {
     compile("org.glassfish.jaxb:jaxb-runtime:2.3.0.1")
     compile("org.javassist:javassist:3.23.1-GA")
 
+	compile("org.apache.commons:commons-lang3:3.7")
+	compile("org.apache.commons:commons-collections4:4.4")
+	
+	compile("org.apache.poi:poi:3.15")
+	compile("org.apache.poi:poi-ooxml:3.15")
+	
     testCompile("org.springframework.boot:spring-boot-starter-test") {
         exclude group: "org.springframework.boot", module: "spring-boot-starter-logging"
     }
