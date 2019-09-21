@@ -7,16 +7,32 @@ import java.util.stream.Stream;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.food.recipe.entries.UserAudit;
 import com.food.recipe.entries.Dish;
 
 @Repository
+@Transactional
 public class DishDao {
 
 	@Autowired
 	private EntityManager em;
+	
+	public void addCustomInfo(UserAudit info) {
+		String hql = "from UserAudit where name = :name";
+		Query q = em.createQuery(hql);
+		q.setParameter("name", info.getName());
+		List<UserAudit> result = q.getResultList();
+		if (CollectionUtils.isNotEmpty(result)) {
+			UserAudit exists = result.get(0);
+			info.setId(exists.getId());
+		}
+		em.merge(info);
+	}
 	
 	public List<Dish> getFood(int week, String optimalTime, String efficacy) {
 		String from = "from Dish where optimalStage like :week and optimalTime like :optimalTime";

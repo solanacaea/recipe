@@ -1,6 +1,7 @@
 package com.food.recipe.controller;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -33,7 +34,7 @@ public class DishController {
 	@RequestMapping("/getall")
 	@GetMapping
 	public List<Dish> getAll() {
-		return repo.findAll();
+		return repo.findAllDishes();
 	}
 
 	@RequestMapping("/recipe")
@@ -46,6 +47,7 @@ public class DishController {
 	@PostMapping
 	public void save(@RequestBody Dish d) {
 		d.setContent(d.getContent().replace("£¬", ","));
+		d.setUpdatedDate(new Date());
 		repo.saveAndFlush(d);
 	}
 	
@@ -69,6 +71,7 @@ public class DishController {
 	@PostMapping
 	public void test(@PathVariable("name") String name, HttpServletResponse response) throws IOException {
 		Dish d = new Dish();
+		d.setName(name);
 		d.setEfficacy("²¹Ñª,»îÑª,ÇåÈÈ,ìîÊª");
 //		List<DailyBean> data = service.getCustomRecipe(d);
 		Workbook workbook = service.generateRecipe(d);

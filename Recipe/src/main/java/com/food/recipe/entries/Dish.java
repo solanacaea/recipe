@@ -1,5 +1,7 @@
 package com.food.recipe.entries;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -48,5 +50,8 @@ public class Dish {
 	
 	@Column(name="Property")
 	private String property;
+	
+	@Column(name="UpdatedDate")
+	private Date updatedDate;
 	
 }

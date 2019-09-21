@@ -2,6 +2,7 @@ package com.food.recipe.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import com.food.recipe.bean.DailyBean;
+import com.food.recipe.entries.UserAudit;
 import com.food.recipe.entries.Dish;
 import com.food.recipe.repositories.DishDao;
 
@@ -30,6 +32,8 @@ public class DishService {
 	private ExcelService service;
 	
 	public Workbook generateRecipe(Dish d) throws IOException {
+		dao.addCustomInfo(UserAudit.builder().name(d.getName())
+				.efficacy(d.getEfficacy()).createdDdate(new Date()).build());
 		return service.merge(getCustomRecipe(d));
 	}
 	
