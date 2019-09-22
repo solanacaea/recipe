@@ -1,16 +1,15 @@
 import {
-    Table, Input, Button, Icon, Popconfirm, message
+    Table, Input, Button, Icon, Tag, Tooltip 
   } from 'antd';
   import Highlighter from 'react-highlight-words';
   import React, { Component } from 'react';
-  import RecipeDrawer from './RecipeDrawer'
+  import GeneratorDrawer from './GeneratorDrawer';
   import axios from 'axios';
+  import moment from 'moment'; 
 
   const ButtonGroup = Button.Group;
-  const confirmText = '确定要删除吗?';
-  //const data = [];
   
-  class RecipeMain extends Component {
+  class GenerateMain extends Component {
     componentDidMount() {
       this.refresh();
     }
@@ -21,6 +20,7 @@ import {
       sortedInfo: null,
       selectedRow: null,
       data: null,
+      loading: false,
     };
   
     getColumnSearchProps = (dataIndex) => ({
@@ -107,74 +107,57 @@ import {
       filteredInfo = filteredInfo || {};
 
       const columns = [{
-        title: '食谱名',
-        dataIndex: 'name',
-        key: 'name',
-        ...this.getColumnSearchProps('name'),
+        title: '客户',
+        dataIndex: 'userName',
+        key: 'userName',
+        ...this.getColumnSearchProps('userName'),
+        width: 120,
+      // }, {
+      //   title: '食谱类别',
+      //   dataIndex: 'type',
+      //   key: 'type',
+      //   ...this.getColumnSearchProps('type'),
+      //   width: 120,
       }, {
-        title: '食谱',
-        dataIndex: 'content',
-        key: 'content',
-        ...this.getColumnSearchProps('content'),
+        title: '备注',
+        dataIndex: 'memo',
+        key: 'memo',
+        ...this.getColumnSearchProps('memo'),
+      // }, {
+      //   title: '食谱特点',
+      //   dataIndex: 'feature',
+      //   key: 'feature',
+      //   ...this.getColumnSearchProps('feature'),
+      //   //textWrap: 'word-break', ellipsis: true,
+      //   render: largeText,
       }, {
-        title: '类别',
-        dataIndex: 'category',
-        key: 'category',
-        filters: [
-          { text: '主食', value: '主食' },
-          { text: '汤', value: '汤' },
-          { text: '菜', value: '菜' },
-          { text: '饮品', value: '饮品' },
-        ],
-        filteredValue: filteredInfo.category || null,
-        onFilter: (value, record) => record.category.includes(value),
-        sorter: (a, b) => a.category.length - b.category.length,
-        sortOrder: sortedInfo.columnKey === 'category' && sortedInfo.order,
-      }, {
-        title: '适宜阶段',
-        dataIndex: 'optimalStage',
-        key: 'optimalStage',
-        filters: [
-          { text: '第一周', value: '第一周' },
-          { text: '第二周', value: '第二周' },
-          { text: '第三周', value: '第三周' },
-          { text: '第四周', value: '第四周' },
-          { text: '第五周', value: '第五周' },
-          { text: '第六周', value: '第六周' },
-        ],
-        filteredValue: filteredInfo.optimalStage || null,
-        onFilter: (value, record) => record.optimalStage.includes(value),
-        sorter: (a, b) => a.optimalStage.length - b.optimalStage.length,
-        sortOrder: sortedInfo.columnKey === 'optimalStage' && sortedInfo.order,
-      }, {
-        title: '适宜时间',
-        dataIndex: 'optimalTime',
-        key: 'optimalTime',
-        filters: [
-          { text: '早餐', value: '早餐' },
-          { text: '早点', value: '早点' },
-          { text: '午餐', value: '午餐' },
-          { text: '点心', value: '点心' },
-          { text: '晚餐', value: '晚餐' },
-          { text: '夜宵', value: '夜宵' },
-        ],
-        filteredValue: filteredInfo.optimalTime || null,
-        onFilter: (value, record) => record.optimalTime.includes(value),
-        sorter: (a, b) => a.optimalTime.length - b.optimalTime.length,
-        sortOrder: sortedInfo.columnKey === 'optimalTime' && sortedInfo.order,
-      }, {
-        title: '属性',
-        dataIndex: 'property',
-        key: 'property',
-        filters: [
-          { text: '低糖', value: '低糖' },
-          { text: '低热量', value: '低热量' },
-          { text: '无特殊属性', value: '无特殊属性' },
-        ],
-        filteredValue: filteredInfo.property || null,
-        onFilter: (value, record) => record.property.includes(value),
-        sorter: (a, b) => a.property.length - b.property.length,
-        sortOrder: sortedInfo.columnKey === 'property' && sortedInfo.order,
+        title: '饮食建议',
+        dataIndex: 'suggestion',
+        key: 'suggestion',
+        ...this.getColumnSearchProps('suggestion'),
+        //textWrap: 'word-break', ellipsis: true,
+        render: largeText,
+      // }, {
+      //   title: '注意',
+      //   dataIndex: 'note',
+      //   key: 'note',
+      //   ...this.getColumnSearchProps('note'),
+      //   render: largeText,
+      // }, {
+      //   title: '声明',
+      //   dataIndex: 'declare',
+      //   key: 'declare',
+      //   ...this.getColumnSearchProps('declare'),
+        /*
+        render: (text, record) => (
+          <div style={{ wordWrap: 'break-word', wordBreak: 'break-word', 
+              display: 'WebkitBox', WebkitLineClamp: 2, WebkitBoxOrient: "vertical",
+              overflow: 'hidden', textOverflow: 'ellipsis' }}>
+            {text}
+          </div>
+        ),
+        */
+        // render: largeText,
       }, {
         title: '功效',
         dataIndex: 'efficacy',
@@ -189,6 +172,34 @@ import {
         onFilter: (value, record) => record.efficacy.includes(value),
         sorter: (a, b) => a.efficacy.length - b.efficacy.length,
         sortOrder: sortedInfo.columnKey === 'efficacy' && sortedInfo.order,
+        render: efficacy => (
+            <span>
+              {efficacy.split(',').map(tag => {
+                var color;
+                if (tag === '祛湿')
+                    color = 'geekblue';
+                else if (tag === '清热')
+                    color = 'green';
+                else if (tag === '补血')
+                    color = 'blue';
+                else if (tag === '活血')
+                    color = 'volcano';
+                
+                return (
+                  <Tag color={color} key={tag}>
+                    {tag.toUpperCase()}
+                  </Tag>
+                );
+              })}
+            </span>
+          ),
+      }, {
+        title: '生成日期',
+        dataIndex: 'createdDate',
+        key: 'createdDate',
+        ...this.getColumnSearchProps('createdDate'),
+        render: formatterTime,
+        width: 120,
       }, {
         title: '操作',
         key: 'action',
@@ -198,20 +209,16 @@ import {
                 <Button onClick={this.openPanel.bind(this, record)} >
                     <Icon type="edit" theme="filled" />
                 </Button>
-             
-              <Popconfirm placement="topRight" title={confirmText} onConfirm={this.delete.bind(this, record)} okText="Yes" cancelText="No">
-                <Button>
-                    <Icon type="delete" theme="filled" />
-                </Button>
-              </Popconfirm>
-              </ButtonGroup>
+            </ButtonGroup>
           </span>
          ),
       }];
-      return <div>
-              <Button block icon="plus" width="40px" onClick={this.openPanel.bind(this, null)}>新增</Button>
-              <Table rowKey={record => record.id} columns={columns} dataSource={this.state.data} onChange={this.handleChange} />
-              <RecipeDrawer onRef={this.onRef} refresh={this.refresh}/>
+      return <div> 
+              <Button block icon="plus" width="40px" onClick={this.openPanel.bind(this, null)}>生成食谱</Button>
+              <Table rowKey={record => record.id} columns={columns} dataSource={this.state.data} 
+                bordered onChange={this.handleChange} 
+                pagination={{ pageSize: 50 }}/>
+              <GeneratorDrawer onRef={this.onRef} refresh={this.refresh}/>
             </div>;
     }
     
@@ -220,30 +227,39 @@ import {
     }
 
     openPanel = (record) => {
-      this.drawer.showDrawer(record);
+        this.drawer.showDrawer(record);
     }
     
-    delete = (record) => {
-      message.info('Deleting [' + record.id + ']...');
-      axios.post('http://localhost:8080/dish/delete', record)
-      .then((res) => {
-        this.refresh()
-      }).catch((err) => {
-        console.log(err)
-      })
-    }
-
     refresh = () => {
-      axios.post('http://localhost:8080/dish/getall')
+      axios.post('http://localhost:8080/dish/generate/getall')
       .then((res) => {
         //console.log(res);
         this.setState({data: res.data});
+        //this.handleToggle('loading')
       })
       .catch((err) => {
         console.log(err)
       })
     }
 
+    handleToggle = prop => enable => {
+        this.setState({ [prop]: enable });
+    };
+
   }
 
-  export default RecipeMain
+    const formatterTime = (val) => {
+        return val ? moment(val).format('YYYY-MM-DD HH:mm') : ''
+    }
+
+    const largeText = (val) => {
+      var tip = val;
+      if (val && val.length > 15)
+        val = val.slice(0, 15) + '...';
+        
+      return <Tooltip title={tip}>
+          <span>{val}</span>
+        </Tooltip>
+    }
+
+  export default GenerateMain;

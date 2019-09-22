@@ -1,17 +1,13 @@
 @import '~antd/dist/antd.css';
 
-.App-logo {
-  animation: App-logo-spin infinite 10s linear;
-  height: 60px;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
 .App {
   text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 40vmin;
+  pointer-events: none;
 }
 
 .App-header {
@@ -43,3 +39,29 @@
   background: rgba(255,255,255,.2);
   margin: 16px;
 }
+
+
+/*
+.ant-table-fixed {
+  table-layout: fixed;
+}
+
+.ant-table-tbody > tr > td {
+  word-wrap: break-word;
+  word-break: break-all;
+} 
+
+.ant-table-tbody > tr > td {
+  white-space: nowrap;
+  }
+  .ant-table-thead > tr > th{
+  white-space: nowrap;
+  }
+
+  .table_nowrap {
+    table th,
+    table td {
+      white-space: nowrap;
+    }
+  }
+  */
