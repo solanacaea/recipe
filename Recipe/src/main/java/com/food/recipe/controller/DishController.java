@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.food.recipe.bean.DailyBean;
 import com.food.recipe.bean.RequestBean;
 import com.food.recipe.entries.Dish;
+import com.food.recipe.entries.UserAudit;
 import com.food.recipe.repositories.DishRepo;
 import com.food.recipe.service.DishService;
 
@@ -62,12 +63,18 @@ public class DishController {
 		repo.deleteById(d.getId());
 	}
 	
+	@RequestMapping("/generate/getall")
+	@PostMapping
+	public List<UserAudit> getAllGenerater() throws IOException {
+		return service.findAllGenerates();
+	}
+	
 	@RequestMapping("/generate")
 	@PostMapping
 	public void generate(HttpServletResponse response, @RequestBody RequestBean b) throws IOException {
 		Workbook workbook = service.generateRecipe(b);
 		
-		response.setContentType("application/octet-stream; charset=utf-8");
+		response.setContentType("application/octet-stream;charset=utf-8");
 		response.setHeader("Content-Disposition", "attachment; filename=" + b.getUserName() + ".xlsx");
 		workbook.write(response.getOutputStream());
 		log.info("Generated recipe, " + b);

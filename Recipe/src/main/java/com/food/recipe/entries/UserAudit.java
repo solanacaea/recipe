@@ -29,18 +29,31 @@ public class UserAudit {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	
-	@Column(name = "Name")
-	private String name;
+	@Column(name = "UserName")
+	private String userName;
+	
+	//@Column(name = "Type")
+	//private String type;
 	
 	@Column(name="Efficacy")
 	private String efficacy;
 	
-	@Column(name="Remark")
-	private String remark;
+	@Column(name="Memo")
+	private String memo;
 	
 	@Column(name="Suggestion")
 	private String suggestion;
 	
-	@Column(name="CreatedDdate")
-	private Date createdDdate;
+	@Column(name="CreatedDate")
+	private Date createdDate;
+	
+	//@Column(name="Feature")
+	//private String feature;
+	
+	//@Column(name="Note")
+	//private String note;
+	
+	//@Column(name="Declare")
+	//private String declare;
+	
 }

@@ -32,10 +32,16 @@ public class DishService {
 	@Autowired
 	private ExcelService service;
 	
+	public List<UserAudit> findAllGenerates() {
+		return dao.findAllGenerates();
+	}
+	
 	public Workbook generateRecipe(RequestBean d) throws IOException {
-		dao.addCustomInfo(UserAudit.builder().name(d.getUserName())
-				.efficacy(d.getEfficacy()).createdDdate(new Date()).build());
-		return service.merge(getCustomRecipe(d));
+		dao.addCustomInfo(UserAudit.builder().userName(d.getUserName())
+				.efficacy(d.getEfficacy()).createdDate(new Date())
+				//.declare(d.getDeclare()).feature(d.getFeature()).note(d.getNote()).type(d.getType())
+				.memo(d.getMemo()).suggestion(d.getSuggestion()).build());
+		return service.merge(getCustomRecipe(d), d);
 	}
 	
 	public List<DailyBean> getCustomRecipe(RequestBean d) {
@@ -95,10 +101,10 @@ public class DishService {
 		if (CollectionUtils.isEmpty(list))
 			return new Dish();
 		
-		int i = RandomUtils.nextInt(1, list.size());
 		List<Dish> dishList = list.stream().filter(p -> p.getCategory().contains(category)).collect(Collectors.toList());
 		if (CollectionUtils.isEmpty(dishList))
 			return new Dish();
+		int i = RandomUtils.nextInt(1, dishList.size());
 		Dish d = dishList.get(i - 1);
 		
 		Set<String> content = Stream.of(d.getContent().split(",")).collect(Collectors.toSet());

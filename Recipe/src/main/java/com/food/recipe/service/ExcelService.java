@@ -17,6 +17,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 import com.food.recipe.bean.DailyBean;
+import com.food.recipe.bean.RequestBean;
 
 @Service
 public class ExcelService {
@@ -32,13 +33,25 @@ public class ExcelService {
 		return null;
 	}
 	
-	public Workbook merge(List<DailyBean> list) throws IOException {
+	public Workbook merge(List<DailyBean> list, RequestBean b) throws IOException {
 		
 		Workbook wb = getWorkBook();
-		mergeSheet(list, wb.getSheetAt(0));
+		Sheet sheet = wb.getSheetAt(0);
+		mergeSheet(b, sheet);
+		mergeSheet(list, sheet);
 		return wb;
 	}
 
+	private void mergeSheet(RequestBean b, Sheet sheet) {
+		
+		Row clientRow = sheet.getRow(1);
+		clientRow.getCell(1).setCellValue(b.getUserName());
+		Row memoRow = sheet.getRow(3);
+		memoRow.getCell(1).setCellValue(b.getMemo());
+		Row sugRow = sheet.getRow(5);
+		sugRow.getCell(1).setCellValue(b.getSuggestion());
+	}
+	
 	private void mergeSheet(List<DailyBean> list, Sheet sheet) {
 		
 		AtomicInteger rowNum = new AtomicInteger(12);
@@ -62,7 +75,6 @@ public class ExcelService {
 					fillCell(iter.next(), a.getLunch().getDish2());
 					break;
 				case "Íí²Í":
-					DailyBean.Dinner dinner = a.getDinner();
 					fillCell(iter.next(), a.getDinner().getMainFood());
 					fillCell(iter.next(), a.getDinner().getSoap());
 					fillCell(iter.next(), a.getDinner().getDish1());

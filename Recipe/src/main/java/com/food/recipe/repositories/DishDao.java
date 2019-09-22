@@ -22,10 +22,16 @@ public class DishDao {
 	@Autowired
 	private EntityManager em;
 	
-	public void addCustomInfo(UserAudit info) {
-		String hql = "from UserAudit where name = :name";
+	public List<UserAudit> findAllGenerates() {
+		String hql = "from UserAudit order by createdDate desc";
 		Query q = em.createQuery(hql);
-		q.setParameter("name", info.getName());
+		return q.getResultList();
+	}
+	
+	public void addCustomInfo(UserAudit info) {
+		String hql = "from UserAudit where userName = :userName";
+		Query q = em.createQuery(hql);
+		q.setParameter("userName", info.getUserName());
 		List<UserAudit> result = q.getResultList();
 		if (CollectionUtils.isNotEmpty(result)) {
 			UserAudit exists = result.get(0);

@@ -16,6 +16,9 @@ public class RequestBean {
 	
 	private String userName;
 	private String suggestion;
-	private String remark;
-	
+	private String memo;
+//	private String feature;
+//	private String note;
+//	private String declare;
+//	private String type;
 }
