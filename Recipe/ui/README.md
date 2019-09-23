@@ -10,6 +10,7 @@ In the project directory, you can run:
 ### npm install --save react-loadable
 ### npm install --save react-router-dom
 ### npm install react-axios
+### npm install react-fileupload
 
 ### `npm start`
 

@@ -68,19 +68,19 @@ public class DishDao {
 	private String getOptimalStage(int i) {
 		switch (i) {
 			case 1:
-				return "%µÚÒ»ÖÜ%";
+				return "%ç¬¬ä¸€å‘¨%";
 			case 2:
-				return "%µÚ¶şÖÜ%";
+				return "%ç¬¬äºŒå‘¨%";
 			case 3:
-				return "%µÚÈıÖÜ%";
+				return "%ç¬¬ä¸‰å‘¨%";
 			case 4:
-				return "%µÚËÄÖÜ%";
+				return "%ç¬¬å››å‘¨%";
 			case 5:
-				return "%µÚÎåÖÜ%";
+				return "%ç¬¬äº”å‘¨%";
 			case 6:
-				return "%µÚÁùÖÜ%";
+				return "%ç¬¬å…­å‘¨%";
 			case 7:
-				return "%µÚÆßÖÜ%";
+				return "%ç¬¬ä¸ƒå‘¨%";
 		}
 		return "";
 	}

@@ -57,10 +57,10 @@ public class DishService {
 		
 		List<DailyBean> weekBeans = new ArrayList<>();
 		//first week, pork liver everyday
-		List<Dish> breakfastList = dao.getFood(week, "Ôç²Í", eff);
-		List<Dish> lunchList = dao.getFood(week, "Îç²Í", eff);
-		List<Dish> dinnerList = dao.getFood(week, "Íí²Í", eff);
-		List<Dish> snackList = dao.getFood(week, "ÁãÊ³&²èÒû", eff);
+		List<Dish> breakfastList = dao.getFood(week, "", eff);
+		List<Dish> lunchList = dao.getFood(week, "", eff);
+		List<Dish> dinnerList = dao.getFood(week, "", eff);
+		List<Dish> snackList = dao.getFood(week, "", eff);
 		
 		IntStream.rangeClosed(1, 7).boxed().forEach(day -> {//from Monday to Sunday
 			weekBeans.add(
@@ -119,34 +119,31 @@ public class DishService {
 		return getDish(netList, content, category);
 	}
 	
-	//È¡Ôç²Í£¬1Ö÷Ê³¡¢1ÌÀ/1²Ë
 	private DailyBean.Breakfast getBreakfast(List<Dish> list, Set<String> contents) {
 		
-		Dish mainFood = getDish(list, contents, "Ö÷Ê³");
-		Dish soap = getDish(list, contents, "ÌÀ");
-		Dish cai = getDish(list, contents, "²Ë");
+		Dish mainFood = getDish(list, contents, "ä¸»é£Ÿ");
+		Dish soap = getDish(list, contents, "æ±¤");
+		Dish cai = getDish(list, contents, "èœ");
 		
 		return new DailyBean.Breakfast(mainFood.getName(), soap.getName(), cai.getName());
 	}
 	
-	//È¡Îç²Í£¬²¢ÇÒÈ¥ÖØÔç²ÍÊ³²Ä£¬1Ö÷Ê³¡¢1ÌÀ¡¢2²Ë
 	private DailyBean.Lunch getLunch(List<Dish> list, Set<String> contents) {
 		
-		Dish d1 = getDish(list, contents, "Ö÷Ê³");
-		Dish d2 = getDish(list, contents, "ÌÀ");
-		Dish d3 = getDish(list, contents, "²Ë");
-		Dish d4 = getDish(list, contents, "²Ë");
+		Dish d1 = getDish(list, contents, "ä¸»é£Ÿ");
+		Dish d2 = getDish(list, contents, "æ±¤");
+		Dish d3 = getDish(list, contents, "èœ");
+		Dish d4 = getDish(list, contents, "èœ");
 		
 		return new DailyBean.Lunch(d1.getName(), d2.getName(), d3.getName(), d4.getName());
 	}
 
-	//È¡Íí²Í£¬²¢ÇÒÈ¥ÖØÔç²Í¡¢Îç²ÍÊ³²Ä£¬1Ö÷Ê³¡¢1ÌÀ¡¢2²Ë
 	private DailyBean.Dinner getDinner(List<Dish> list, Set<String> contents) {
 		
-		Dish d1 = getDish(list, contents, "Ö÷Ê³");
-		Dish d2 = getDish(list, contents, "ÌÀ");
-		Dish d3 = getDish(list, contents, "²Ë");
-		Dish d4 = getDish(list, contents, "²Ë");
+		Dish d1 = getDish(list, contents, "ä¸»é£Ÿ");
+		Dish d2 = getDish(list, contents, "æ±¤");
+		Dish d3 = getDish(list, contents, "èœ");
+		Dish d4 = getDish(list, contents, "èœ");
 		
 		return new DailyBean.Dinner(d1.getName(), d2.getName(), d3.getName(), d4.getName());
 	}

@@ -5,7 +5,6 @@ import React, { Component } from 'react';
 import DropdownEfficacy from '../recipe/DropdownEfficacy'
 import axios from 'axios';
 import Constants from './Constants.js';
-import FileUpload from 'react-fileupload'
 
 class GeneratorDrawer extends Component {
     componentDidMount() {

@@ -63,24 +63,24 @@ public class ExcelService {
 			Iterator<Cell> iter = row.cellIterator();
 			Cell cell = iter.next();
 			switch (cell.getStringCellValue()) {
-				case "‘Á≤Õ":
+				case "Êó©È§ê":
 					fillCell(iter.next(), a.getBreakfast().getMainFood());
 					fillCell(iter.next(), a.getBreakfast().getSoap());
 					fillCell(iter.next(), a.getBreakfast().getCai());
 					break;
-				case "ŒÁ≤Õ":
+				case "ÂçàÈ§ê":
 					fillCell(iter.next(), a.getLunch().getMainFood());
 					fillCell(iter.next(), a.getLunch().getSoap());
 					fillCell(iter.next(), a.getLunch().getDish1());
 					fillCell(iter.next(), a.getLunch().getDish2());
 					break;
-				case "ÕÌ≤Õ":
+				case "ÊôöÈ§ê":
 					fillCell(iter.next(), a.getDinner().getMainFood());
 					fillCell(iter.next(), a.getDinner().getSoap());
 					fillCell(iter.next(), a.getDinner().getDish1());
 					fillCell(iter.next(), a.getDinner().getDish2());
 					break;
-				case "¡„ ≥&≤Ë“˚":
+				case "Èõ∂È£ü&Ëå∂È•Æ":
 					fillCell(iter.next(), a.getSnack().getSnack1());
 					fillCell(iter.next(), a.getSnack().getSnack2());
 					fillCell(iter.next(), a.getSnack().getSnack3());

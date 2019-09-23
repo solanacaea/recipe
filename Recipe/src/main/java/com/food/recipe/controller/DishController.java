@@ -51,7 +51,7 @@ public class DishController {
 	@RequestMapping("/save")
 	@PostMapping
 	public void save(@RequestBody Dish d) {
-		d.setContent(d.getContent().replace("£¬", ","));
+		d.setContent(d.getContent().replace("ï¼Œ", ","));
 		d.setUpdatedDate(new Date());
 		repo.saveAndFlush(d);
 		log.info("Saved " + d);
@@ -85,7 +85,7 @@ public class DishController {
 	public void test(@PathVariable("name") String name, HttpServletResponse response) throws IOException {
 		RequestBean d = new RequestBean();
 		d.setName(name);
-		d.setEfficacy("²¹Ñª,»îÑª,ÇåÈÈ,ìîÊª");
+		d.setEfficacy("è¡¥è¡€,æ´»è¡€,æ¸…çƒ­,ç¥›æ¹¿");
 //		List<DailyBean> data = service.getCustomRecipe(d);
 		Workbook workbook = service.generateRecipe(d);
 		
