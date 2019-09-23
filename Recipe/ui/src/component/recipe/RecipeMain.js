@@ -1,5 +1,5 @@
 import {
-    Table, Input, Button, Icon, Popconfirm, message
+    Table, Input, Button, Icon, Popconfirm, message, Tag
   } from 'antd';
   import Highlighter from 'react-highlight-words';
   import React, { Component } from 'react';
@@ -111,11 +111,36 @@ import {
         dataIndex: 'name',
         key: 'name',
         ...this.getColumnSearchProps('name'),
+        //grey, brown, navy, tan, coral, red, salmon, plum, crimson, olive, violet, purple
+        render: item => (
+          <span>
+            {item && item.split(',').map(tag => {
+              var color = 'tan';
+              return (
+                <Tag color={color} key={tag}>
+                  {tag.toUpperCase()}
+                </Tag>
+              );
+            })}
+          </span>
+        ),
       }, {
         title: '食谱',
         dataIndex: 'content',
         key: 'content',
         ...this.getColumnSearchProps('content'),
+        render: item => (
+          <span>
+            {item.split(',').map(tag => {
+              var color = 'pink';
+              return (
+                <Tag color={color} key={tag}>
+                  {tag.toUpperCase()}
+                </Tag>
+              );
+            })}
+          </span>
+        ),
       }, {
         title: '类别',
         dataIndex: 'category',
@@ -130,6 +155,18 @@ import {
         onFilter: (value, record) => record.category.includes(value),
         sorter: (a, b) => a.category.length - b.category.length,
         sortOrder: sortedInfo.columnKey === 'category' && sortedInfo.order,
+        render: item => (
+          <span>
+            {item.split(',').map(tag => {
+              var color = 'orange';
+              return (
+                <Tag color={color} key={tag}>
+                  {tag.toUpperCase()}
+                </Tag>
+              );
+            })}
+          </span>
+        ),
       }, {
         title: '适宜阶段',
         dataIndex: 'optimalStage',
@@ -146,6 +183,18 @@ import {
         onFilter: (value, record) => record.optimalStage.includes(value),
         sorter: (a, b) => a.optimalStage.length - b.optimalStage.length,
         sortOrder: sortedInfo.columnKey === 'optimalStage' && sortedInfo.order,
+        render: item => (
+          <span>
+            {item.split(',').map(tag => {
+              var color = 'blue';
+              return (
+                <Tag color={color} key={tag}>
+                  {tag.toUpperCase()}
+                </Tag>
+              );
+            })}
+          </span>
+        ),
       }, {
         title: '适宜时间',
         dataIndex: 'optimalTime',
@@ -162,6 +211,18 @@ import {
         onFilter: (value, record) => record.optimalTime.includes(value),
         sorter: (a, b) => a.optimalTime.length - b.optimalTime.length,
         sortOrder: sortedInfo.columnKey === 'optimalTime' && sortedInfo.order,
+        render: item => (
+          <span>
+            {item.split(',').map(tag => {
+              var color = 'green';
+              return (
+                <Tag color={color} key={tag}>
+                  {tag.toUpperCase()}
+                </Tag>
+              );
+            })}
+          </span>
+        ),
       }, {
         title: '属性',
         dataIndex: 'property',
@@ -175,6 +236,18 @@ import {
         onFilter: (value, record) => record.property.includes(value),
         sorter: (a, b) => a.property.length - b.property.length,
         sortOrder: sortedInfo.columnKey === 'property' && sortedInfo.order,
+        render: item => (
+          <span>
+            {item.split(',').map(tag => {
+              var color = 'purple';
+              return (
+                <Tag color={color} key={tag}>
+                  {tag.toUpperCase()}
+                </Tag>
+              );
+            })}
+          </span>
+        ),
       }, {
         title: '功效',
         dataIndex: 'efficacy',
@@ -189,6 +262,27 @@ import {
         onFilter: (value, record) => record.efficacy.includes(value),
         sorter: (a, b) => a.efficacy.length - b.efficacy.length,
         sortOrder: sortedInfo.columnKey === 'efficacy' && sortedInfo.order,
+        render: efficacy => (
+          <span>
+            {efficacy.split(',').map(tag => {
+              var color;
+              if (tag === '祛湿')
+                  color = 'geekblue';
+              else if (tag === '清热')
+                  color = 'green';
+              else if (tag === '补血')
+                  color = 'blue';
+              else if (tag === '活血')
+                  color = 'volcano';
+              
+              return (
+                <Tag color={color} key={tag}>
+                  {tag.toUpperCase()}
+                </Tag>
+              );
+            })}
+          </span>
+        ),
       }, {
         title: '操作',
         key: 'action',

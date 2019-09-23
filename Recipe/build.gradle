@@ -1,7 +1,9 @@
 buildscript {
     repositories {
-        mavenCentral()
-        maven { url "https://repo.spring.io/libs-release" }
+        //mavenCentral()
+        //maven { url "https://repo.spring.io/libs-release" }
+        maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+        maven{ url 'http://maven.oschina.net/content/groups/public/'}
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.2.RELEASE")
@@ -21,9 +23,13 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 repositories {
-    mavenCentral()
-    maven { url "https://repo.spring.io/libs-release" }
+    //mavenCentral()
+    //maven { url "https://repo.spring.io/libs-release" }
+    maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+    maven{ url 'http://maven.oschina.net/content/groups/public/'}
 }
+
+
 
 dependencies {
 
