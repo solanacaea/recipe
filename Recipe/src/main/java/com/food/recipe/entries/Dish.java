@@ -54,4 +54,7 @@ public class Dish {
 	@Column(name="UpdatedDate")
 	private Date updatedDate;
 	
+	@Column(name="Ingredient")
+	private String ingredient;
+	
 }

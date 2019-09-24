@@ -5,7 +5,7 @@ import React, { Component } from 'react';
 import DropdownEfficacy from '../recipe/DropdownEfficacy'
 import axios from 'axios';
 import Constants from './Constants.js';
-import FileUpload from 'react-fileupload'
+import DropdownIngredient from '../recipe/DropdownIngredient'
 
 class GeneratorDrawer extends Component {
     componentDidMount() {
@@ -27,7 +27,7 @@ class GeneratorDrawer extends Component {
         this.props.form.setFieldsValue({ note: (param == null || param.note == null) ? Constants.note : param.note });
         this.props.form.setFieldsValue({ declare: (param == null || param.declare == null) ? Constants.declare : param.declare });
         this.props.form.setFieldsValue({ createdDate: param == null ? null : param.createdDate });
-        
+
         if (this.efficacy != null) {
           const data = param == null ? null : param.efficacy;
           const arr = (data == null || data === "") ? [] : data.split(',');
@@ -41,6 +41,10 @@ class GeneratorDrawer extends Component {
         this.setState({ note: (param == null || param.note == null) ? Constants.note : param.note, });
         this.setState({ declare: (param == null || param.declare == null) ? Constants.declare : param.declare, });
         this.setState({ createdDate: param == null ? null : param.createdDate });
+
+        if (this.ingredient != null) {
+          this.ingredient.init(param == null ? '素菜' : param.ingredient);
+        }
       };
     
       onClose = () => {
@@ -48,6 +52,12 @@ class GeneratorDrawer extends Component {
           visible: false,
         });
       };
+
+      onRefIngredient = (ref) => {
+        this.ingredient = ref;
+        const data = this.state.data == null ? null : this.state.data.ingredient;
+        this.ingredient.init(data);
+      }
 
       onRefEfficacy = (ref) => {
         this.efficacy = ref;
@@ -69,6 +79,7 @@ class GeneratorDrawer extends Component {
         const note = this.state.note;
         const declare = this.state.declare;
         //const createdDate = this.state.createdDate;
+        const ingredient = this.ingredient.getValue();
         const data = this.state.data;
         
         axios.post('http://localhost:8080/dish/generate', {
@@ -81,6 +92,7 @@ class GeneratorDrawer extends Component {
               note: note,
               declare: declare,
               efficacy: efficacy.toString(),
+              ingredient: ingredient,
             }, {
               responseType: 'blob' // very very very important!!!
             }).then((res)=>{
@@ -190,10 +202,10 @@ class GeneratorDrawer extends Component {
           <div>
             <Drawer
               title="看我不爽吗? 要改掉我吗?"
-              height = "80%"
+              height = "800" width = "50%"
               onClose={this.onClose}
               visible={this.state.visible}
-              placement="top" keyboard = "true"
+              placement="left" keyboard = "true"
             >
               <Form layout="vertical" hideRequiredMark ref={ref => this.form = ref}>
                 <Row gutter={16}>
@@ -228,6 +240,11 @@ class GeneratorDrawer extends Component {
                       <DropdownEfficacy onRef={this.onRefEfficacy} />
                     </Form.Item>
                   </Col>
+                  <Col span={12}>
+                    <Form.Item label="原料">
+                      <DropdownIngredient onRef={this.onRefIngredient} />
+                    </Form.Item>
+                  </Col>
                 </Row>
                 <Row gutter={16}>
                   <Col span={12}>
@@ -239,7 +256,7 @@ class GeneratorDrawer extends Component {
                             message: '请输入备注...',
                           },
                         ],
-                      })(<Input.TextArea rows={3} placeholder="请输入备注..." onChange={this.onMemoChange}/> )}
+                      })(<Input.TextArea rows={4} placeholder="请输入备注..." onChange={this.onMemoChange}/> )}
                     </Form.Item>
                   </Col>
                   <Col span={12}>
@@ -251,7 +268,7 @@ class GeneratorDrawer extends Component {
                             message: '请输入食谱特点...',
                           },
                         ],
-                      })(<Input.TextArea rows={3} placeholder="请输入食谱特点..." onChange={this.onFeatureChange}/> )}
+                      })(<Input.TextArea rows={4} placeholder="请输入食谱特点..." onChange={this.onFeatureChange}/> )}
                     </Form.Item>
                   </Col>
                 </Row>
@@ -279,7 +296,7 @@ class GeneratorDrawer extends Component {
                             message: '请输入注意事项...',
                           },
                         ],
-                      })(<Input.TextArea rows={3} placeholder="请输入注意事项..." onChange={this.onNoteChange}/>)}
+                      })(<Input.TextArea rows={4} placeholder="请输入注意事项..." onChange={this.onNoteChange}/>)}
                     </Form.Item>
                   </Col>
                   <Col span={12}>
@@ -291,7 +308,7 @@ class GeneratorDrawer extends Component {
                             message: '请输入声明...',
                           },
                         ],
-                      })(<Input.TextArea rows={3} placeholder="请输入声明..." onChange={this.oDeclareChange}/>)}
+                      })(<Input.TextArea rows={4} placeholder="请输入声明..." onChange={this.oDeclareChange}/>)}
                     </Form.Item>
                   </Col>
                   </Row>

@@ -224,6 +224,32 @@ import {
           </span>
         ),
       }, {
+        title: '原料',
+        dataIndex: 'ingredient',
+        key: 'ingredient',
+        filters: [
+          { text: '素菜', value: '素菜' },
+          { text: '蛋奶', value: '蛋奶' },
+          { text: '猪肉类', value: '猪肉类' },
+          { text: '其它肉类', value: '其它肉类' },
+        ],
+        filteredValue: filteredInfo.ingredient || null,
+        onFilter: (value, record) => record.ingredient.includes(value),
+        sorter: (a, b) => a.ingredient.length - b.ingredient.length,
+        sortOrder: sortedInfo.columnKey === 'ingredient' && sortedInfo.order,
+        render: item => (
+          <span>
+            {item && item.split(',').map(tag => {
+              var color = 'navy';
+              return (
+                <Tag color={color} key={tag}>
+                  {tag}
+                </Tag>
+              );
+            })}
+          </span>
+        ),
+      }, {
         title: '属性',
         dataIndex: 'property',
         key: 'property',

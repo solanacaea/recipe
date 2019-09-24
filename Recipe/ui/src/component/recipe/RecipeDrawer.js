@@ -110,7 +110,7 @@ import axios from 'axios';
       const efficacy = this.efficacy.getValue();
       const name = this.state.name;
       const content = this.state.content;
-      const ingredient = this.state.ingredient;
+      const ingredient = this.ingredient.getValue();
       const data = this.state.data;
       
       axios.post('http://localhost:8080/dish/save', {

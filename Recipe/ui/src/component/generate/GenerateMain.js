@@ -242,9 +242,9 @@ import {
       })
     }
 
-    handleToggle = prop => enable => {
-        this.setState({ [prop]: enable });
-    };
+    // handleToggle = prop => enable => {
+    //     this.setState({ [prop]: enable });
+    // };
 
   }
 
