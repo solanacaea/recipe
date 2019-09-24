@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 import DropdownEfficacy from '../recipe/DropdownEfficacy'
 import axios from 'axios';
 import Constants from './Constants.js';
+import FileUpload from 'react-fileupload'
 
 class GeneratorDrawer extends Component {
     componentDidMount() {
@@ -19,12 +20,12 @@ class GeneratorDrawer extends Component {
           data: param,
         });
         this.props.form.setFieldsValue({ userName: param == null ? null : param.userName });
-        this.props.form.setFieldsValue({ type: param == null ? Constants.type : param.type });
+        this.props.form.setFieldsValue({ type: (param == null || param.type == null) ? Constants.type : param.type });
         this.props.form.setFieldsValue({ memo: param == null ? null : param.memo });
-        this.props.form.setFieldsValue({ feature: param == null ? Constants.feature : param.feature });
+        this.props.form.setFieldsValue({ feature: (param == null || param.feature == null) ? Constants.feature : param.feature });
         this.props.form.setFieldsValue({ suggestion: param == null ? null : param.suggestion });
-        this.props.form.setFieldsValue({ note: param == null ? Constants.note : param.note });
-        this.props.form.setFieldsValue({ declare: param == null ? Constants.declare : param.declare });
+        this.props.form.setFieldsValue({ note: (param == null || param.note == null) ? Constants.note : param.note });
+        this.props.form.setFieldsValue({ declare: (param == null || param.declare == null) ? Constants.declare : param.declare });
         this.props.form.setFieldsValue({ createdDate: param == null ? null : param.createdDate });
         
         if (this.efficacy != null) {
@@ -33,13 +34,13 @@ class GeneratorDrawer extends Component {
           this.efficacy.onChange(arr);
         }
         this.setState({ userName: param == null ? null : param.userName, });
-        this.setState({ type: param == null ? Constants.type : param.type, });
+        this.setState({ type: (param == null || param.type == null) ? Constants.type : param.type, });
         this.setState({ memo: param == null ? null : param.memo, });
-        this.setState({ feature: param == null ? Constants.feature : param.feature, });
+        this.setState({ feature: (param == null || param.feature == null) ? Constants.feature : param.feature, });
         this.setState({ suggestion: param == null ? null : param.suggestion, });
-        this.setState({ note: param == null ? Constants.note : param.note, });
-        this.setState({ declare: param == null ? Constants.declare : param.declare, });
-        this.setState({ createdDate: param == null ? null : param.createdDate, });
+        this.setState({ note: (param == null || param.note == null) ? Constants.note : param.note, });
+        this.setState({ declare: (param == null || param.declare == null) ? Constants.declare : param.declare, });
+        this.setState({ createdDate: param == null ? null : param.createdDate });
       };
     
       onClose = () => {

@@ -7,6 +7,7 @@ import DropdownOptimalStage from './DropdownOptimalStage'
 import DropdownOptimalTime from './DropdownOptimalTime'
 import DropdownProperty from './DropdownProperty'
 import DropdownEfficacy from './DropdownEfficacy'
+import DropdownIngredient from './DropdownIngredient'
 import axios from 'axios';
 
   class DrawerForm extends Component {
@@ -51,7 +52,9 @@ import axios from 'axios';
       }
       this.setState({ name: param == null ? null : param.name, });
       this.setState({ content: param == null ? null : param.content, });
-
+      if (this.ingredient != null) {
+        this.ingredient.init(param == null ? null : param.ingredient);
+      }
     };
   
     onClose = () => {
@@ -90,6 +93,11 @@ import axios from 'axios';
       const arr = (data == null || data === "") ? [] : data.split(',');
       this.efficacy.onChange(arr);
     }
+    onRefIngredient = (ref) => {
+      this.ingredient = ref;
+      const data = this.state.data == null ? null : this.state.data.ingredient;
+      this.ingredient.onChange(data);
+    }
 
     onSubmit = (e) => {
       e.preventDefault();
@@ -102,6 +110,7 @@ import axios from 'axios';
       const efficacy = this.efficacy.getValue();
       const name = this.state.name;
       const content = this.state.content;
+      const ingredient = this.state.ingredient;
       const data = this.state.data;
       
       axios.post('http://localhost:8080/dish/save', {
@@ -113,6 +122,7 @@ import axios from 'axios';
             optimalTime: optimalTime.toString(),
             property: property.toString(),
             efficacy: efficacy.toString(),
+            ingredient: ingredient,
           }
         ).then((res)=>{
             this.props.refresh();
@@ -188,6 +198,13 @@ import axios from 'axios';
                 <Col span={12}>
                   <Form.Item label="功效">
                     <DropdownEfficacy onRef={this.onRefEfficacy} />
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row gutter={16}>
+                <Col span={12}>
+                  <Form.Item label="原料">
+                    <DropdownIngredient onRef={this.onRefIngredient} />
                   </Form.Item>
                 </Col>
               </Row>
