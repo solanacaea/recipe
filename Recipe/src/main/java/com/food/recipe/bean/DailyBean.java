@@ -17,8 +17,7 @@ public class DailyBean {
 	@AllArgsConstructor
 	public static class Breakfast {
 		String mainFood;
-		String soap;
-		String cai;
+		String soapOrCai;
 	}
 
 	@Data

@@ -5,7 +5,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
+import java.util.StringJoiner;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -17,6 +20,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import com.food.recipe.bean.DailyBean;
+import com.food.recipe.bean.DailyBean.Breakfast;
+import com.food.recipe.bean.DailyBean.Dinner;
+import com.food.recipe.bean.DailyBean.Lunch;
+import com.food.recipe.bean.DailyBean.Snack;
 import com.food.recipe.bean.RequestBean;
 import com.food.recipe.entries.Dish;
 import com.food.recipe.entries.UserAudit;
@@ -47,13 +54,21 @@ public class DishService {
 	public List<DailyBean> getCustomRecipe(RequestBean d) {
 		
 		List<DailyBean> allWeeks = new ArrayList<>();
-		IntStream.rangeClosed(1, 6).boxed().forEach(week -> {
-			allWeeks.addAll(weekDish(week, d.getEfficacy(), d.getIngredient()));
+
+		//first week, pork liver everyday
+		String special = null;
+		if (d.getIngredient().contains("猪肉类")) {
+			special = "猪肝";
+		}
+		allWeeks.addAll(weekDish(1, d.getEfficacy(), d.getIngredient(), special));
+		
+		IntStream.rangeClosed(2, 5).boxed().forEach(week -> {
+			allWeeks.addAll(weekDish(week, d.getEfficacy(), d.getIngredient(), null));
 		});
 		return allWeeks;
 	}
 	
-	private List<DailyBean> weekDish(int week, String eff, String ing) {
+	private List<DailyBean> weekDish(int week, String eff, String ing, String contains) {
 		
 		List<DailyBean> weekBeans = new ArrayList<>();
 		List<Dish> breakfastList = dao.getFood(week, "早餐", eff, ing);
@@ -61,42 +76,39 @@ public class DishService {
 		List<Dish> dinnerList = dao.getFood(week, "晚餐", eff, ing);
 		List<Dish> snackList = dao.getFood(week, "零食&茶饮", eff, ing);
 		
-		//first week, pork liver everyday
-		
 		IntStream.rangeClosed(1, 7).boxed().forEach(day -> {//from Monday to Sunday
-			weekBeans.add(
-					dailyDish(breakfastList, lunchList, dinnerList, snackList));
+			weekBeans.add(dailyDish(breakfastList, lunchList, dinnerList, snackList, contains));
 		});
 		return weekBeans;
 	}
 	
 	private DailyBean dailyDish(List<Dish> breakfastList, List<Dish> lunchList, List<Dish> dinnerList,
-			List<Dish> snackList) {
+			List<Dish> snackList, String contains) {
 		Set<String> contents = new HashSet<>();
-		return DailyBean.builder().breakfast(getBreakfast(breakfastList, contents))
-			.lunch(getLunch(lunchList, contents))
-			.dinner(getDinner(dinnerList, contents))
-			.snack(getSnack(snackList))
+		Breakfast breakfast = getBreakfast(breakfastList, contents);
+//		System.out.println(contents);
+		Lunch lunch = getLunch(lunchList, contents, contains);
+//		System.out.println(contents);
+		Dinner dinner = getDinner(dinnerList, contents, contains);
+//		System.out.println(contents);
+		Snack snack = getSnack(snackList, contents);
+//		System.out.println(contents);
+		return DailyBean.builder().breakfast(breakfast)
+			.lunch(lunch)
+			.dinner(dinner)
+			.snack(snack)
 			.build();
 	}
 
-	private DailyBean.Snack getSnack(List<Dish> list) {
+	private DailyBean.Snack getSnack(List<Dish> list, Set<String> contents) {
 		
 		list = new ArrayList<>(list);
 		if (CollectionUtils.isEmpty(list))
 			return new DailyBean.Snack("", "", "");
 		
-		int i = RandomUtils.nextInt(1, list.size());
-		Dish dish1 = list.get(i - 1);
-		list.remove(dish1);
-		
-		Set<String> content1 = Stream.of(dish1.getContent().split(",")).collect(Collectors.toSet());
-		Dish dish2 = getDish(list, content1, "");
-		list.remove(dish2);
-		
-		Set<String> content2 = Stream.of(dish2.getContent().split(",")).collect(Collectors.toSet());
-		content2.addAll(content1);
-		Dish dish3 = getDish(list, content2, "");
+		Dish dish1 = getDish(list, contents, "");list.remove(dish1);
+		Dish dish2 = getDish(list, contents, "");list.remove(dish2);
+		Dish dish3 = getDish(list, contents, "");list.remove(dish3);
 		
 		return new DailyBean.Snack(dish1.getName(), dish2.getName(), dish3.getName());
 	}
@@ -126,42 +138,73 @@ public class DishService {
 		
 		List<Dish> netList = dishList.stream().filter(p -> {
 			Set<String> pcont = Stream.of(p.getContent().split(",")).collect(Collectors.toSet());
-			return DishUtils.containsAny(pcont, content) ? false : true;
+			return DishUtils.containsAny(c, pcont) ? false : true;
 		}).collect(Collectors.toList());
 		
 		if (CollectionUtils.isEmpty(netList)) {
+			c.addAll(content);
 			return d;
 		}
-		return getDish(netList, content, category);
+		return getDish(netList, c, category);
 	}
 	
 	private DailyBean.Breakfast getBreakfast(List<Dish> list, Set<String> contents) {
+		list = new ArrayList<>(list);
 		
-		Dish mainFood = getDish(list, contents, "主食");
-		Dish soap = getDish(list, contents, "汤");
-		Dish cai = getDish(list, contents, "菜");
+		Dish mainFood = getDish(list, contents, "主食");list.remove(mainFood);
 		
-		return new DailyBean.Breakfast(mainFood.getName(), soap.getName(), cai.getName());
+//		list = list.stream().filter(p -> p.getCategory().contains("汤") || p.getCategory().contains("菜"))
+//			.collect(Collectors.toList());
+		
+		String cate = "汤";
+		boolean rand = RandomUtils.nextBoolean();
+		if (rand) {
+			cate = "菜";
+		} 
+		Dish subFood = getDish(list, contents, cate);
+		
+		return new DailyBean.Breakfast(mainFood.getName(), subFood.getName());
 	}
 	
-	private DailyBean.Lunch getLunch(List<Dish> list, Set<String> contents) {
-		
-		Dish d1 = getDish(list, contents, "主食");
-		Dish d2 = getDish(list, contents, "汤");
-		Dish d3 = getDish(list, contents, "菜");
+	private DailyBean.Lunch getLunch(List<Dish> list, Set<String> contents, String contains) {
+		list = new ArrayList<>(list);
+		Dish d1 = getDish(list, contents, "主食");list.remove(d1);
+		Dish d2 = getDish(list, contents, "汤");list.remove(d2);
+		Dish d3 = getDish(list, contents, "菜");	list.remove(d3);
 		Dish d4 = getDish(list, contents, "菜");
 		
-		return new DailyBean.Lunch(d1.getName(), d2.getName(), d3.getName(), d4.getName());
+		if (contains != null && !contents.contains(contains)) {
+			boolean replace = RandomUtils.nextBoolean();
+			if (replace) {
+				list = list.stream().filter(Objects::nonNull)
+						.filter(p -> p.getContent().contains(contains))
+						.collect(Collectors.toList());
+				d4 = getDish(list, contents, "菜");
+				contents.add(contains);
+			}
+		}
+		list.remove(d4);
+		
+		return new DailyBean.Lunch(d1.getName(), d2.getName(), d4.getName(), d3.getName());
 	}
 
-	private DailyBean.Dinner getDinner(List<Dish> list, Set<String> contents) {
-		
-		Dish d1 = getDish(list, contents, "主食");
-		Dish d2 = getDish(list, contents, "汤");
-		Dish d3 = getDish(list, contents, "菜");
+	private DailyBean.Dinner getDinner(List<Dish> list, Set<String> contents, String contains) {
+		list = new ArrayList<>(list);
+		Dish d1 = getDish(list, contents, "主食");list.remove(d1);
+		Dish d2 = getDish(list, contents, "汤");list.remove(d2);
+		Dish d3 = getDish(list, contents, "菜");list.remove(d3);
 		Dish d4 = getDish(list, contents, "菜");
 		
-		return new DailyBean.Dinner(d1.getName(), d2.getName(), d3.getName(), d4.getName());
+		if (contains != null && !contents.contains(contains)) {
+			list = list.stream().filter(Objects::nonNull)
+					.filter(p -> p.getContent().contains(contains))
+					.collect(Collectors.toList());
+			d4 = getDish(list, contents, "菜");
+			contents.add(contains);
+		}
+		list.remove(d4);
+		
+		return new DailyBean.Dinner(d1.getName(), d2.getName(), d4.getName(), d3.getName());
 	}
-
+	
 }

@@ -74,8 +74,8 @@ public class ExcelService {
 		switch (cell.getStringCellValue()) {
 			case "早餐":
 				fillCell(iter.next(), a.getBreakfast().getMainFood());
-				fillCell(iter.next(), a.getBreakfast().getSoap());
-				fillCell(iter.next(), a.getBreakfast().getCai());
+				fillCell(iter.next(), a.getBreakfast().getSoapOrCai());
+//				fillCell(iter.next(), a.getBreakfast().getCai());
 				break;
 			case "午餐":
 				fillCell(iter.next(), a.getLunch().getMainFood());
