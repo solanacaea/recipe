@@ -15,7 +15,6 @@ class PropertyDropdown extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
     const { plainOptions, value } = nextProps;
     const checkedLen = value ? value.length : 0;
     const plainOptionsLen = plainOptions.length;

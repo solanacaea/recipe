@@ -39,3 +39,29 @@
   background: rgba(255,255,255,.2);
   margin: 16px;
 }
+
+
+/*
+.ant-table-fixed {
+  table-layout: fixed;
+}
+
+.ant-table-tbody > tr > td {
+  word-wrap: break-word;
+  word-break: break-all;
+} 
+
+.ant-table-tbody > tr > td {
+  white-space: nowrap;
+  }
+  .ant-table-thead > tr > th{
+  white-space: nowrap;
+  }
+
+  .table_nowrap {
+    table th,
+    table td {
+      white-space: nowrap;
+    }
+  }
+  */

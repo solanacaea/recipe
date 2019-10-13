@@ -1,0 +1,25 @@
+.logo {
+    border-radius: 6px;
+    margin: 16px;
+    font-size: 20px;
+    color: aliceblue;
+    margin-top: 14px;
+    margin-left: 22px;
+    display: block;
+}
+
+.logo-hidden {
+    margin-left: 32px;
+}
+
+.user-icon {
+    margin-right: 10px;
+}
+
+.show {
+    display: inline;
+}
+
+.hidden {
+    display: none;
+}
