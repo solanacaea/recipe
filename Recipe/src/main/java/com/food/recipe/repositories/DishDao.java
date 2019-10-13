@@ -40,9 +40,10 @@ public class DishDao {
 		em.merge(info);
 	}
 	
-	public List<Dish> getFood(int week, String optimalTime, String efficacy) {
+	public List<Dish> getFood(int week, String optimalTime, String efficacy, String ingredient) {
 		String from = "from Dish where optimalStage like :week and optimalTime like :optimalTime";
 		String where = getWhereCondition(efficacy, "efficacy");
+		where += getWhereCondition(ingredient, "ingredient");
 		String hql = from + where;
 		String optimalStage = getOptimalStage(week);
 		
@@ -61,7 +62,7 @@ public class DishDao {
 			single.append(column).append(" like '%").append(a.trim()).append("%'");
 			sj.add(single.toString());
 		});
-		sb.append(sj.toString()).append(")");
+		sb.append(sj.toString()).append(") ");
 		return sb.toString();
 	} 
 	

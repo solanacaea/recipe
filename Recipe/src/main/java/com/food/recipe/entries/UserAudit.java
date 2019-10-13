@@ -37,6 +37,9 @@ public class UserAudit {
 	
 	@Column(name="Efficacy")
 	private String efficacy;
+
+	@Column(name="Ingredient")
+	private String ingredient;
 	
 	@Column(name="Memo")
 	private String memo;

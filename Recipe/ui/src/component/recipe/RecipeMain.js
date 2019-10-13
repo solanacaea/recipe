@@ -275,14 +275,14 @@ import {
           </span>
         ),
       }, {
-        title: '功效',
+        title: '体质',
         dataIndex: 'efficacy',
         key: 'efficacy',
         filters: [
-          { text: '补血', value: '补血' },
-          { text: '活血', value: '活血' },
-          { text: '清热', value: '清热' },
-          { text: '祛湿', value: '祛湿' },
+          { text: '气虚', value: '气虚' },
+          { text: '血瘀', value: '血瘀' },
+          { text: '阴虚', value: '阴虚' },
+          { text: '痰湿', value: '痰湿' },
         ],
         filteredValue: filteredInfo.efficacy || null,
         onFilter: (value, record) => record.efficacy.includes(value),
@@ -292,13 +292,13 @@ import {
           <span>
             {efficacy.split(',').map(tag => {
               var color;
-              if (tag === '祛湿')
+              if (tag === '痰湿')
                   color = 'geekblue';
-              else if (tag === '清热')
+              else if (tag === '阴虚')
                   color = 'green';
-              else if (tag === '补血')
+              else if (tag === '气虚')
                   color = 'blue';
-              else if (tag === '活血')
+              else if (tag === '血瘀')
                   color = 'volcano';
               
               return (
@@ -330,7 +330,8 @@ import {
       }];
       return <div>
               <Button block icon="plus" width="40px" onClick={this.openPanel.bind(this, null)}>新增</Button>
-              <Table rowKey={record => record.id} columns={columns} dataSource={this.state.data} onChange={this.handleChange} />
+              <Table rowKey={record => record.id} columns={columns} dataSource={this.state.data} onChange={this.handleChange} 
+                bordered size="small" pagination={{pageSize: 20}}/>
               <RecipeDrawer onRef={this.onRef} refresh={this.refresh}/>
             </div>;
     }

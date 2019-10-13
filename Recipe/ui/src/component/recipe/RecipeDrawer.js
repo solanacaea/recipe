@@ -50,11 +50,15 @@ import axios from 'axios';
         const arr = (data == null || data === "") ? [] : data.split(',');
         this.efficacy.onChange(arr);
       }
+      if (this.ingredient != null) {
+        // this.ingredient.init(param == null ? null : param.ingredient);
+        const data = param == null ? null : param.ingredient;
+        const arr = (data == null || data === "") ? [] : data.split(',');
+        this.ingredient.onChange(arr);
+      }
       this.setState({ name: param == null ? null : param.name, });
       this.setState({ content: param == null ? null : param.content, });
-      if (this.ingredient != null) {
-        this.ingredient.init(param == null ? null : param.ingredient);
-      }
+      
     };
   
     onClose = () => {
@@ -96,7 +100,9 @@ import axios from 'axios';
     onRefIngredient = (ref) => {
       this.ingredient = ref;
       const data = this.state.data == null ? null : this.state.data.ingredient;
-      this.ingredient.onChange(data);
+      const arr = (data == null || data === "") ? [] : data.split(',');
+      this.ingredient.onChange(arr); 
+      // this.ingredient.onChange(data);
     }
 
     onSubmit = (e) => {
@@ -108,9 +114,9 @@ import axios from 'axios';
       const optimalTime = this.optimalTime.getValue();
       const property = this.property.getValue();
       const efficacy = this.efficacy.getValue();
+      const ingredient = this.ingredient.getValue();
       const name = this.state.name;
       const content = this.state.content;
-      const ingredient = this.ingredient.getValue();
       const data = this.state.data;
       
       axios.post('http://localhost:8080/dish/save', {
@@ -122,7 +128,8 @@ import axios from 'axios';
             optimalTime: optimalTime.toString(),
             property: property.toString(),
             efficacy: efficacy.toString(),
-            ingredient: ingredient,
+            ingredient: ingredient.toString(),
+            // ingredient: ingredient,
           }
         ).then((res)=>{
             this.props.refresh();
@@ -196,7 +203,7 @@ import axios from 'axios';
                   </Form.Item>
                 </Col>
                 <Col span={12}>
-                  <Form.Item label="功效">
+                  <Form.Item label="体质">
                     <DropdownEfficacy onRef={this.onRefEfficacy} />
                   </Form.Item>
                 </Col>

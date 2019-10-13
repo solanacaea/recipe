@@ -43,7 +43,10 @@ class GeneratorDrawer extends Component {
         this.setState({ createdDate: param == null ? null : param.createdDate });
 
         if (this.ingredient != null) {
-          this.ingredient.init(param == null ? '素菜' : param.ingredient);
+          //this.ingredient.init(param == null ? '素菜' : param.ingredient);
+          const data = param == null ? null : param.efficacy;
+          const arr = (data == null || data === "") ? [] : data.split(',');
+          this.efficacy.onChange(arr);
         }
       };
     
@@ -55,8 +58,11 @@ class GeneratorDrawer extends Component {
 
       onRefIngredient = (ref) => {
         this.ingredient = ref;
+        //const data = this.state.data == null ? null : this.state.data.ingredient;
         const data = this.state.data == null ? null : this.state.data.ingredient;
-        this.ingredient.init(data);
+        const arr = (data == null || data === "") ? [] : data.split(',');
+        //this.ingredient.init(data);
+        this.ingredient.onChange(arr);
       }
 
       onRefEfficacy = (ref) => {
@@ -92,7 +98,8 @@ class GeneratorDrawer extends Component {
               note: note,
               declare: declare,
               efficacy: efficacy.toString(),
-              ingredient: ingredient,
+              // ingredient: ingredient,
+              ingredient: ingredient.toString(),
             }, {
               responseType: 'blob' // very very very important!!!
             }).then((res)=>{
@@ -236,7 +243,7 @@ class GeneratorDrawer extends Component {
                 </Row>
                 <Row gutter={16}>
                   <Col span={12}>
-                    <Form.Item label="功效">
+                    <Form.Item label="体质">
                       <DropdownEfficacy onRef={this.onRefEfficacy} />
                     </Form.Item>
                   </Col>

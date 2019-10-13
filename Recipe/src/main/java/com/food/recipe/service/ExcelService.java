@@ -51,42 +51,51 @@ public class ExcelService {
 		Row sugRow = sheet.getRow(5);
 		sugRow.getCell(1).setCellValue(b.getSuggestion());
 	}
-	
+	private static int rangeIndex = 9;
 	private void mergeSheet(List<DailyBean> list, Sheet sheet) {
 		
 		AtomicInteger rowNum = new AtomicInteger(12);
 		list.forEach(a -> {
-			Row row = sheet.getRow(rowNum.getAndIncrement());
-			if (row == null)
-				return;
-			
-			Iterator<Cell> iter = row.cellIterator();
-			Cell cell = iter.next();
-			switch (cell.getStringCellValue()) {
-				case "早餐":
-					fillCell(iter.next(), a.getBreakfast().getMainFood());
-					fillCell(iter.next(), a.getBreakfast().getSoap());
-					fillCell(iter.next(), a.getBreakfast().getCai());
-					break;
-				case "午餐":
-					fillCell(iter.next(), a.getLunch().getMainFood());
-					fillCell(iter.next(), a.getLunch().getSoap());
-					fillCell(iter.next(), a.getLunch().getDish1());
-					fillCell(iter.next(), a.getLunch().getDish2());
-					break;
-				case "晚餐":
-					fillCell(iter.next(), a.getDinner().getMainFood());
-					fillCell(iter.next(), a.getDinner().getSoap());
-					fillCell(iter.next(), a.getDinner().getDish1());
-					fillCell(iter.next(), a.getDinner().getDish2());
-					break;
-				case "零食&茶饮":
-					fillCell(iter.next(), a.getSnack().getSnack1());
-					fillCell(iter.next(), a.getSnack().getSnack2());
-					fillCell(iter.next(), a.getSnack().getSnack3());
-					break;
-			}
+			int endIndex = rowNum.get() + rangeIndex;
+			fillRow(sheet, rowNum, a, endIndex);
 		});
+	}
+
+	private void fillRow(Sheet sheet, AtomicInteger rowNum, DailyBean a, int end) {
+		if (rowNum.get() >= end) 
+			return;
+		
+		Row row = sheet.getRow(rowNum.getAndIncrement());
+		if (row == null)
+			return;
+		
+		Iterator<Cell> iter = row.cellIterator();
+		Cell cell = iter.next();
+		switch (cell.getStringCellValue()) {
+			case "早餐":
+				fillCell(iter.next(), a.getBreakfast().getMainFood());
+				fillCell(iter.next(), a.getBreakfast().getSoap());
+				fillCell(iter.next(), a.getBreakfast().getCai());
+				break;
+			case "午餐":
+				fillCell(iter.next(), a.getLunch().getMainFood());
+				fillCell(iter.next(), a.getLunch().getSoap());
+				fillCell(iter.next(), a.getLunch().getDish1());
+				fillCell(iter.next(), a.getLunch().getDish2());
+				break;
+			case "晚餐":
+				fillCell(iter.next(), a.getDinner().getMainFood());
+				fillCell(iter.next(), a.getDinner().getSoap());
+				fillCell(iter.next(), a.getDinner().getDish1());
+				fillCell(iter.next(), a.getDinner().getDish2());
+				break;
+			case "零食&茶饮":
+				fillCell(iter.next(), a.getSnack().getSnack1());
+				fillCell(iter.next(), a.getSnack().getSnack2());
+				fillCell(iter.next(), a.getSnack().getSnack3());
+				break;
+		}
+		fillRow(sheet, rowNum, a, end);
 	}
 
 	private void fillCell(Cell cell, String value) {
