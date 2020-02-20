@@ -10,13 +10,11 @@ import javax.persistence.Query;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-import com.food.recipe.entries.UserAudit;
 import com.food.recipe.entries.Dish;
+import com.food.recipe.entries.UserAudit;
 
 @Repository
-@Transactional
 public class DishDao {
 
 	@Autowired

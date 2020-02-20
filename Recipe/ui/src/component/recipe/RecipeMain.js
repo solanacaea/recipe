@@ -319,17 +319,19 @@ import {
                     <Icon type="edit" theme="filled" />
                 </Button>
              
-              <Popconfirm placement="topRight" title={confirmText} onConfirm={this.delete.bind(this, record)} okText="Yes" cancelText="No">
-                <Button>
-                    <Icon type="delete" theme="filled" />
-                </Button>
-              </Popconfirm>
-              </ButtonGroup>
+                <Popconfirm placement="topRight" title={confirmText} onConfirm={this.delete.bind(this, record)} okText="Yes" cancelText="No">
+                  <Button>
+                      <Icon type="delete" theme="filled" />
+                  </Button>
+                </Popconfirm>
+            </ButtonGroup>
           </span>
          ),
       }];
       return <div>
-              <Button block icon="plus" width="40px" onClick={this.openPanel.bind(this, null)}>新增</Button>
+              <ButtonGroup>
+                <Button block icon="plus" width="40px" onClick={this.openPanel.bind(this, null)}>新增</Button>
+              </ButtonGroup>
               <Table rowKey={record => record.id} columns={columns} dataSource={this.state.data} onChange={this.handleChange} 
                 bordered size="small" pagination={{pageSize: 20}}/>
               <RecipeDrawer onRef={this.onRef} refresh={this.refresh}/>
@@ -350,6 +352,7 @@ import {
       .then((res) => {
         this.refresh()
       }).catch((err) => {
+        message.info('Error [' + err.message + ']...');
         console.log(err)
       })
     }
@@ -361,6 +364,7 @@ import {
         this.setState({data: res.data});
       })
       .catch((err) => {
+        message.info('Error [' + err.message + ']...');
         console.log(err)
       })
     }

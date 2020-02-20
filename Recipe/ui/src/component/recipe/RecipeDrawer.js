@@ -1,5 +1,5 @@
 import {
-    Drawer, Form, Button, Col, Row, Input, 
+    Drawer, Form, Button, Col, Row, Input, message
   } from 'antd';
 import React, { Component } from 'react'; 
 import DropdownCategory from './DropdownCategory'
@@ -136,6 +136,7 @@ import axios from 'axios';
             this.onClose();
         })
         .catch((err)=>{
+            message.info('Error [' + err.message + ']...');
             console.log(err)
         })
 

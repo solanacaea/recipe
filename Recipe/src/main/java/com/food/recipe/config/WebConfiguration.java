@@ -1,23 +1,10 @@
 package com.food.recipe.config;
 
-import org.h2.server.web.WebServlet;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.boot.web.servlet.ServletContextInitializer;
-import org.springframework.boot.web.servlet.ServletRegistrationBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.filter.ShallowEtagHeaderFilter;
-
-import javax.servlet.DispatcherType;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import java.util.EnumSet;
-
-@Configuration
+//@Configuration
 public class WebConfiguration {
 
 	private static final String mapping = "/h2/*";
-
+	/*
     @Bean
     public ServletRegistrationBean h2servletRegistration(){
         ServletRegistrationBean registrationBean = new ServletRegistrationBean( new WebServlet());
@@ -44,4 +31,5 @@ public class WebConfiguration {
             }
         };
     }
+    */
 }

@@ -2,7 +2,7 @@ buildscript {
     repositories {
         mavenCentral()
         maven { url "https://repo.spring.io/libs-release" }
-        //maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+        //maven { url 'http://maven.aliyun.com/nexus/content/groups/public/'}
         //maven{ url 'http://maven.oschina.net/content/groups/public/'}
     }
     dependencies {
@@ -51,7 +51,8 @@ dependencies {
 	//compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb', version: '2.0.2.RELEASE'
 
     //compile("org.springframework.data:spring-data-gemfire")
- 	compile("com.h2database:h2")
+ 	//compile("com.h2database:h2")
+ 	compile("mysql:mysql-connector-java");
     compile("org.springframework.shell:spring-shell:1.2.0.RELEASE")
 
     compile("javax.xml.bind:jaxb-api:2.3.0")

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Button, ButtonGroup } from 'react';
 import './App.css';
 import { BrowserRouter } from 'react-router-dom';
 import CustomMenu from "./component/menu/CustomMenu";//导航
@@ -58,6 +58,10 @@ class test extends Component {
     });
   }
 
+junpToXZY() {
+  window.open('https://shop316822115.taobao.com/?spm=a230r.7195193.1997079397.2.10b84a18miiyT3')
+}
+
   render() {
     return (
       <BrowserRouter>
@@ -80,7 +84,11 @@ class test extends Component {
                       style={{cursor: 'pointer'}}
                   />
               </span>
-              <span style={{color:'#fff', paddingLeft:'2%', fontSize:'1.4em'}}>Information Management System</span>
+              <span style={{color:'#fff', paddingLeft:'2%', fontSize:'1.4em'}}>
+                  <a onClick={this.junpToXZY.bind(this)}>
+                    心筑月淘宝店铺
+                    </a>
+              </span>
               <span style={{color:'#fff', float:'right', paddingRight:'1%'}}>
                   <img src={logo} className="App-logo" alt="logo" />
               </span>
@@ -95,7 +103,7 @@ class test extends Component {
               </div>
             </Content>
             <Footer style={{ textAlign: 'center' }}>
-              UI Design ©2019 Created by SB Wang
+              UI Design ©2019 Created by SB & XiaoYao Wang
             </Footer>
           </Layout>
         </Layout>

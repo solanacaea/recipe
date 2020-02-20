@@ -1,5 +1,5 @@
 import {
-    Table, Input, Button, Icon, Tag, Tooltip 
+    Table, Input, Button, Icon, Popconfirm, message, Tag, Tooltip 
   } from 'antd';
   import Highlighter from 'react-highlight-words';
   import React, { Component } from 'react';
@@ -8,7 +8,8 @@ import {
   import moment from 'moment'; 
 
   const ButtonGroup = Button.Group;
-  
+  const confirmText = '确定要删除吗?';
+
   class GenerateMain extends Component {
     componentDidMount() {
       this.refresh();
@@ -235,12 +236,21 @@ import {
                 <Button onClick={this.openPanel.bind(this, record)} >
                     <Icon type="edit" theme="filled" />
                 </Button>
+                
+                <Popconfirm placement="topRight" title={confirmText} onConfirm={this.delete.bind(this, record)} okText="Yes" cancelText="No">
+                  <Button>
+                      <Icon type="delete" theme="filled" />
+                  </Button>
+                </Popconfirm>
             </ButtonGroup>
           </span>
          ),
       }];
       return <div> 
-              <Button block icon="plus" width="40px" onClick={this.openPanel.bind(this, null)}>生成食谱</Button>
+              <ButtonGroup>
+                <Button block icon="plus" width="40px" onClick={this.openPanel.bind(this, null)}>生成食谱</Button>
+              </ButtonGroup>
+              
               <Table rowKey={record => record.id} columns={columns} dataSource={this.state.data} 
                 bordered onChange={this.handleChange} 
                 pagination={{ pageSize: 50 }}/>
@@ -256,14 +266,26 @@ import {
         this.drawer.showDrawer(record);
     }
     
+    delete = (record) => {
+      message.info('Deleting [' + record.id + ']...');
+      axios.post('http://localhost:8080/generate/delete', record)
+      .then((res) => {
+        this.refresh()
+      }).catch((err) => {
+        message.info('Error [' + err.message + ']...');
+        console.log(err)
+      })
+    }
+
     refresh = () => {
-      axios.post('http://localhost:8080/dish/generate/getall')
+      axios.post('http://localhost:8080/generate/getall')
       .then((res) => {
         //console.log(res);
         this.setState({data: res.data});
         //this.handleToggle('loading')
       })
       .catch((err) => {
+        message.info('Error [' + err.message + ']...');
         console.log(err)
       })
     }

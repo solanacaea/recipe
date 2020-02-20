@@ -1,5 +1,5 @@
 import {
-  Drawer, Form, Button, Col, Row, Input, 
+  Drawer, Form, Button, Col, Row, Input, message
   } from 'antd';
 import React, { Component } from 'react'; 
 import DropdownEfficacy from '../recipe/DropdownEfficacy'
@@ -88,7 +88,7 @@ class GeneratorDrawer extends Component {
         const ingredient = this.ingredient.getValue();
         const data = this.state.data;
         
-        axios.post('http://localhost:8080/dish/generate', {
+        axios.post('http://localhost:8080/generate/generate', {
               id: data == null ? null : data.id, 
               userName: userName,
               type: type,
@@ -158,6 +158,7 @@ class GeneratorDrawer extends Component {
           })
           .catch((err)=>{
               console.log(err)
+              message.info('Error [' + err.message + ']...');
           })
       };
       
