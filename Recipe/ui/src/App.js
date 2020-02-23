@@ -8,9 +8,9 @@ export class App extends React.Component {
     render() {
         return (
             <BrowserRouter>
-                <Route path='/user' component={User} />
-                <Route exact path='/recipe' component={Auth}/>
                 <Route exact path='/' component={User} />
+                <Route path='/user' component={User} />
+                <Route path='/recipe' component={Auth}/>
             </BrowserRouter>
         );
     }
