@@ -1,9 +1,8 @@
 import React, { Component, Button, ButtonGroup } from 'react';
-import './App.css';
+import './Recipe.css';
 import { BrowserRouter } from 'react-router-dom';
 import CustomMenu from "./component/menu/CustomMenu";//导航
 import ContentMain from './component/CustomMain/ContentMain'//主题
-import './App.css';
 import 'antd/dist/antd.css';
 import logo from './logo.svg';
 import './Navi.css'

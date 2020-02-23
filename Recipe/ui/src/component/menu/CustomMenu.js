@@ -3,7 +3,7 @@ import {
   } from 'antd';
   import React, { Component } from 'react'; 
   import { Link } from 'react-router-dom';
-  import '../../App.css';
+  import '../../Recipe.css';
   import 'antd/dist/antd.css';
   import '../../Navi.css'
   

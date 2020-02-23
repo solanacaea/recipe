@@ -2,7 +2,7 @@ import React from 'react';
 import { Redirect } from 'react-router-dom'
 
 import * as UserService from '../../service/UserService'
-import { Recipe } from '../../App';
+import { Recipe } from '../../Recipe';
 
 export class AuthComponent extends React.Component {
 
