@@ -1,23 +1,15 @@
 import React, { Component } from 'react';
-import './Recipe.css';
 import { BrowserRouter } from 'react-router-dom';
-import CustomMenu from "./component/menu/CustomMenu";//导航
-import ContentMain from './component/CustomMain/ContentMain'//主题
 import 'antd/dist/antd.css';
+
+import CustomMenu from "./component/menu/CustomMenu";
+import ContentMain from './component/CustomMain/ContentMain';
 import logo from './logo.svg';
-import './Navi.css'
+import './Recipe.css';
+import './Navi.css';
 
-//UI-antd-按需引入
-import 'antd/dist/antd.css';
-
-import {
-    Layout, Breadcrumb, Icon,
-} from 'antd';
-const {
-    Header, Content, Footer, Sider,
-} = Layout;
-
-//let screenHeight= window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+import { Layout, Breadcrumb, Icon } from 'antd';
+const { Header, Content, Footer, Sider } = Layout;
 
 export class Recipe extends Component {
     constructor(props) {
@@ -72,7 +64,6 @@ export class Recipe extends Component {
                     >
                         <CustomMenu updateParent={this.updateParent} onRef={this.onRef} />
                     </Sider>
-
                     <Layout>
                         <Header style={{ background: '#000', padding: 0 }}>
                             <span style={{ color: '#fff', paddingLeft: '2%', fontSize: '1.4em' }}>
@@ -86,7 +77,7 @@ export class Recipe extends Component {
                             <span style={{ color: '#fff', paddingLeft: '2%', fontSize: '1.4em' }}>
                                 <a onClick={this.junpToXZY.bind(this)}>
                                     心筑月淘宝店铺
-                    </a>
+                                </a>
                             </span>
                             <span style={{ color: '#fff', float: 'right', paddingRight: '1%' }}>
                                 <img src={logo} className="App-logo" alt="logo" />
@@ -103,7 +94,7 @@ export class Recipe extends Component {
                         </Content>
                         <Footer style={{ textAlign: 'center' }}>
                             UI Design ©2019 Created by SB & XiaoYao Wang
-            </Footer>
+                        </Footer>
                     </Layout>
                 </Layout>
             </BrowserRouter>
