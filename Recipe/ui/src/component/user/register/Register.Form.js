@@ -23,9 +23,7 @@ class RegisterForm extends React.Component {
 
         return (
             <Form>
-                <Form.Item>
-                    <h3>注册</h3>
-                </Form.Item>
+                <h3>注册</h3>
                 <Form.Item>
                     {
                         getFieldDecorator('mail', {
