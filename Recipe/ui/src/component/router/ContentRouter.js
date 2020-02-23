@@ -10,6 +10,7 @@ export class ContentRouter extends React.Component {
             <BrowserRouter>
                 <Route path='/user' component={User} />
                 <Route exact path='/recipe' component={AuthComponent}/>
+                <Route exact path='/' component={User} />
             </BrowserRouter>
         );
     }

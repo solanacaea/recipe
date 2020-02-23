@@ -83,7 +83,7 @@ class LoginForm extends React.Component {
                         <Button type="primary" loading={this.state.submiting} htmlType="submit" className="submit" onClick={(e) => this.onLogin(e)}>登录</Button>
                         </Col>
                         <Col span={8} style={{"textAlign": "right"}}>
-                            <Link to="./register">注册账户</Link>
+                            <Link to="/user/register">注册账户</Link>
                         </Col>
                     </Row>
                     

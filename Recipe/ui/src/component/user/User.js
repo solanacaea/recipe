@@ -21,6 +21,7 @@ export class User extends React.Component {
                 <div className="main">
                     <Route component={LoginForm} path='/user/login' exact></Route>
                     <Route component={RegisterForm} path='/user/register' exact></Route>
+                    <Route component={LoginForm} path='/' exact></Route>
                 </div>
             </div>
         );
