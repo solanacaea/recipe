@@ -1,10 +1,10 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom'
 
-import * as UserService from '../../service/UserService'
-import { Recipe } from '../../Recipe';
+import * as UserService from './service/UserService'
+import { Recipe } from './Recipe';
 
-export class AuthComponent extends React.Component {
+export class Auth extends React.Component {
 
     state = {
         component: null
