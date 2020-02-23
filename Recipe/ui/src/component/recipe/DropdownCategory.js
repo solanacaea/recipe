@@ -3,9 +3,7 @@ import React, { Component } from 'react';
 import { Checkbox } from 'antd';
 
 const CheckboxGroup = Checkbox.Group;
-
 const plainOptions = ['主食', '汤', '菜', '饮品'];
-// const defaultCheckedList = [];
 
 class DropDownComponent extends Component {
     componentDidMount() {
@@ -24,7 +22,6 @@ class DropDownComponent extends Component {
             indeterminate: !!checkedList.length && (checkedList.length < plainOptions.length),
             checkAll: checkedList.length === plainOptions.length,
         });
-        // this.props.callParent(checkedList);
     }
 
     onCheckAllChange = (e) => {
@@ -49,7 +46,7 @@ class DropDownComponent extends Component {
                         checked={this.state.checkAll}
                     >
                         全选
-          </Checkbox>
+                    </Checkbox>
                 </div>
                 <br />
                 <CheckboxGroup options={plainOptions} value={this.state.checkedList} onChange={this.onChange} />

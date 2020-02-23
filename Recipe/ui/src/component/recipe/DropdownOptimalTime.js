@@ -48,7 +48,7 @@ class DropDownComponent extends Component {
                         checked={this.state.checkAll}
                     >
                         全选
-          </Checkbox>
+                    </Checkbox>
                 </div>
                 <br />
                 <CheckboxGroup options={plainOptions} value={this.state.checkedList} onChange={this.onChange} />

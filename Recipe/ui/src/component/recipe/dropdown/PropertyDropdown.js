@@ -69,7 +69,7 @@ class PropertyDropdown extends Component {
                         checked={checkAll}
                     >
                         全选
-          </Checkbox>
+                    </Checkbox>
                 </div>
                 <br />
                 <CheckboxGroup options={plainOptions} value={checkedList} onChange={this.onChange} />

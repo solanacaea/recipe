@@ -3,8 +3,6 @@ import React, { Component } from 'react';
 import { Checkbox } from 'antd';
 
 const CheckboxGroup = Checkbox.Group;
-
-// const plainOptions = ['补血', '活血', '清热', '祛湿'];
 const plainOptions = ['气虚', '血瘀', '阴虚', '痰湿'];
 const defaultCheckedList = [];
 
@@ -49,7 +47,7 @@ class DropDownComponent extends Component {
                         checked={this.state.checkAll}
                     >
                         全选
-          </Checkbox>
+                    </Checkbox>
                 </div>
                 <br />
                 <CheckboxGroup options={plainOptions} value={this.state.checkedList} onChange={this.onChange} />

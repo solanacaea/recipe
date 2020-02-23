@@ -245,10 +245,10 @@ class DrawerForm extends Component {
                     >
                         <Button onClick={this.onClose} style={{ marginRight: 8 }}>
                             Cancel
-              </Button>
+                        </Button>
                         <Button onClick={this.onSubmit} type="primary">
                             Submit
-              </Button>
+                        </Button>
                     </div>
                 </Drawer>
             </div>
