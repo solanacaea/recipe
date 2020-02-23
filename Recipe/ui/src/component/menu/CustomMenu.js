@@ -48,11 +48,10 @@ import {
                   key="recipe"
                   title={<span><Icon type="pie-chart" /><span>食谱</span></span>}>
                   <Menu.Item key="/recipe"><Link to="/recipe"> 列表 </Link></Menu.Item>
-                  <Menu.Item key="/generate"><Link to="/generate"> 生成器 </Link></Menu.Item>
+                  <Menu.Item key="/generate"><Link to="/recipe/generate"> 生成器 </Link></Menu.Item>
               </SubMenu>
-              
               <Menu.Item key="/info">
-                <Link to="/info">
+                <Link to="/recipe/info">
                   <Icon type="desktop" />
                   <span>信息</span>
                 </Link>

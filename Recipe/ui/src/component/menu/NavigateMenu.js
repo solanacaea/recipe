@@ -45,7 +45,7 @@
                 </Link>
               </Menu.Item>
               <Menu.Item key="/info">
-                <Link to="/info">
+                <Link to="/recipe/info">
                   <Icon type="desktop" />
                   <span>信息</span>
                 </Link>

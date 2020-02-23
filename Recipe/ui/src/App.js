@@ -20,7 +20,7 @@ const {
 
 //let screenHeight= window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
 
-class test extends Component {
+export class Recipe extends Component {
   constructor(props) {
     super(props)
     this.updateParent= this.updateParent.bind(this);
@@ -112,5 +112,3 @@ junpToXZY() {
   }
 
 }
-
-export default test;
