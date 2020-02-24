@@ -43,17 +43,23 @@ dependencies {
   	testAnnotationProcessor 'org.projectlombok:lombok:1.18.2'
   	testCompileOnly 'org.projectlombok:lombok:1.18.2'
     
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	
     compile("org.springframework.boot:spring-boot-starter-data-rest") {
         exclude group: "org.springframework.boot", module: "spring-boot-starter-logging"
     }
     compile("org.springframework.boot:spring-boot-starter-data-jpa") 
-
+	compile("org.springframework.boot:spring-boot-starter-security")
 	//compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb', version: '2.0.2.RELEASE'
 
     //compile("org.springframework.data:spring-data-gemfire")
  	//compile("com.h2database:h2")
- 	compile("mysql:mysql-connector-java");
+ 	compile("mysql:mysql-connector-java")
     compile("org.springframework.shell:spring-shell:1.2.0.RELEASE")
+
+	compile("com.sun.mail:javax.mail:1.6.2")
+	compile("com.tencentcloudapi:tencentcloud-sdk-java:3.1.2")
 
     compile("javax.xml.bind:jaxb-api:2.3.0")
     compile("com.sun.xml.bind:jaxb-impl:2.3.0")
