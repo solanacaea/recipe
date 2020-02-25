@@ -1,19 +1,10 @@
 package com.food.recipe.controller;
 
-import javax.servlet.http.HttpServletRequest;
-
-import com.food.recipe.annotation.Authorization;
-import com.food.recipe.annotation.CurrentUser;
-import com.food.recipe.login.TokenEntity;
-import com.food.recipe.login.TokenService;
-import com.food.recipe.user.RecipeUser;
-import com.food.recipe.utils.MD5Util;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,11 +12,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.food.recipe.annotation.Authorization;
+import com.food.recipe.annotation.CurrentUser;
 import com.food.recipe.annotation.NoRepeatSubmit;
+import com.food.recipe.login.TokenEntity;
+import com.food.recipe.login.TokenService;
 import com.food.recipe.sms.SmsService;
 import com.food.recipe.sms.SmsTemplate;
+import com.food.recipe.user.RecipeUser;
 import com.food.recipe.user.RecipeUserDetailsService;
 import com.food.recipe.user.RegisterUser;
+import com.food.recipe.utils.MD5Util;
 
 @RestController
 @RequestMapping("/user")
@@ -83,6 +80,7 @@ public class RegisterController {
 
 		if (MD5Util.encode(password).equals(user.getPassword())) {
 			TokenEntity tokenEntity = tokenService.createToken(String.valueOf(user.getUserId()));
+
 			String authKey = tokenEntity.getUserId() + "@" + tokenEntity.getToken();
 			return new ResponseEntity<>(ResponseEntity.ok(authKey), HttpStatus.OK);
 		}

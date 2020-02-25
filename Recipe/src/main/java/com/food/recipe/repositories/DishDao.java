@@ -5,7 +5,7 @@ import java.util.StringJoiner;
 import java.util.stream.Stream;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,14 +21,14 @@ public class DishDao {
 	private EntityManager em;
 	
 	public List<UserGenerateAudit> findAllGenerates() {
-		String hql = "from UserAudit order by createdDate desc";
-		Query q = em.createQuery(hql);
+		String hql = "from UserGenerateAudit order by createdDate desc";
+		TypedQuery<UserGenerateAudit> q = em.createQuery(hql, UserGenerateAudit.class);
 		return q.getResultList();
 	}
 	
 	public void addCustomInfo(UserGenerateAudit info) {
-		String hql = "from UserAudit where userName = :userName";
-		Query q = em.createQuery(hql);
+		String hql = "from UserGenerateAudit where userName = :userName";
+		TypedQuery<UserGenerateAudit> q = em.createQuery(hql, UserGenerateAudit.class);
 		q.setParameter("userName", info.getUserName());
 		List<UserGenerateAudit> result = q.getResultList();
 		if (CollectionUtils.isNotEmpty(result)) {
@@ -45,7 +45,7 @@ public class DishDao {
 		String hql = from + where;
 		String optimalStage = getOptimalStage(week);
 		
-		Query q = em.createQuery(hql);
+		TypedQuery<Dish> q = em.createQuery(hql, Dish.class);
 		q.setParameter("week", optimalStage);
 		q.setParameter("optimalTime", "%" + optimalTime + "%");
 		return q.getResultList();

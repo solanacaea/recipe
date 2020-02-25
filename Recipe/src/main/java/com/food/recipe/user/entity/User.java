@@ -38,6 +38,9 @@ public class User {
 	@Column(name = "RegisterDate")
 	private LocalDateTime registerDate;
 
+	@Column(name = "LastLoginDate")
+	private LocalDateTime lastLoginDate;
+
 	@Column(name = "Enable")
 	private boolean enable;
 }

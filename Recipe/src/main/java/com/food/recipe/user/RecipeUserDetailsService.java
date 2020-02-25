@@ -102,14 +102,6 @@ public class RecipeUserDetailsService implements UserDetailsService {
 				.build();
 		userRepo.saveRole(role);
 	}
-	
-	public void createUser(RecipeUser user) {
-		LocalDateTime now = LocalDateTime.now();
-		User u = beanToEntity(user);
-		u.setRegisterDate(now);
-		userRepo.createUser(u);
-		saveRoleForNewUser(now, u);
-	}
 
 	public void changePassword(String oldPassword, String newPassword) {
 		Authentication currentUser = SecurityContextHolder.getContext()
@@ -146,9 +138,8 @@ public class RecipeUserDetailsService implements UserDetailsService {
 		return entityToBean(user, grantedAuth);
 	}
 
-	public void updateUser(RecipeUser user) {
-		User u = beanToEntity(user);
-		userRepo.updateUser(u);
+	public void updateUser(RegisterUser user) {
+		userRepo.updateUser(user);
 	}
 
 	public void deleteUser(String username) {
@@ -158,21 +149,12 @@ public class RecipeUserDetailsService implements UserDetailsService {
 	public boolean userExists(String username) {
 		return userRepo.userExists(username);
 	}
-	
-	private static User beanToEntity(RecipeUser userBean) {
-		return User.builder().email(userBean.getEmail())
-			.password(userBean.getPassword())
-			.phone(userBean.getPhone())
-			.registerDate(userBean.getRegisterDate())
-			.userId(userBean.getUserId())
-			.username(userBean.getUsername())
-
-			.build();
-	}
 
 	private static RecipeUser entityToBean(User user, Collection<GrantedAuthority> role) {
 		return new RecipeUser(user.getUserId(), user.getUsername(), user.getNickname(), user.getPassword(),
-				user.getEmail(), user.getPhone(), user.getRegisterDate(), user.isEnable(), role);
+				user.getEmail(), user.getPhone(),
+				user.getRegisterDate(), user.getLastLoginDate(),
+				user.isEnable(), role);
 	}
 
 }

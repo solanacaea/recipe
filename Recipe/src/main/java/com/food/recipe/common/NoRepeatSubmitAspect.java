@@ -3,6 +3,8 @@ package com.food.recipe.common;
 import java.lang.reflect.Method;
 import java.util.concurrent.TimeUnit;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -11,12 +13,9 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.context.request.RequestContextHolder;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-
-import javax.servlet.http.HttpServletRequest;
 
 @Aspect
 @Configuration

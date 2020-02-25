@@ -23,9 +23,10 @@ public class RecipeUser extends User {
 	private String email;
 	private String phone;
 	private LocalDateTime registerDate;
-	
+	private LocalDateTime lastLoginDate;
+
 	public RecipeUser(int userId, String username, String nickname, String password,
-			String email, String phone, LocalDateTime registerDate, 
+			String email, String phone, LocalDateTime registerDate, LocalDateTime lastLoginDate,
 			boolean enable, Collection<? extends GrantedAuthority> authorities) {
 //		super(username, password, AuthorityUtils.NO_AUTHORITIES);
 		super(username, password, enable,
@@ -34,6 +35,7 @@ public class RecipeUser extends User {
 		this.userId = userId;
 		this.nickname = nickname;
 		this.registerDate = registerDate;
+		this.lastLoginDate = lastLoginDate;
 		this.email = email;
 		this.phone = phone;
 	}

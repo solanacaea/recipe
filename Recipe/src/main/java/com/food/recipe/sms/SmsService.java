@@ -1,13 +1,10 @@
 package com.food.recipe.sms;
 
-import com.food.recipe.register.RegisterMessage;
-import com.food.recipe.register.RegisterMessageRepo;
-import com.google.common.collect.Maps;
-import com.tencentcloudapi.common.Credential;
-import com.tencentcloudapi.common.profile.ClientProfile;
-import com.tencentcloudapi.common.profile.HttpProfile;
-import com.tencentcloudapi.sms.v20190711.SmsClient;
-import com.tencentcloudapi.sms.v20190711.models.SendSmsRequest;
+import java.time.LocalDateTime;
+import java.util.Map;
+
+import javax.annotation.PostConstruct;
+
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -16,9 +13,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 
-import javax.annotation.PostConstruct;
-import java.time.LocalDateTime;
-import java.util.Map;
+import com.food.recipe.register.RegisterMessage;
+import com.food.recipe.register.RegisterMessageRepo;
+import com.google.common.collect.Maps;
+import com.tencentcloudapi.common.Credential;
+import com.tencentcloudapi.common.exception.TencentCloudSDKException;
+import com.tencentcloudapi.common.profile.ClientProfile;
+import com.tencentcloudapi.common.profile.HttpProfile;
+import com.tencentcloudapi.sms.v20190711.SmsClient;
+import com.tencentcloudapi.sms.v20190711.models.SendSmsRequest;
+import com.tencentcloudapi.sms.v20190711.models.SendSmsResponse;
 
 @Service
 public class SmsService {
@@ -110,25 +114,24 @@ public class SmsService {
             String[] templateParams = { code };
             req.setTemplateParamSet(templateParams);
 
-            //SendSmsResponse res = client.SendSms(req);
-            //String requestId = res.getRequestId();
-            //String reponseContent = SendSmsResponse.toJsonString(res);
-
-        } catch (Exception e) {
+            SendSmsResponse res = client.SendSms(req);
+            String requestId = res.getRequestId();
+            String reponseContent = SendSmsResponse.toJsonString(res);
+            
+//          CompletableFuture.runAsync(() -> {
+	            RegisterMessage rm = RegisterMessage.builder()
+	                    .requestId(requestId)
+	                    .response(reponseContent)
+	                    .code(code)
+	                    .phone(phone)
+	                    .createdDate(LocalDateTime.now())
+	                    .build();
+	            msgRepo.saveMessage(rm);
+	//      });
+	        return "发送成功";
+        } catch (TencentCloudSDKException e) {
             ExceptionUtils.getStackTrace(e);
             return "发送失败";
         }
-
-//      CompletableFuture.runAsync(() -> {
-            RegisterMessage rm = RegisterMessage.builder()
-                    .requestId("aaa")
-                    .response("test")
-                    .code(code)
-                    .phone(phone)
-                    .createdDate(LocalDateTime.now())
-                    .build();
-            msgRepo.saveMessage(rm);
-//      });
-        return "发送成功";
     }
 }
