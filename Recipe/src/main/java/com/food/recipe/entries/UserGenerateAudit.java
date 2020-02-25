@@ -22,7 +22,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserAudit {
+public class UserGenerateAudit {
 
 	@Id
 	@Column(name = "Id")

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.food.recipe.annotation.NoRepeatSubmit;
 import com.food.recipe.bean.DailyBean;
 import com.food.recipe.bean.RequestBean;
 import com.food.recipe.entries.BackupDish;
@@ -38,21 +39,21 @@ public class DishController {
 	
 	@Autowired
 	private DishService service;
-	
-	@RequestMapping("/getall")
-	@GetMapping
+
+	@NoRepeatSubmit
+	@PostMapping("/getall")
 	public List<Dish> getAll() {
 		return repo.findAllDishes();
 	}
 
-	@RequestMapping("/recipe")
-	@PostMapping
+	@NoRepeatSubmit
+	@PostMapping("/recipe")
 	public List<DailyBean> getCustomRecipe(@RequestBody RequestBean d) {
 		return service.getCustomRecipe(d);
 	}
 	
-	@RequestMapping("/save")
-	@PostMapping
+	@NoRepeatSubmit
+	@PostMapping("/save")
 	public void save(@RequestBody Dish d) {
 		if (StringUtils.isBlank(d.getContent())) {
 			throw new NullPointerException("食材内容不能为空!");
@@ -63,8 +64,8 @@ public class DishController {
 		log.info("Saved " + d);
 	}
 	
-	@RequestMapping("/delete")
-	@DeleteMapping
+	@NoRepeatSubmit
+	@DeleteMapping("/delete")
 	public void delete(@RequestBody Dish d) {
 		log.info("deleting dish " + d);
 		repo.deleteById(d.getId());

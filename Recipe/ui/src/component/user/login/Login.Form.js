@@ -129,7 +129,7 @@ class LoginForm extends React.Component {
         });
     }
 
-    getUserLogin(activeFields,fieldsValue, loginType) {
+    getUserLogin(activeFields, fieldsValue, loginType) {
         const userLogin = {};
         activeFields.forEach(field => {
             userLogin[field] = fieldsValue[field];

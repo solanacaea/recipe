@@ -32,10 +32,10 @@ public class EmailService {
 
 	private static final String UTF8 = StandardCharsets.UTF_8.name(); 
 	
-	@Value("email.from")
+	@Value("${email.from}")
 	private String from;
 	
-	@Value("email.from.secret")
+	@Value("${email.from.secret}")
 	private String fromSecret;
 	
 	@Autowired

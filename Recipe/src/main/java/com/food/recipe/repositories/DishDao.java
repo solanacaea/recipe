@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.food.recipe.entries.Dish;
-import com.food.recipe.entries.UserAudit;
+import com.food.recipe.entries.UserGenerateAudit;
 
 @Repository
 public class DishDao {
@@ -20,19 +20,19 @@ public class DishDao {
 	@Autowired
 	private EntityManager em;
 	
-	public List<UserAudit> findAllGenerates() {
+	public List<UserGenerateAudit> findAllGenerates() {
 		String hql = "from UserAudit order by createdDate desc";
 		Query q = em.createQuery(hql);
 		return q.getResultList();
 	}
 	
-	public void addCustomInfo(UserAudit info) {
+	public void addCustomInfo(UserGenerateAudit info) {
 		String hql = "from UserAudit where userName = :userName";
 		Query q = em.createQuery(hql);
 		q.setParameter("userName", info.getUserName());
-		List<UserAudit> result = q.getResultList();
+		List<UserGenerateAudit> result = q.getResultList();
 		if (CollectionUtils.isNotEmpty(result)) {
-			UserAudit exists = result.get(0);
+			UserGenerateAudit exists = result.get(0);
 			info.setId(exists.getId());
 		}
 		em.merge(info);

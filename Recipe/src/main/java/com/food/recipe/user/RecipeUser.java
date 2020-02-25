@@ -18,19 +18,21 @@ public class RecipeUser extends User {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private String userId;
-	private String name;
+	private int userId;
+	private String nickname;
 	private String email;
 	private String phone;
 	private LocalDateTime registerDate;
 	
-	public RecipeUser(String userId, String username, String password, 
+	public RecipeUser(int userId, String username, String nickname, String password,
 			String email, String phone, LocalDateTime registerDate, 
 			boolean enable, Collection<? extends GrantedAuthority> authorities) {
 //		super(username, password, AuthorityUtils.NO_AUTHORITIES);
-		super(userId, password, enable, true, true, true, authorities);
+		super(username, password, enable,
+				true, true, true,
+				authorities);
 		this.userId = userId;
-		this.name = username;
+		this.nickname = nickname;
 		this.registerDate = registerDate;
 		this.email = email;
 		this.phone = phone;

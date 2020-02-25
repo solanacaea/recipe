@@ -26,7 +26,24 @@ class RegisterForm extends React.Component {
                 <h3>注册</h3>
                 <Form.Item>
                     {
-                        getFieldDecorator('mail', {
+                        getFieldDecorator('username', {
+                            rules: [
+                                {
+                                    validator: (rule, value, callback) => {
+                                        this.checkDuplicateName(value, callback);
+                                    }
+                                },
+                                {
+                                    required: true,
+                                    message: '请输入用户名！',
+                                }
+                            ],
+                        })(<Input placeholder="用户名" />,)
+                    }
+                </Form.Item>
+                <Form.Item>
+                    {
+                        getFieldDecorator('email', {
                             rules: [
                                 {
                                     type: 'email',
@@ -97,6 +114,25 @@ class RegisterForm extends React.Component {
         );
     }
 
+    checkDuplicateName(value, callback) {
+        if (value.length == 0) {
+            callback();
+        } else if (value.length < 4) {
+            callback(new Error("用户名长度要大于3个字符！"));
+        } else {
+            UserService.checkName(value).then(value => {
+                console.log(value)
+                if (value == true) {
+                    callback(new Error('用户名已存在！'));
+                } else {
+                    callback();
+                }
+            }, err => {
+                callback();
+            });
+        }
+    }
+
     checkConfirmPassword(value, callback) {
         const { form } = this.props;
         if (!form) {
@@ -122,7 +158,7 @@ class RegisterForm extends React.Component {
             return;
         }
 
-        form.validateFields(['mail', 'password', 'confirmPassword', 'phone', 'captcha'],(err, fieldsValue) => {
+        form.validateFields(['username', 'email', 'password', 'phone', 'captcha'],(err, fieldsValue) => {
             if (err) {
                 return;
             }

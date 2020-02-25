@@ -2,17 +2,19 @@ import axios from 'axios'
 
 import Config from '../core/Config'
 
+const BaseURL = Config == '.' ? '.' : `${Config}/dish`;
+
 export const deleteDish = (dish) => {
-    const url = `${Config}/dish/delete`;
+    const url = `${BaseURL}/delete`;
     return axios.post(url, dish);
 }
 
 export const getAllDishes = () => {
-    const url = `${Config}/dish/getall`;
+    const url = `${BaseURL}/getall`;
     return axios.post(url);
 }
 
 export const saveDish = (dish) => {
-    const url = `${Config}/dish/save`;
+    const url = `${BaseURL}/save`;
     return axios.post(url, dish);
 }

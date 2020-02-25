@@ -43,7 +43,7 @@ dependencies {
   	testAnnotationProcessor 'org.projectlombok:lombok:1.18.2'
   	testCompileOnly 'org.projectlombok:lombok:1.18.2'
     
-    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    //implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	
     compile("org.springframework.boot:spring-boot-starter-data-rest") {
@@ -56,18 +56,19 @@ dependencies {
     //compile("org.springframework.data:spring-data-gemfire")
  	//compile("com.h2database:h2")
  	compile("mysql:mysql-connector-java")
-    compile("org.springframework.shell:spring-shell:1.2.0.RELEASE")
+    //compile("javax.persistence:persistence-api")
+    //compile("org.springframework.shell:spring-shell:1.2.0.RELEASE")
 
 	compile("com.sun.mail:javax.mail:1.6.2")
 	compile("com.tencentcloudapi:tencentcloud-sdk-java:3.1.2")
 
-    compile("javax.xml.bind:jaxb-api:2.3.0")
-    compile("com.sun.xml.bind:jaxb-impl:2.3.0")
-    compile("com.sun.xml.bind:jaxb-core:2.3.0")
-    compile("javax.activation:activation:1.1.1")
-    compile("org.glassfish.jaxb:jaxb-runtime:2.3.0.1")
-    compile("org.javassist:javassist:3.23.1-GA")
-
+    //compile("javax.xml.bind:jaxb-api:2.3.0")
+    //compile("com.sun.xml.bind:jaxb-impl:2.3.0")
+    //compile("com.sun.xml.bind:jaxb-core:2.3.0")
+    //compile("javax.activation:activation:1.1.1")
+    //compile("org.glassfish.jaxb:jaxb-runtime:2.3.0.1")
+    //compile("org.javassist:javassist:3.23.1-GA")
+	compile("com.google.guava:guava:21.0")
 	compile("org.apache.commons:commons-lang3:3.7")
 	compile("org.apache.commons:commons-collections4:4.4")
 	

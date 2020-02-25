@@ -296,27 +296,27 @@ class GeneratorDrawer extends Component {
                         </Row>
                         <Row gutter={16}>
                             <Col span={12}>
-                                <Form.Item label="注意">
-                                    {getFieldDecorator('note', {
-                                        rules: [
-                                            {
-                                                required: true,
-                                                message: '请输入注意事项...',
-                                            },
-                                        ],
-                                    })(<Input.TextArea rows={4} placeholder="请输入注意事项..." onChange={this.onNoteChange} />)}
-                                </Form.Item>
-                            </Col>
-                            <Col span={12}>
                                 <Form.Item label="声明">
-                                    {getFieldDecorator('declare', {
+                                    {getFieldDecorator('note', {
                                         rules: [
                                             {
                                                 required: true,
                                                 message: '请输入声明...',
                                             },
                                         ],
-                                    })(<Input.TextArea rows={4} placeholder="请输入声明..." onChange={this.oDeclareChange} />)}
+                                    })(<Input.TextArea rows={4} placeholder="请输入声明..." onChange={this.onNoteChange} />)}
+                                </Form.Item>
+                            </Col>
+                            <Col span={12}>
+                                <Form.Item label="注意">
+                                    {getFieldDecorator('declare', {
+                                        rules: [
+                                            {
+                                                required: true,
+                                                message: '请输入注意事项...',
+                                            },
+                                        ],
+                                    })(<Input.TextArea rows={4} placeholder="请输入注意事项..." onChange={this.oDeclareChange} />)}
                                 </Form.Item>
                             </Col>
                         </Row>

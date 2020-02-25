@@ -11,47 +11,55 @@ import org.springframework.stereotype.Repository;
 
 import com.food.recipe.user.entity.User;
 import com.food.recipe.user.entity.UserGrantedAuthority;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
+@Transactional
 public class UserRepo {
 
 	@Autowired
 	private EntityManager em;
-	
-	public User createUser(User user) {
+
+	protected User createUser(User user) {
 		return em.merge(user);
 	}
-	
-	public void saveRole(UserGrantedAuthority role) {
-		
+
+	protected UserGrantedAuthority saveRole(UserGrantedAuthority role) {
+		return em.merge(role);
 	}
-	
-	public void changePassword(String userId, String passwd) {
+
+	protected void changePassword(String userId, String passwd) {
 		
 	}
 	
 	public void updateUser(User user) {
 		
 	}
-	
-	public void deleteUser(String userId) {
+
+	protected void deleteUser(String userId) {
 		
 	}
-	
-	public boolean userExists(String userId) {
+
+	protected boolean userExists(String userId) {
 		return false;
 	}
-	
-	public User getUserById(String userId) {
+
+	protected User findByUserId(String userId) {
 		Query q = em.createQuery("FROM User WHERE userId = :userId");
-		q.setParameter("userId", userId);
+		q.setParameter(userId, userId);
 		return (User) q.getSingleResult();
 	}
-	
-	public Collection<UserGrantedAuthority> getAuthById(String userId) {
-		TypedQuery<UserGrantedAuthority> q = em.createQuery(
-				"FROM UserGrantedAuthority WHERE userId = :userId", UserGrantedAuthority.class);
-		q.setParameter("userId", userId);
+
+	protected User findByUsername(String username) {
+		Query q = em.createQuery("FROM User WHERE username = :username");
+		q.setParameter("username", username);
+		return (User) q.getSingleResult();
+	}
+
+	protected Collection<UserGrantedAuthority> getAuthByName(String username) {
+		String hql = "FROM UserGrantedAuthority WHERE username = :username";
+		TypedQuery<UserGrantedAuthority> q = em.createQuery(hql, UserGrantedAuthority.class);
+		q.setParameter(username, username);
 		return q.getResultList();
 	}
 	

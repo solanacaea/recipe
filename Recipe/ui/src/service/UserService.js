@@ -2,23 +2,25 @@ import axios from 'axios'
 
 import Config from '../core/Config'
 
+const BaseURL = Config == '.' ? '.' : `${Config}/user`;
+
 export const login = (user) => {
-  const url = `${Config}/user/login`;
+  const url = `${BaseURL}/login`;
   return axios.post(url, user);
 }
 
 export const register = (user) => {
-  const url = `${Config}/user/register`;
+  const url = `${BaseURL}/register`;
   return axios.post(url, user);
 }
 
 export const getCaptcha = (phone) => {
-  const url = `${Config}/user/captcha`;
-  return axios.post(url, { phone: phone });
+  const url = `${BaseURL}/captcha?phone=` + phone;
+  return axios.post(url, phone);
 }
 
 export const getLogin = () => {
-  const url = `${Config}/user/get`;
+  const url = `${BaseURL}/get`;
   // return axios.post(url);
   return new Promise((resolve) => {
     resolve(true);
@@ -27,4 +29,9 @@ export const getLogin = () => {
 
 export const logout = () => {
   
+}
+
+export const checkName = (username) => {
+  const url = `${BaseURL}/checkname?username=` + username;
+  return axios.post(url, username);
 }

@@ -24,7 +24,7 @@ import com.food.recipe.bean.DailyBean.Lunch;
 import com.food.recipe.bean.DailyBean.Snack;
 import com.food.recipe.bean.RequestBean;
 import com.food.recipe.entries.Dish;
-import com.food.recipe.entries.UserAudit;
+import com.food.recipe.entries.UserGenerateAudit;
 import com.food.recipe.repositories.DishDao;
 import com.food.recipe.utils.DishUtils;
 
@@ -37,12 +37,12 @@ public class DishService {
 	@Autowired
 	private ExcelService service;
 	
-	public List<UserAudit> findAllGenerates() {
+	public List<UserGenerateAudit> findAllGenerates() {
 		return dao.findAllGenerates();
 	}
 	
 	public Workbook generateRecipe(RequestBean d) throws IOException {
-		dao.addCustomInfo(UserAudit.builder().userName(d.getUserName())
+		dao.addCustomInfo(UserGenerateAudit.builder().userName(d.getUserName())
 				.efficacy(d.getEfficacy()).ingredient(d.getIngredient())
 				.createdDate(new Date()).memo(d.getMemo()).suggestion(d.getSuggestion()).build());
 				//.declare(d.getDeclare()).feature(d.getFeature()).note(d.getNote()).type(d.getType())
