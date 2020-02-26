@@ -2,9 +2,16 @@ package com.food.recipe.user.entity;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table
@@ -15,17 +22,18 @@ import lombok.*;
 @NoArgsConstructor
 public class UserGrantedAuthority {
 
+//	@Id
+//	@Column(name = "Id")
+//	@GeneratedValue(strategy = GenerationType.AUTO)
+//	private String id;
+	
 	@Id
-	@Column(name = "Id")
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private String id;
-
 	@Column(name = "UserId")
 	private int userId;
 
 	@Column(name = "Role")
 	private String role;
-
+	
 	@Column(name = "GrantedDate")
 	private LocalDateTime grantedDate;
 }

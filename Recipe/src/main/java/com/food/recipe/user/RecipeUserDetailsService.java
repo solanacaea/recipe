@@ -1,34 +1,30 @@
 package com.food.recipe.user;
 
-import com.food.recipe.register.RegisterMessage;
-import com.food.recipe.register.RegisterMessageRepo;
-import com.food.recipe.user.entity.User;
-import com.food.recipe.user.entity.UserGrantedAuthority;
-import com.food.recipe.utils.Constants;
-import lombok.extern.apachecommons.CommonsLog;
+import java.time.LocalDateTime;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.stream.Collectors;
+import com.food.recipe.register.RegisterMessage;
+import com.food.recipe.register.RegisterMessageRepo;
+import com.food.recipe.user.entity.User;
+import com.food.recipe.user.entity.UserGrantedAuthority;
+import com.food.recipe.utils.Constants;
+
+import lombok.extern.apachecommons.CommonsLog;
 
 @Service
 @CommonsLog
-@Transactional
 public class RecipeUserDetailsService implements UserDetailsService {
 
 	@Autowired
@@ -47,19 +43,18 @@ public class RecipeUserDetailsService implements UserDetailsService {
 	public RecipeUser loadUserByUsername(String username) throws UsernameNotFoundException {
 		try {
 			User u = userRepo.findByUsername(username);
-			Collection<GrantedAuthority> grantedAuth = getGrantedAuthorities(username);
-			return entityToBean(u, grantedAuth);
+			return entityToBean(u);
 		} catch (Exception e) {
 			throw new UsernameNotFoundException(username + " was not found.");
 		}
 	}
 
-	private Collection<GrantedAuthority> getGrantedAuthorities(String username) {
-		Collection<UserGrantedAuthority> role = userRepo.getAuthByName(username);
-		return role.stream()
-				.map(g -> new SimpleGrantedAuthority(g.getRole()))
-				.collect(Collectors.toCollection(ArrayList::new));
-	}
+//	private Collection<GrantedAuthority> getGrantedAuthorities(String username) {
+//		Collection<UserGrantedAuthority> role = userRepo.getAuthByName(username);
+//		return role.stream()
+//				.map(g -> new SimpleGrantedAuthority(g.getRole()))
+//				.collect(Collectors.toCollection(ArrayList::new));
+//	}
 
 	public void createUser(RegisterUser user) {
 		LocalDateTime now = LocalDateTime.now();
@@ -80,7 +75,7 @@ public class RecipeUserDetailsService implements UserDetailsService {
 		if (!StringUtils.equals(user.getCaptcha(), msg.getCode())) {
 			throw new RuntimeException("请输入正确的验证码！");
 		}
-
+				
 		User dbUser = User.builder().enable(true)
 				.email(user.getEmail())
 				.password(passwordEncoder.encode(user.getPassword()))
@@ -89,19 +84,24 @@ public class RecipeUserDetailsService implements UserDetailsService {
 				.nickname(user.getNickname())
 				.username(user.getUsername())
 				.build();
-
 		User saved = userRepo.createUser(dbUser);
-		saveRoleForNewUser(now, saved);
-	}
 
-	private void saveRoleForNewUser(LocalDateTime now, User saved) {
 		UserGrantedAuthority role = UserGrantedAuthority.builder()
-				.role(Constants.ROLE_USER)
 				.userId(saved.getUserId())
+				.role(Constants.ROLE_USER)
 				.grantedDate(now)
 				.build();
 		userRepo.saveRole(role);
 	}
+
+//	private void saveRoleForNewUser(LocalDateTime now, User saved) {
+//		UserGrantedAuthority role = UserGrantedAuthority.builder()
+//				.role(Constants.ROLE_USER)
+//				.userId(saved.getUserId())
+//				.grantedDate(now)
+//				.build();
+//		userRepo.saveRole(role);
+//	}
 
 	public void changePassword(String oldPassword, String newPassword) {
 		Authentication currentUser = SecurityContextHolder.getContext()
@@ -134,8 +134,8 @@ public class RecipeUserDetailsService implements UserDetailsService {
 
 	public RecipeUser findByUserId(String userId) {
 		User user = userRepo.findByUserId(userId);
-		Collection<GrantedAuthority> grantedAuth = getGrantedAuthorities(user.getUsername());
-		return entityToBean(user, grantedAuth);
+//		Collection<GrantedAuthority> grantedAuth = getGrantedAuthorities(user.getUsername());
+		return entityToBean(user);
 	}
 
 	public void updateUser(RegisterUser user) {
@@ -150,11 +150,12 @@ public class RecipeUserDetailsService implements UserDetailsService {
 		return userRepo.userExists(username);
 	}
 
-	private static RecipeUser entityToBean(User user, Collection<GrantedAuthority> role) {
+	private static RecipeUser entityToBean(User user) {
 		return new RecipeUser(user.getUserId(), user.getUsername(), user.getNickname(), user.getPassword(),
 				user.getEmail(), user.getPhone(),
 				user.getRegisterDate(), user.getLastLoginDate(),
-				user.isEnable(), role);
+				user.isEnable(), 
+				AuthorityUtils.commaSeparatedStringToAuthorityList(user.getAuthority().getRole()));
 	}
 
 }
