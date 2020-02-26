@@ -27,3 +27,12 @@ Recipe/install
 Recipe/bin
 Recipe/.gradle
 Recipe/.settings
+Recipe/.idea
+Recipe/out
+database_bk
+.gradle
+.project
+.settings
+**/launch.json
+**/*.pfx
+**/secret.properties
