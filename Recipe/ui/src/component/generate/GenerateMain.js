@@ -6,6 +6,7 @@ import React, { Component } from 'react';
 import GeneratorDrawer from './GeneratorDrawer';
 import axios from 'axios';
 import moment from 'moment';
+import * as GenerateService from '../../service/GenerateService';
 
 const ButtonGroup = Button.Group;
 const confirmText = '确定要删除吗?';
@@ -268,7 +269,7 @@ class GenerateMain extends Component {
 
     delete = (record) => {
         message.info('Deleting [' + record.id + ']...');
-        axios.post('http://localhost:8080/generate/delete', record)
+       GenerateService.deleteGenerator(record)
             .then((res) => {
                 this.refresh()
             }).catch((err) => {
@@ -278,7 +279,7 @@ class GenerateMain extends Component {
     }
 
     refresh = () => {
-        axios.post('http://localhost:8080/generate/getall')
+        GenerateService.getAll()
             .then((res) => {
                 //console.log(res);
                 this.setState({ data: res.data });

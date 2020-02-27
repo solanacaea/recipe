@@ -5,6 +5,7 @@ import Highlighter from 'react-highlight-words';
 import React, { Component } from 'react';
 import RecipeDrawer from './RecipeDrawer'
 import axios from 'axios';
+import * as DishService from '../../service/DishService';
 
 const ButtonGroup = Button.Group;
 const confirmText = '确定要删除吗?';
@@ -348,7 +349,7 @@ class RecipeMain extends Component {
 
     delete = (record) => {
         message.info('Deleting [' + record.id + ']...');
-        axios.post('http://localhost:8080/dish/delete', record)
+        DishService.deleteDish(record)
             .then((res) => {
                 this.refresh()
             }).catch((err) => {
@@ -358,7 +359,7 @@ class RecipeMain extends Component {
     }
 
     refresh = () => {
-        axios.post('http://localhost:8080/dish/getall')
+        DishService.getAllDishes()
             .then((res) => {
                 //console.log(res);
                 this.setState({ data: res.data });

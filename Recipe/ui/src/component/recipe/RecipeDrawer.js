@@ -9,6 +9,7 @@ import DropdownProperty from './DropdownProperty'
 import DropdownEfficacy from './DropdownEfficacy'
 import DropdownIngredient from './DropdownIngredient'
 import axios from 'axios';
+import * as DishService from '../../service/DishService';
 
 class DrawerForm extends Component {
     componentDidMount() {
@@ -119,7 +120,7 @@ class DrawerForm extends Component {
         const content = this.state.content;
         const data = this.state.data;
 
-        axios.post('http://localhost:8080/dish/save', {
+        DishService.saveDish({
             id: data == null ? null : data.id,
             name: name,
             content: content,
