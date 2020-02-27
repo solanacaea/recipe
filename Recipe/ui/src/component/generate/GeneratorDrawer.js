@@ -5,7 +5,8 @@ import React, { Component } from 'react';
 import DropdownEfficacy from '../recipe/DropdownEfficacy'
 import axios from 'axios';
 import Constants from './Constants.js';
-import DropdownIngredient from '../recipe/DropdownIngredient'
+import DropdownIngredient from '../recipe/DropdownIngredient';
+import * as GenerateService from '../../service/GenerateService';
 
 class GeneratorDrawer extends Component {
     componentDidMount() {
@@ -88,7 +89,7 @@ class GeneratorDrawer extends Component {
         const ingredient = this.ingredient.getValue();
         const data = this.state.data;
 
-        axios.post('http://localhost:8080/generate/generate', {
+        GenerateService.generate({
             id: data == null ? null : data.id,
             userName: userName,
             type: type,
