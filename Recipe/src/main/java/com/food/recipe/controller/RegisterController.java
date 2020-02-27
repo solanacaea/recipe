@@ -1,11 +1,9 @@
 package com.food.recipe.controller;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +24,6 @@ import com.food.recipe.utils.MD5Util;
 
 @RestController
 @RequestMapping("/user")
-@Transactional
 public class RegisterController {
 
 	@Autowired
@@ -40,42 +37,34 @@ public class RegisterController {
 	
 	@PostMapping("/captcha")
 	@NoRepeatSubmit
-	public String sms(@RequestParam String phone) {
-		return smsService.sendMessage(phone, SmsTemplate.REGISTER);
+	public ResponseEntity<?> sms(@RequestParam String phone) {
+		return new ResponseEntity<>(ResponseEntity.ok(
+				smsService.sendMessage(phone, SmsTemplate.REGISTER)), HttpStatus.OK);
 	}
 	
 	@PostMapping("/checkname")
-	public boolean checkName(@RequestParam String username) {
-		try {
-			return userService.userExists(username);
-		} catch (Exception e) {
-			ExceptionUtils.getStackTrace(e);
-			throw new RuntimeException("");
-		}
+	public ResponseEntity<?> checkName(@RequestParam String username) {
+		return new ResponseEntity<>(ResponseEntity.ok(
+				userService.userExists(username)), HttpStatus.OK);
 	}
 	
 	@PostMapping("/register")
 	@NoRepeatSubmit
-	public String register(@RequestBody RegisterUser u) {
-		try {
-			userService.createUser(u);
-			return "注册成功";
-		} catch (Exception e) {
-			ExceptionUtils.getStackTrace(e);
-			return "注册失败";
-		}
+	public ResponseEntity<?> register(@RequestBody RegisterUser u) {
+		userService.createUser(u);
+		return new ResponseEntity<>(ResponseEntity.ok("注册成功"), HttpStatus.OK);
 	}
 
 	@PostMapping("/login")
 	@NoRepeatSubmit
 	public ResponseEntity<?> login(@RequestParam String userName, @RequestParam String password) {
 		if (StringUtils.isEmpty(userName) || StringUtils.isEmpty(password)) {
-			throw new IllegalArgumentException("用户名或密码为空！");
+			return new ResponseEntity<>(ResponseEntity.ok("用户名或密码为空！"), HttpStatus.EXPECTATION_FAILED);
 		}
 
 		RecipeUser user = userService.loadUserByUsername(userName);
 		if (user == null) {
-			throw new IllegalStateException("用户不存在！");
+			return new ResponseEntity<>(ResponseEntity.ok("用户不存在！"), HttpStatus.EXPECTATION_FAILED);
 		}
 
 		if (MD5Util.encode(password).equals(user.getPassword())) {
@@ -84,7 +73,7 @@ public class RegisterController {
 			String authKey = tokenEntity.getUserId() + "@" + tokenEntity.getToken();
 			return new ResponseEntity<>(ResponseEntity.ok(authKey), HttpStatus.OK);
 		}
-		throw new IllegalArgumentException("用户名或密码错误！");
+		return new ResponseEntity<>(ResponseEntity.ok("用户名或密码错误！"), HttpStatus.EXPECTATION_FAILED);
 	}
 
 	@Authorization

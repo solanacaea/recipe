@@ -2,9 +2,20 @@ package com.food.recipe.user.entity;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table
@@ -19,7 +30,7 @@ public class User {
 	@Column(name = "UserId")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int userId;
-
+	
 	@Column(name = "Username")
 	private String username;
 
@@ -43,4 +54,8 @@ public class User {
 
 	@Column(name = "Enable")
 	private boolean enable;
+	
+	@OneToOne
+	@JoinColumn(name = "UserId", unique = true, nullable = false, updatable = false, insertable = true)
+	private UserGrantedAuthority authority;
 }

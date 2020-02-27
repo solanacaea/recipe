@@ -1,6 +1,5 @@
 package com.food.recipe.user;
 
-import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -22,15 +21,15 @@ public class UserRepo {
 	@Autowired
 	private EntityManager em;
 
-	protected User createUser(User user) {
+	public User createUser(User user) {
 		return em.merge(user);
 	}
 
-	protected UserGrantedAuthority saveRole(UserGrantedAuthority role) {
+	public UserGrantedAuthority saveRole(UserGrantedAuthority role) {
 		return em.merge(role);
 	}
 
-	protected void changePassword(String username, String passwd) {
+	public void changePassword(String username, String passwd) {
 		String hql = "UPDATE user SET password = :passwd WHERE username = :username";
 		Query q = em.createQuery(hql);
 		q.setParameter("passwd", passwd);
@@ -47,33 +46,34 @@ public class UserRepo {
 		q.executeUpdate();
 	}
 
-	protected void deleteUser(String userId) {
+	public void deleteUser(String userId) {
 		
 	}
 
-	protected boolean userExists(String username) {
+	public boolean userExists(String username) {
 		TypedQuery<Integer> q = em.createQuery("SELECT 1 FROM User WHERE username = :username", Integer.class);
+		q.setParameter("username", username);
 		List<Integer> result = q.getResultList();
 		return CollectionUtils.isNotEmpty(result);
 	}
 
-	protected User findByUserId(String userId) {
+	public User findByUserId(String userId) {
 		Query q = em.createQuery("FROM User WHERE userId = :userId");
 		q.setParameter(userId, userId);
 		return (User) q.getSingleResult();
 	}
 
-	protected User findByUsername(String username) {
+	public User findByUsername(String username) {
 		Query q = em.createQuery("FROM User WHERE username = :username");
 		q.setParameter("username", username);
 		return (User) q.getSingleResult();
 	}
 
-	protected Collection<UserGrantedAuthority> getAuthByName(String username) {
-		String hql = "FROM UserGrantedAuthority WHERE username = :username";
-		TypedQuery<UserGrantedAuthority> q = em.createQuery(hql, UserGrantedAuthority.class);
-		q.setParameter(username, username);
-		return q.getResultList();
-	}
+//	public Collection<UserGrantedAuthority> getAuthByName(String username) {
+//		String hql = "FROM UserGrantedAuthority WHERE username = :username";
+//		TypedQuery<UserGrantedAuthority> q = em.createQuery(hql, UserGrantedAuthority.class);
+//		q.setParameter(username, username);
+//		return q.getResultList();
+//	}
 	
 }
