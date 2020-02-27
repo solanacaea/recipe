@@ -13,7 +13,6 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -45,7 +44,8 @@ public class NoRepeatSubmitAspect {
         String key = getCacheKey(method, remoteAddr);
         if (!StringUtils.isEmpty(key)) {
         	if (CACHES.getIfPresent(key) != null) {
-        		throw new RuntimeException("请勿重复请求!");
+        		return new HttpResponse<>(HttpResponseEntity.response(
+        				"请勿重复请求!", HttpStatus.BAD_REQUEST));
         	}
         	CACHES.put(key, key);
         }
@@ -53,8 +53,8 @@ public class NoRepeatSubmitAspect {
         	return pjp.proceed();
         } catch (Throwable throwable) {
         	log.error(throwable.getMessage());
-        	return new ResponseEntity<>(ResponseEntity.ok(
-        			throwable.getMessage()), HttpStatus.EXPECTATION_FAILED);
+        	return new HttpResponse<>(HttpResponseEntity.response(
+        			throwable.getMessage(), HttpStatus.EXPECTATION_FAILED));
         } finally {
         	//CACHES.invalidate(key);
         }

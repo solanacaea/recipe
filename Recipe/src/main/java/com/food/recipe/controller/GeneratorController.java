@@ -7,8 +7,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.food.recipe.annotation.NoRepeatSubmit;
 import com.food.recipe.bean.RequestBean;
+import com.food.recipe.common.HttpResponse;
+import com.food.recipe.common.HttpResponseEntity;
 import com.food.recipe.entries.BackupUserAudit;
 import com.food.recipe.entries.UserGenerateAudit;
 import com.food.recipe.repositories.BackupDao;
@@ -41,14 +41,14 @@ public class GeneratorController {
 	
 	@NoRepeatSubmit
 	@PostMapping("/getall")
-	public ResponseEntity<?> getAllGenerater() throws IOException {
-		return new ResponseEntity<>(ResponseEntity.ok(
-				service.findAllGenerates()), HttpStatus.OK);
+	public HttpResponse<?> getAllGenerater() throws IOException {
+		return new HttpResponse<>(HttpResponseEntity.response(
+				service.findAllGenerates()));
 	}
 	
 	@NoRepeatSubmit
 	@PostMapping("/generate")
-	public ResponseEntity<?> generate(HttpServletResponse response, @RequestBody RequestBean b) throws IOException {
+	public HttpResponse<?> generate(HttpServletResponse response, @RequestBody RequestBean b) throws IOException {
 		log.info("Generating recipe " + b); 
 		Workbook workbook = service.generateRecipe(b);
 		
@@ -56,18 +56,18 @@ public class GeneratorController {
 		response.setHeader("Content-Disposition", "attachment; filename=" + b.getUserName() + ".xlsx");
 		workbook.write(response.getOutputStream());
 		log.info("Generated recipe for=[" + b.getUserName() + "].");
-		return new ResponseEntity<>(ResponseEntity.ok("save succeed!"), HttpStatus.OK);
+		return new HttpResponse<>(HttpResponseEntity.response("Generated successful!"));
 	}
 	
 	@NoRepeatSubmit
 	@DeleteMapping("/delete")
-	public ResponseEntity<?> delete(@RequestBody UserGenerateAudit u) {
+	public HttpResponse<?> delete(@RequestBody UserGenerateAudit u) {
 		log.info("deleting generate record " + u);
 		repo.deleteById(u.getId());
 		CompletableFuture.runAsync(() -> {
 			bkDao.auditBackup(u, new BackupUserAudit());
 		});
-		return new ResponseEntity<>(ResponseEntity.ok("delete succeed!"), HttpStatus.OK);
+		return new HttpResponse<>(HttpResponseEntity.response("Deleted successful!"));
 	}
 	
 	
