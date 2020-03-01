@@ -1,22 +1,18 @@
-import axios from 'axios'
-
-import Config from '../core/Config'
-
-const BaseURL = Config == '.' ? '.' : `${Config}/generate`;
+import { post } from './BaseService';
 
 export const getAll = () => {
-    const url = `${BaseURL}/getall`;
-    return axios.post(url);
+    const url = `generate/getall`;
+    return post(url);
 }
 
 export const deleteGenerator = (generator) => {
-    const url = `${BaseURL}/delete`;
-    return axios.post(url, generator);
+    const url = `generate/delete`;
+    return post(url, generator);
 }
 
 export const generate = (obj) => {
-    const url = `${BaseURL}/generate`;
-    return axios.post(url, obj, {
+    const url = `generate/generate`;
+    return post(url, obj, {
         responseType: 'blob' // very very very important!!!
     });
 }

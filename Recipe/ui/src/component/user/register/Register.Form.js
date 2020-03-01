@@ -132,14 +132,13 @@ class RegisterForm extends React.Component {
             callback();
         } else {
             UserService.checkName(value).then(value => {
-                const data = value.data;
-                if (data.body) {
+                if (value) {
                     callback(new Error('用户名已存在！'));
                 } else {
                     callback();
                 }
             }, err => {
-                callback();
+                callback(new Error(err));
             });
         }
     }
@@ -176,24 +175,12 @@ class RegisterForm extends React.Component {
 
             this.setState({ submiting: true });
             UserService.register(fieldsValue).then(value => {
-                const data = value.data;
-                if (!data || data.status !== 'OK') {
-                    this.setState({
-                        error: value.data.body,
-                        submiting: false
-                    });
-                } else {
-                    this.setState({
-                        submiting: false
-                    });
-                    window.location.pathname = '../recipe';
-                }
+                window.location.pathname = '../recipe';
             }, err => {
                 this.setState({
-                    error: '服务器发生错误，请联系管理员',
+                    error: err,
                     submiting: false
                 });
-                this.setState({ submiting: false });
             });
         });
 

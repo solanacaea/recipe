@@ -4,7 +4,6 @@ import {
 import Highlighter from 'react-highlight-words';
 import React, { Component } from 'react';
 import RecipeDrawer from './RecipeDrawer'
-import axios from 'axios';
 import * as DishService from '../../service/DishService';
 
 const ButtonGroup = Button.Group;
@@ -353,7 +352,7 @@ class RecipeMain extends Component {
             .then((res) => {
                 this.refresh()
             }).catch((err) => {
-                message.info('Error [' + err.message + ']...');
+                message.info('Error [' + err + ']...');
                 console.log(err)
             })
     }
@@ -361,12 +360,10 @@ class RecipeMain extends Component {
     refresh = () => {
         DishService.getAllDishes()
             .then((res) => {
-                //console.log(res);
-                this.setState({ data: res.data });
+                this.setState({ data: res });
             })
             .catch((err) => {
-                message.info('Error [' + err.message + ']...');
-                console.log(err)
+                message.info('Error [' + err + ']...');
             })
     }
 

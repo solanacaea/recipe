@@ -1,37 +1,36 @@
-import axios from 'axios'
-
-import Config from '../core/Config'
-
-const BaseURL = Config == '.' ? '.' : `${Config}/user`;
+import { post } from './BaseService';
 
 export const login = (user) => {
-  const url = `${BaseURL}/login`;
-  return axios.post(url, user);
+    const url = `user/login`;
+    return post(url, null, { params: user})
 }
 
 export const register = (user) => {
-  const url = `${BaseURL}/register`;
-  return axios.post(url, user);
+    const url = `user/register`;
+    return post(url, user);
 }
 
 export const getCaptcha = (phone) => {
-  const url = `${BaseURL}/captcha?phone=` + phone;
-  return axios.post(url, phone);
+  const url = `user/captcha`;
+    return post(url, null, {
+        params: {
+            phone: phone
+        }
+    });
 }
 
 export const getLogin = () => {
-  const url = `${BaseURL}/get`;
-  // return axios.post(url);
-  return new Promise((resolve) => {
-    resolve(true);
-  });
+    const url = `user/get`;
+    // return axios.post(url);
+    return new Promise((resolve) => {
+        resolve(true);
+    });
 }
 
 export const logout = () => {
-  
 }
 
 export const checkName = (username) => {
-  const url = `${BaseURL}/checkname?username=` + username;
-  return axios.post(url, username);
+    const url = `user/checkname?username=` + username;
+    return post(url, username);
 }

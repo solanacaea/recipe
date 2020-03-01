@@ -14,6 +14,7 @@ class LoginForm extends React.Component {
     state = {
         type: LOGIN_AS_ACCOUNT,
         submiting: false,
+        error: null,
         status: {
             login_as_account: true,
             login_as_phone: true
@@ -28,16 +29,16 @@ class LoginForm extends React.Component {
                 <React.Fragment>
                     <Tabs onChange={(key) => this.onLoginTypeChanged(key)}>
                         <TabPane tab="账号密码登录" key={LOGIN_AS_ACCOUNT}>
-                        {
-                            this.renderMessage("账户或密码错误", LOGIN_AS_ACCOUNT)
-                        }
+                            {
+                                this.renderMessage(LOGIN_AS_ACCOUNT)
+                            }
                             <Form.Item>
-                                {getFieldDecorator('username', {
+                                {getFieldDecorator('userName', {
                                     rules: [{ required: true, message: '请输入用户名！' }],
                                 })(
                                     <Input
-                                    prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                    placeholder="用户名"
+                                        prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                        placeholder="用户名"
                                     />,
                                 )}
                             </Form.Item>
@@ -45,18 +46,18 @@ class LoginForm extends React.Component {
                                 {getFieldDecorator('password', {
                                     rules: [{ required: true, message: '请输入密码！' }],
                                 })(
-                                <Input
-                                prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                type="password"
-                                placeholder="密码"
-                                />,
-                            )}
+                                    <Input
+                                        prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                        type="password"
+                                        placeholder="密码"
+                                    />,
+                                )}
                             </Form.Item>
                         </TabPane>
                         <TabPane tab="手机号登录" key={LOGIN_AS_PHONE}>
-                        {
-                            this.renderMessage("验证码错误", LOGIN_AS_PHONE)
-                        }
+                            {
+                                this.renderMessage(LOGIN_AS_PHONE)
+                            }
                             <Form.Item>
                                 {getFieldDecorator('phone', {
                                     rules: [
@@ -68,8 +69,8 @@ class LoginForm extends React.Component {
                                     ],
                                 })(
                                     <Input
-                                    prefix={<Icon type="phone" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                    placeholder="手机号"
+                                        prefix={<Icon type="phone" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                        placeholder="手机号"
                                     />,
                                 )}
                             </Form.Item>
@@ -80,13 +81,13 @@ class LoginForm extends React.Component {
                 <Form.Item>
                     <Row gutter={8}>
                         <Col span={16}>
-                        <Button type="primary" loading={this.state.submiting} htmlType="submit" className="submit" onClick={(e) => this.onLogin(e)}>登录</Button>
+                            <Button type="primary" loading={this.state.submiting} htmlType="submit" className="submit" onClick={(e) => this.onLogin(e)}>登录</Button>
                         </Col>
-                        <Col span={8} style={{"textAlign": "right"}}>
+                        <Col span={8} style={{ "textAlign": "right" }}>
                             <Link to="/user/register">注册账户</Link>
                         </Col>
                     </Row>
-                    
+
                 </Form.Item>
             </Form>
         );
@@ -101,7 +102,7 @@ class LoginForm extends React.Component {
         const { type } = this.state;
         let activeFields;
         if (type === LOGIN_AS_ACCOUNT) {
-            activeFields = ['username', 'password'];
+            activeFields = ['userName', 'password'];
         } else {
             activeFields = ['phone', 'captcha'];
         }
@@ -116,15 +117,16 @@ class LoginForm extends React.Component {
                 return;
             }
 
-            this.setState({submiting: true});
+            this.setState({ submiting: true });
+            localStorage.removeItem('token');
             UserService.login(this.getUserLogin(activeFields, fieldsValue, type)).then(value => {
-                if (value) {
-                    window.location.pathname = '../recipe';
-                } else {
-                    this.updateState(type, false, false);
-                }
+                localStorage.setItem('token', value);
+                window.location.pathname = '../recipe';
             }, err => {
-                this.updateState(type, false, false);
+                this.setState({
+                    error: err,
+                    submiting: false
+                });
             });
         });
     }
@@ -142,16 +144,16 @@ class LoginForm extends React.Component {
         const currentState = this.state;
         const status = currentState.status;
         status[loginType] = loginStatus;
-        this.setState({status: status, submiting: submiting});
+        this.setState({ status: status, submiting: submiting });
     }
 
     onLoginTypeChanged(key) {
-        this.setState({ type: key});
+        this.setState({ type: key });
     }
 
-    renderMessage(content, loginType) {
-        if (loginType === this.state.type && !this.state.status[loginType]) {
-            return <Alert style={{ marginBottom: 24 }} message={content} type="error" showIcon />
+    renderMessage(loginType) {
+        if (loginType === this.state.type && this.state.error) {
+            return <Alert style={{ marginBottom: 24 }} message={this.state.error} type="error" showIcon />
         }
     }
 }

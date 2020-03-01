@@ -282,11 +282,11 @@ class GenerateMain extends Component {
         GenerateService.getAll()
             .then((res) => {
                 //console.log(res);
-                this.setState({ data: res.data });
+                this.setState({ data: res });
                 //this.handleToggle('loading')
             })
             .catch((err) => {
-                message.info('Error [' + err.message + ']...');
+                message.info('Error [' + err + ']...');
                 console.log(err)
             })
     }
