@@ -7,7 +7,7 @@ import {
     Col,
     Alert,
 } from 'antd';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { Captcha } from '../Captcha'
 import * as UserService from '../../../service/UserService';
@@ -41,9 +41,13 @@ class RegisterForm extends React.Component {
                                 {
                                     required: true,
                                     message: '请输入用户名！',
+                                },
+                                {
+                                    min: 4,
+                                    message: '用户名长度要大于3个字符！',
                                 }
                             ],
-                        })(<Input placeholder="用户名" />,)
+                        })(<Input placeholder="用户名" />)
                     }
                 </Form.Item>
                 <Form.Item>
@@ -59,7 +63,7 @@ class RegisterForm extends React.Component {
                                     message: '请输入邮箱地址！',
                                 }
                             ],
-                        })(<Input placeholder="邮箱" />,)
+                        })(<Input placeholder="邮箱" />)
                     }
                 </Form.Item>
                 <Form.Item>
@@ -71,7 +75,7 @@ class RegisterForm extends React.Component {
                                     message: '请输入密码！',
                                 },
                                 {
-                                    pattern: /^.{6,}$/,
+                                    min: 6,
                                     message: '至少输入六位密码！',
                                 }
                             ]
@@ -114,7 +118,7 @@ class RegisterForm extends React.Component {
                         <Col span={12}>
                             <Button type="primary" htmlType="submit" className="submit" loading={this.state.submiting} onClick={(e) => this.onRegister(e)}>注册</Button>
                         </Col>
-                        <Col span={8} style={{"float": "right"}}>
+                        <Col span={8} style={{ "float": "right" }}>
                             <Link to="./login">使用已有账户登录</Link>
                         </Col>
                     </Row>
@@ -124,14 +128,12 @@ class RegisterForm extends React.Component {
     }
 
     checkDuplicateName(value, callback) {
-        if (value.length == 0) {
+        if (value.length < 4) {
             callback();
-        } else if (value.length < 4) {
-            callback(new Error("用户名长度要大于3个字符！"));
         } else {
             UserService.checkName(value).then(value => {
-                console.log(value)
-                if (value == true) {
+                const data = value.data;
+                if (data.body) {
                     callback(new Error('用户名已存在！'));
                 } else {
                     callback();
@@ -150,9 +152,9 @@ class RegisterForm extends React.Component {
 
         let password = form.getFieldValue('password');
         if (password && password !== value) {
-          callback(new Error('两次输入的密码不匹配'));
+            callback(new Error('两次输入的密码不匹配'));
         } else {
-          callback();
+            callback();
         }
     }
 
@@ -167,7 +169,7 @@ class RegisterForm extends React.Component {
             return;
         }
 
-        form.validateFields(['username', 'email', 'password', 'phone', 'captcha'],(err, fieldsValue) => {
+        form.validateFields(['username', 'email', 'password', 'phone', 'captcha'], (err, fieldsValue) => {
             if (err) {
                 return;
             }
@@ -184,17 +186,17 @@ class RegisterForm extends React.Component {
                     this.setState({
                         submiting: false
                     });
-                    window.location.pathname ='../recipe';
+                    window.location.pathname = '../recipe';
                 }
             }, err => {
                 this.setState({
                     error: '服务器发生错误，请联系管理员',
                     submiting: false
                 });
-                this.setState({ submiting: false});
+                this.setState({ submiting: false });
             });
         });
-        
+
     }
     rendererError() {
         const message = this.state.error;
