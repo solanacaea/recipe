@@ -16,3 +16,4 @@ export const generate = (obj) => {
         responseType: 'blob' // very very very important!!!
     });
 }
+
