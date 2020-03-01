@@ -69,6 +69,10 @@ class RegisterForm extends React.Component {
                                 {
                                     required: true,
                                     message: '请输入密码！',
+                                },
+                                {
+                                    pattern: /^.{6,}$/,
+                                    message: '至少输入六位密码！',
                                 }
                             ]
                         })(<Input type="password" placeholder="至少6位密码，区分大小写" />)
