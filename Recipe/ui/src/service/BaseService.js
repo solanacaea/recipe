@@ -33,7 +33,7 @@ service.interceptors.response.use(
 
 export const get = (url, data) => {
     return service.get(url, {
-      params: data
+        params: data
     });
 }
 
