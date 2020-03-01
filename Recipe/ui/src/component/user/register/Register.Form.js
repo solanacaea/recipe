@@ -5,6 +5,7 @@ import {
     Button,
     Row,
     Col,
+    Alert,
 } from 'antd';
 import {Link} from 'react-router-dom';
 
@@ -14,7 +15,8 @@ import '../User.css'
 
 class RegisterForm extends React.Component {
     state = {
-        submiting: false
+        submiting: false,
+        error: null
     }
 
     render() {
@@ -24,6 +26,9 @@ class RegisterForm extends React.Component {
         return (
             <Form>
                 <h3>注册</h3>
+                {
+                    this.rendererError()
+                }
                 <Form.Item>
                     {
                         getFieldDecorator('username', {
@@ -165,15 +170,33 @@ class RegisterForm extends React.Component {
 
             this.setState({ submiting: true });
             UserService.register(fieldsValue).then(value => {
-                if (value) {
-                    window.location.pathname = '../recipe';
+                const data = value.data;
+                if (!data || data.status !== 'OK') {
+                    this.setState({
+                        error: value.data.body,
+                        submiting: false
+                    });
                 } else {
-                    this.setState({ submiting: false });
+                    this.setState({
+                        submiting: false
+                    });
+                    window.location.pathname ='../recipe';
                 }
             }, err => {
+                this.setState({
+                    error: '服务器发生错误，请联系管理员',
+                    submiting: false
+                });
                 this.setState({ submiting: false});
             });
         });
+        
+    }
+    rendererError() {
+        const message = this.state.error;
+        if (message) {
+            return <Alert style={{ marginBottom: 24 }} message={message} type="error" showIcon />
+        }
     }
 }
 
