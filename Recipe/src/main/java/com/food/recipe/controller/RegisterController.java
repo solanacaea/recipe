@@ -16,7 +16,7 @@ import com.food.recipe.common.HttpResponse;
 import com.food.recipe.common.HttpResponseEntity;
 import com.food.recipe.login.TokenEntity;
 import com.food.recipe.login.TokenService;
-import com.food.recipe.sms.SmsService;
+//import com.food.recipe.sms.SmsService;
 import com.food.recipe.sms.SmsTemplate;
 import com.food.recipe.user.RecipeUser;
 import com.food.recipe.user.RecipeUserDetailsService;
@@ -30,18 +30,18 @@ public class RegisterController {
 	@Autowired
 	private TokenService tokenService;
 
-	@Autowired
-	private SmsService smsService;
+//	@Autowired
+//	private SmsService smsService;
 	
 	@Autowired
 	private RecipeUserDetailsService userService;
 	
-	@PostMapping("/captcha")
-	@NoRepeatSubmit
-	public HttpResponse<?> sms(@RequestParam String phone) {
-		return new HttpResponse<>(HttpResponseEntity.response(
-				smsService.sendMessage(phone, SmsTemplate.REGISTER)));
-	}
+//	@PostMapping("/captcha")
+//	@NoRepeatSubmit
+//	public HttpResponse<?> sms(@RequestParam String phone) {
+//		return new HttpResponse<>(HttpResponseEntity.response(
+//				smsService.sendMessage(phone, SmsTemplate.REGISTER)));
+//	}
 	
 	@PostMapping("/checkname")
 	public HttpResponse<?> checkName(@RequestParam String username) {

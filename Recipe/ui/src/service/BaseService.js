@@ -13,7 +13,7 @@ service.interceptors.request.use(
             return config;
         }
 
-        config.headers.Authorization = token;
+        config.headers['Authorization'] = token;
         return config;
     }
 );
