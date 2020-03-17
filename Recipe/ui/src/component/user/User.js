@@ -7,7 +7,7 @@ import RegisterForm from './register/Register.Form';
 import logoURL from '../../assets/img/logo.jpg';
 
 import { Layout } from 'antd';
-const { Content, Footer } = Layout;
+const { Content, Footer, Header } = Layout;
 
 export class User extends React.Component {
 
@@ -18,16 +18,18 @@ export class User extends React.Component {
     render() {
         return (
             <Layout style={{ minHeight: '100vh' }}>
-                 <Content style={{ margin: '0 16px' }}>
+                <Header style={{ background: '#000', padding: 0 }}>
                     <div className="container">
-                        <div className="logo" onClick={() => this.open()}>
-                            <img alt="心筑月" src={logoURL}/>
+                        <div className="logo" >
+                            <img alt="心筑月" src={logoURL} onClick={() => this.open()}/>
                         </div>
-                        <div className="main">
-                            <Route component={LoginForm} path='/user/login' exact></Route>
-                            <Route component={RegisterForm} path='/user/register' exact></Route>
-                            <Route component={LoginForm} path='/' exact></Route>
-                        </div>
+                    </div> 
+                </Header>
+                 <Content style={{ margin: '0 16px' }}>
+                    <div className="main">
+                        <Route component={LoginForm} path='/user/login' exact></Route>
+                        <Route component={RegisterForm} path='/user/register' exact></Route>
+                        <Route component={LoginForm} path='/' exact></Route>
                     </div>
                 </Content>
                 <Footer style={{ textAlign: 'center' }}>
